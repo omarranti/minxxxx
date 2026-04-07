@@ -1963,7 +1963,9 @@ function renderRevenueCalculator(p){
     }
   }
 
-  // first paint after DOM attach
+  // first paint — run immediately (card closure holds element refs, works
+  // before DOM insertion), then again after attach to cover any late-wiring
+  refreshCalc();
   requestAnimationFrame(refreshCalc);
 
   return card;
@@ -2393,6 +2395,9 @@ function renderTimelineView(){
     $ex.appendChild(chips);
   }
 
+  // first paint — run immediately so expanded card and scrubber position
+  // reflect state before the user interacts
+  refreshTimeline();
   requestAnimationFrame(refreshTimeline);
 }
 
