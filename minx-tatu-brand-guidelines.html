@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MINX TATU — Brand Typography & Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=MedievalSharp&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700;900&family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&family=Abril+Fatface&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Special+Elite&family=Sacramento&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IM+Fell+English+SC&family=Pirata+One&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --black: #0a0a0a;
+    --deep-black: #050505;
+    --red: #b91c1c;
+    --dark-red: #7f1d1d;
+    --blood: #991b1b;
+    --cream: #f5f0e8;
+    --warm-gray: #9a9590;
+    --light-gray: #d4d0cb;
+    --charcoal: #1a1a1a;
+    --off-white: #eee9e0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--black);
+    font-family: 'Cinzel', serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--deep-black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(185,28,28,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 50%, rgba(185,28,28,0.05) 0%, transparent 60%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; text-align: center; }
+  .hero-brand {
+    font-family: 'Pirata One', serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-shadow: 0 0 60px rgba(185,28,28,0.25);
+  }
+  .hero-sub {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    color: var(--warm-gray);
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    margin-top: 1.2rem;
+  }
+  .hero-divider {
+    width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+    margin: 2rem auto;
+  }
+  .hero-tagline {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--red);
+    opacity: 0.8;
+  }
+
+  /* ── SECTION LAYOUT ── */
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    color: var(--warm-gray);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: 0.06em;
+  }
+  .section-rule {
+    width: 60px; height: 2px;
+    background: var(--red);
+    margin: 1.2rem auto 0;
+  }
+
+  /* ── FULL-WIDTH DARK BANDS ── */
+  .dark-band {
+    background: var(--deep-black);
+    color: var(--cream);
+    width: 100%;
+  }
+  .dark-band .section-title { color: var(--cream); }
+
+  /* ── FONT SPECIMEN CARDS ── */
+  .font-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .font-card {
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 2.5rem;
+    position: relative;
+    background: white;
+  }
+  .font-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--red);
+  }
+  .font-role {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+  .font-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    color: var(--warm-gray);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+  .font-specimen { line-height: 1.2; margin-bottom: 1rem; color: var(--black); }
+  .font-specimen.large { font-size: clamp(2rem, 5vw, 3.8rem); }
+  .font-specimen.medium { font-size: clamp(1.4rem, 3vw, 2.2rem); }
+  .font-specimen.body { font-size: 1rem; line-height: 1.7; color: #444; }
+  .font-note {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--warm-gray);
+    border-top: 1px solid var(--light-gray);
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+    line-height: 1.8;
+  }
+
+  /* ── HIERARCHY DEMO ── */
+  .hierarchy-demo {
+    background: var(--charcoal);
+    border: 1px solid #222;
+    padding: 3rem;
+    margin-top: 3rem;
+  }
+  .hier-h1 {
+    font-family: 'Pirata One', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+  .hier-h2 {
+    font-family: 'UnifrakturMaguntia', serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--red);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+  .hier-h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    color: var(--warm-gray);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .hier-script {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.6rem;
+    color: var(--cream);
+    opacity: 0.7;
+    margin-bottom: 1rem;
+  }
+  .hier-body {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+  .hier-accent {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    color: var(--red);
+    letter-spacing: 0.4em;
+    margin-top: 1.5rem;
+  }
+
+  /* ── COLOR PALETTE ── */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+  .color-card {
+    border: 1px solid rgba(0,0,0,0.06);
+    overflow: hidden;
+    background: white;
+  }
+  .color-swatch {
+    height: 120px;
+    position: relative;
+  }
+  .color-swatch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .color-info {
+    padding: 1rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .color-hex {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.8rem;
+    color: var(--warm-gray);
+    margin-top: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── USAGE TABLE ── */
+  .usage-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+  }
+  .usage-table th, .usage-table td {
+    text-align: left;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .usage-table th {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .usage-table td {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: #bbb;
+  }
+  .usage-table td:first-child { color: var(--cream); font-weight: 600; }
+
+  /* ── RULES / DOS & DONTS ── */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 700px) { .rules-grid { grid-template-columns: 1fr; } }
+  .rule-card {
+    padding: 2rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: white;
+  }
+  .rule-card.dont { border-color: rgba(185,28,28,0.2); }
+  .rule-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+  .rule-label.do-label { color: var(--black); }
+  .rule-label.dont-label { color: var(--red); }
+  .rule-item {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.8;
+    padding-left: 1.2rem;
+    position: relative;
+    margin-bottom: 0.3rem;
+  }
+  .rule-item::before {
+    position: absolute;
+    left: 0;
+    font-size: 0.75rem;
+  }
+  .do-list .rule-item::before { content: '✦'; color: var(--black); }
+  .dont-list .rule-item::before { content: '✕'; color: var(--red); }
+
+  /* ── PHRASES ── */
+  .phrases-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 2rem;
+  }
+  @media (max-width: 700px) { .phrases-grid { grid-template-columns: 1fr; } }
+  .phrase-cell {
+    background: var(--charcoal);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+  .phrase-cell:nth-child(odd)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; height: 60%; width: 1px;
+    background: rgba(185,28,28,0.2);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--deep-black);
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+  .footer-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-brand">MINX tatu</div>
+    <div class="hero-sub">Brand Typography &amp; Style Guidelines</div>
+    <div class="hero-divider"></div>
+    <div class="hero-tagline">Digital Flashbook — London &amp; Brighton</div>
+  </div>
+</div>
+
+<!-- ═══════════ 01 · PRIMARY TYPEFACES ═══════════ -->
+<section>
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title">Primary Typefaces</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="font-grid">
+
+    <!-- BLACKLETTER PRIMARY -->
+    <div class="font-card">
+      <div class="font-role">Primary Display — Blackletter</div>
+      <div class="font-name">Pirata One</div>
+      <div class="font-specimen large" style="font-family:'Pirata One',serif;">
+        Princess Baby Mischief
+      </div>
+      <div class="font-specimen medium" style="font-family:'Pirata One',serif;">
+        Ride with God or die and try again
+      </div>
+      <div class="font-note">
+        Extracted from: "Princess," "Baby," "Mischief," "Ride with God or die and try again" — the dominant flash sheet voice. Use for hero headlines, flash titles, and primary brand statements. This captures the dark gothic-feminine spirit of the brand.
+      </div>
+    </div>
+
+    <!-- BLACKLETTER SECONDARY -->
+    <div class="font-card">
+      <div class="font-role">Secondary Display — Fraktur / Old English</div>
+      <div class="font-name">UnifrakturMaguntia</div>
+      <div class="font-specimen large" style="font-family:'UnifrakturMaguntia',serif;">
+        God is within her
+      </div>
+      <div class="font-specimen medium" style="font-family:'UnifrakturMaguntia',serif;">
+        Beauty is one thing, but a pure heart, that is beautiful
+      </div>
+      <div class="font-note">
+        Extracted from: "God is within her, she will not fail," "Beauty is one thing, but a pure heart, that is beautiful" — heavier, more ornate Fraktur letterforms. Use as an alternate display weight for devotional/spiritual text or feature headings.
+      </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <div class="font-card">
+      <div class="font-role">Accent Script — Ornate Cursive</div>
+      <div class="font-name">Great Vibes</div>
+      <div class="font-specimen large" style="font-family:'Great Vibes',cursive;">
+        I pray for you
+      </div>
+      <div class="font-specimen medium" style="font-family:'Great Vibes',cursive;">
+        Reckless Angel — Delicate — DollFace
+      </div>
+      <div class="font-note">
+        Extracted from: "I pray for you," "Reckless Angel," "Delicate," "DollFace," "In God's Hands" — flowing calligraphic script with romantic energy. Use for taglines, secondary phrases, and emotional accent text. Never for body copy.
+      </div>
+    </div>
+
+    <!-- BLOCK CAPS -->
+    <div class="font-card">
+      <div class="font-role">Impact Display — Bold Condensed</div>
+      <div class="font-name">Bebas Neue + Oswald</div>
+      <div class="font-specimen large" style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.08em;">
+        LOVE NOW CRY LATER
+      </div>
+      <div class="font-specimen medium" style="font-family:'Oswald',sans-serif; font-weight:700; letter-spacing:0.1em;">
+        MINX TATU · MACHINE · BRIGHTON
+      </div>
+      <div class="font-note">
+        Extracted from: "LOVE NOW CRY LATER," "DIGITAL FLASHBOOK," "MINX tatu" branding — tall, bold, unapologetic block capitals. Use for UI labels, navigation, CTAs, and utilitarian text that needs to punch through.
+      </div>
+    </div>
+
+    <!-- BODY SERIF -->
+    <div class="font-card">
+      <div class="font-role">Body &amp; UI — Elegant Serif</div>
+      <div class="font-name">Cinzel</div>
+      <div class="font-specimen medium" style="font-family:'Cinzel',serif; letter-spacing:0.05em;">
+        Courage · Faith · Freedom · Angel
+      </div>
+      <div class="font-specimen body" style="font-family:'Cinzel',serif;">
+        Clean, regal serif letterforms for readable body text, descriptions, and interface copy. Balances the heavy ornamental display faces with classical legibility. Maintains the gothic spirit without sacrificing clarity.
+      </div>
+      <div class="font-note">
+        Extracted from: "Courage Faith Freedom Angel" — upright, strong, classically engraved serif. Use for body copy, descriptions, navigation labels, and any extended reading text.
+      </div>
+    </div>
+
+    <!-- DISTRESSED / TYPEWRITER -->
+    <div class="font-card">
+      <div class="font-role">Utility — Distressed / Raw</div>
+      <div class="font-name">Special Elite</div>
+      <div class="font-specimen medium" style="font-family:'Special Elite',monospace;">
+        i can help with placement and style to suit you &lt;333
+      </div>
+      <div class="font-specimen body" style="font-family:'Special Elite',monospace; letter-spacing:0.02em;">
+        down for customs — red &amp; black ink — machine london brighton
+      </div>
+      <div class="font-note">
+        Extracted from: the hand-typed informational text at the bottom of flash sheets. Typewriter/distressed aesthetic. Use for informal notes, captions, aftercare instructions, and any text meant to feel raw and personal.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HIERARCHY DEMO -->
+  <div class="hierarchy-demo">
+    <div style="font-family:'Oswald',sans-serif; font-size:0.65rem; letter-spacing:0.4em; color:var(--red); margin-bottom:1.5rem;">HIERARCHY IN ACTION</div>
+    <div class="hier-h1">MINX tatu</div>
+    <div class="hier-h2">Gothic Flash Collection</div>
+    <div class="hier-h3">London &amp; Brighton Studio</div>
+    <div class="hier-script">down for customs</div>
+    <div class="hier-body">
+      Bespoke gothic and dark feminine tattoo design. Black and red ink specialists working across angels, crosses, tribal hearts, spiders, snakes, and ornate scripture. Custom placement consultation included.
+    </div>
+    <div class="hier-accent">BOOK NOW → MACHINE &lt;3</div>
+  </div>
+</section>
+
+<!-- ═══════════ 02 · COLOR PALETTE ═══════════ -->
+<section>
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title">Color Palette</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="palette-grid">
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--deep-black);"></div>
+      <div class="color-info">Ink Black<div class="color-hex">#050505</div></div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--charcoal);"></div>
+      <div class="color-info">Charcoal<div class="color-hex">#1A1A1A</div></div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--red);"></div>
+      <div class="color-info">Blood Red<div class="color-hex">#B91C1C</div></div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--dark-red);"></div>
+      <div class="color-info">Dark Crimson<div class="color-hex">#7F1D1D</div></div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--cream);"></div>
+      <div class="color-info">Parchment<div class="color-hex">#F5F0E8</div></div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--warm-gray);"></div>
+      <div class="color-info">Warm Gray<div class="color-hex">#9A9590</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:2rem; font-family:'Cinzel',serif; font-size:0.8rem; color:#666; line-height:1.8;">
+    <strong>Ratio:</strong> 70% black / 20% parchment-cream / 10% blood red. Red is reserved for emphasis, accents, and sacred/important text only — never decorative fill. The flash sheets work almost entirely in black linework on white with selective red stars and lip prints as highlights.
+  </div>
+</section>
+
+<!-- ═══════════ 03 · USAGE GUIDE ═══════════ -->
+<div class="dark-band">
+  <section>
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">Typography Usage Matrix</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="usage-table">
+      <thead>
+        <tr>
+          <th>Context</th>
+          <th>Typeface</th>
+          <th>Weight / Style</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Brand Logo / Hero</td>
+          <td>Pirata One</td>
+          <td>Regular, large scale</td>
+          <td style="font-family:'Pirata One',serif; font-size:1.2rem;">MINX tatu</td>
+        </tr>
+        <tr>
+          <td>Flash Titles</td>
+          <td>UnifrakturMaguntia</td>
+          <td>Regular, medium scale</td>
+          <td style="font-family:'UnifrakturMaguntia',serif; font-size:1.1rem;">Princess</td>
+        </tr>
+        <tr>
+          <td>Taglines / Phrases</td>
+          <td>Great Vibes</td>
+          <td>Regular, italic energy</td>
+          <td style="font-family:'Great Vibes',cursive; font-size:1.2rem;">I pray for you</td>
+        </tr>
+        <tr>
+          <td>CTAs / Nav / Labels</td>
+          <td>Bebas Neue</td>
+          <td>Regular, all-caps</td>
+          <td style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.2em;">BOOK NOW</td>
+        </tr>
+        <tr>
+          <td>Body Copy</td>
+          <td>Cinzel</td>
+          <td>400–600</td>
+          <td style="font-family:'Cinzel',serif; font-size:0.85rem;">Bespoke gothic tattoo design</td>
+        </tr>
+        <tr>
+          <td>Captions / Notes</td>
+          <td>Special Elite</td>
+          <td>Regular, raw feel</td>
+          <td style="font-family:'Special Elite',monospace;">down for customs</td>
+        </tr>
+        <tr>
+          <td>Section Headings</td>
+          <td>Cinzel Decorative</td>
+          <td>700, tracked wide</td>
+          <td style="font-family:'Cinzel Decorative',serif; letter-spacing:0.1em;">GOTHIC FLASH</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<!-- ═══════════ 04 · BRAND PHRASES ═══════════ -->
+<section>
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title">Brand Voice Specimens</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="phrases-grid">
+    <div class="phrase-cell">
+      <div style="font-family:'Pirata One',serif; font-size:1.8rem; color:var(--cream);">Ride with God</div>
+      <div style="font-family:'Great Vibes',cursive; font-size:1.1rem; color:var(--red); margin-top:0.3rem;">or die and try again</div>
+    </div>
+    <div class="phrase-cell">
+      <div style="font-family:'UnifrakturMaguntia',serif; font-size:1.5rem; color:var(--cream);">God is within her</div>
+      <div style="font-family:'Cinzel',serif; font-size:0.7rem; color:var(--warm-gray); letter-spacing:0.2em; margin-top:0.5rem;">SHE WILL NOT FAIL</div>
+    </div>
+    <div class="phrase-cell">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--cream); letter-spacing:0.1em;">LOVE NOW</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--red); letter-spacing:0.1em;">CRY LATER</div>
+    </div>
+    <div class="phrase-cell">
+      <div style="font-family:'Great Vibes',cursive; font-size:1.8rem; color:var(--cream);">Reckless Angel</div>
+      <div style="font-family:'Special Elite',monospace; font-size:0.75rem; color:var(--warm-gray); margin-top:0.5rem;">red &amp; black ink</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 05 · DO / DON'T ═══════════ -->
+<section>
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title">Typographic Rules</div>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-label do-label">✦ DO</div>
+      <div class="do-list">
+        <div class="rule-item">Pair blackletter display with clean serif body</div>
+        <div class="rule-item">Use Great Vibes script sparingly for emotional accent</div>
+        <div class="rule-item">Keep block caps (Bebas/Oswald) for functional UI text</div>
+        <div class="rule-item">Maintain high contrast: black on parchment or cream on black</div>
+        <div class="rule-item">Reserve red for single-word emphasis or sacred phrases</div>
+        <div class="rule-item">Allow generous whitespace around blackletter headlines</div>
+        <div class="rule-item">Use textured/gritty backgrounds behind type</div>
+      </div>
+    </div>
+    <div class="rule-card dont">
+      <div class="rule-label dont-label">✕ DON'T</div>
+      <div class="dont-list">
+        <div class="rule-item">Use more than two display faces in one composition</div>
+        <div class="rule-item">Set blackletter in small body sizes (illegible)</div>
+        <div class="rule-item">Pair script with script — one ornate face at a time</div>
+        <div class="rule-item">Use modern sans-serifs (Inter, Helvetica, Roboto)</div>
+        <div class="rule-item">Apply bright or pastel colors — only black, red, cream</div>
+        <div class="rule-item">Center-align body paragraphs — left-align for readability</div>
+        <div class="rule-item">Use rounded or bubbly typefaces — the brand is sharp</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 06 · CSS IMPORT BLOCK ═══════════ -->
+<div class="dark-band">
+  <section>
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div class="section-title">Quick Implementation</div>
+      <div class="section-rule"></div>
+    </div>
+    <div style="background:#111; border:1px solid #222; padding:2rem; font-family:'Special Elite',monospace; font-size:0.75rem; color:#8a8; line-height:2.2; overflow-x:auto; white-space:pre-wrap; word-break:break-all;">
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=UnifrakturMaguntia&family=Great+Vibes&family=Bebas+Neue&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Oswald:wght@400;600&family=Special+Elite&display=swap');
+
+/* CSS Variables */
+:root {
+  --font-display:     'Pirata One', serif;
+  --font-fraktur:     'UnifrakturMaguntia', serif;
+  --font-script:      'Great Vibes', cursive;
+  --font-impact:      'Bebas Neue', sans-serif;
+  --font-body:        'Cinzel', serif;
+  --font-heading:     'Cinzel Decorative', serif;
+  --font-utility:     'Oswald', sans-serif;
+  --font-raw:         'Special Elite', monospace;
+  --color-ink:        #050505;
+  --color-charcoal:   #1A1A1A;
+  --color-blood:      #B91C1C;
+  --color-crimson:    #7F1D1D;
+  --color-parchment:  #F5F0E8;
+  --color-warmgray:   #9A9590;
+}</div>
+  </section>
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer">
+  <div style="font-family:'Pirata One',serif; font-size:1.8rem; color:var(--cream); margin-bottom:0.8rem;">MINX tatu</div>
+  <div class="footer-text">Brand Guidelines v1.0 — Extracted from Digital Flashbook</div>
+  <div style="width:40px; height:1px; background:var(--red); margin:1.2rem auto;"></div>
+  <div class="footer-text">Machine &lt;3 London &amp; Brighton</div>
+</div>
+
+</body>
+</html>

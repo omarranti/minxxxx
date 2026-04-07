@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local batch scrape output (third-party pages; can be large)
+batch_results.json

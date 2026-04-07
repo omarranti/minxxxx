@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Unconventional Healing 4 the Warrior Princess — page template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:        #ECF0EA;
+    --ink:          #15181A;
+    --ornament:     #242722;
+    --rule:         #2A2D27;
+    --paper-shadow: rgba(0,0,0,0.18);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+  }
+
+  /* Page = A5 portrait at print scale */
+  .page {
+    width: 148mm;
+    height: 210mm;
+    margin: 24px auto;
+    background: var(--paper);
+    position: relative;
+    box-shadow: 0 8px 40px var(--paper-shadow);
+    overflow: hidden;
+    /* faint paper texture (optional swap for an actual texture image) */
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(0,0,0,0.015) 0 1px, transparent 1px),
+      radial-gradient(circle at 70% 60%, rgba(0,0,0,0.012) 0 1px, transparent 1px);
+    background-size: 7px 7px, 11px 11px;
+  }
+
+  /* Inner rule that the text frames against */
+  .frame {
+    position: absolute;
+    inset: 16mm 14mm;
+    border: 1px solid var(--rule);
+    padding: 14mm 12mm;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 4mm;
+  }
+
+  /* Corner ornaments — each rotates a single SVG */
+  .corner {
+    position: absolute;
+    width: 22mm;
+    height: 22mm;
+    color: var(--ornament);
+    pointer-events: none;
+  }
+  .corner.tl { top: 8mm;  left: 8mm;   }
+  .corner.tr { top: 8mm;  right: 8mm;  transform: scaleX(-1); }
+  .corner.bl { bottom: 8mm; left: 8mm;  transform: scaleY(-1); }
+  .corner.br { bottom: 8mm; right: 8mm; transform: scale(-1,-1); }
+
+  /* Top + bottom horizontal flourishes */
+  .flourish {
+    position: absolute;
+    left: 28mm;
+    right: 28mm;
+    height: 6mm;
+    color: var(--ornament);
+  }
+  .flourish.top    { top:    11mm; }
+  .flourish.bottom { bottom: 11mm; transform: scaleY(-1); }
+
+  /* Body type */
+  .body {
+    font-size: 11pt;
+    line-height: 1.55;
+    text-align: justify;
+    color: var(--ink);
+  }
+  .body p { margin: 0 0 3.5mm; }
+  .body em { font-style: italic; }
+
+  /* Affirmation callout — bold block near page foot */
+  .callout {
+    margin-top: auto;
+    padding: 4mm 4mm 4mm 6mm;
+    font-weight: 700;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    border-left: 1.2mm solid var(--ink);
+  }
+
+  /* Page number / running foot */
+  .folio {
+    position: absolute;
+    bottom: 4mm;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 9pt;
+    letter-spacing: 0.08em;
+    color: var(--ornament);
+    font-style: italic;
+  }
+
+  @media print {
+    html, body { background: white; }
+    .page { box-shadow: none; margin: 0; page-break-after: always; }
+    @page { size: A5; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <!--
+    Reusable corner-ornament SVG. Replace the <path> with your actual scanned
+    or vector ornament. The viewBox / fill="currentColor" lets all four
+    corners + the flourishes share one source via <use>.
+  -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+
+      <symbol id="orn-corner" viewBox="0 0 100 100">
+        <!-- placeholder swirl: replace with the real ornament path -->
+        <path fill="currentColor" d="
+          M5 5
+          C 5 30, 20 45, 40 45
+          M5 5
+          C 30 5, 45 20, 45 40
+          M10 12 q 12 -2 18 8
+          M12 10 q -2 12 8 18
+          M22 22 c 6 0 10 4 10 10
+          M5 5 q 25 0 40 8
+          q 8 25 8 40
+        " stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <circle cx="32" cy="32" r="2" fill="currentColor"/>
+        <circle cx="44" cy="20" r="1.4" fill="currentColor"/>
+        <circle cx="20" cy="44" r="1.4" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="orn-flourish" viewBox="0 0 200 20">
+        <!-- placeholder horizontal flourish -->
+        <path d="M10 10 Q 50 0 100 10 T 190 10" stroke="currentColor" stroke-width="1.4" fill="none"/>
+        <circle cx="100" cy="10" r="2" fill="currentColor"/>
+        <circle cx="60" cy="6"  r="1.2" fill="currentColor"/>
+        <circle cx="140" cy="6" r="1.2" fill="currentColor"/>
+      </symbol>
+
+    </defs>
+  </svg>
+
+  <!-- Page template -->
+  <div class="page">
+
+    <svg class="corner tl"><use href="#orn-corner"/></svg>
+    <svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg>
+    <svg class="corner br"><use href="#orn-corner"/></svg>
+
+    <svg class="flourish top"    viewBox="0 0 200 20" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" viewBox="0 0 200 20" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <!-- Replace these placeholders with the real chapter text. -->
+        <p>[opening paragraph in the warrior princess voice — lowercase casual register, can include <em>italicised callback</em> phrases]</p>
+        <p>[middle paragraph that shifts to direct address: "I think girls who…"]</p>
+        <p>[closing paragraph that names the redirect / the practice]</p>
+      </div>
+
+      <div class="callout">
+        [bold affirmation block — 2 to 4 short sentences, present tense, no quotes]
+      </div>
+    </div>
+
+    <div class="folio">— page number —</div>
+  </div>
+
+</body>
+</html>

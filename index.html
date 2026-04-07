@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MINXX_OS — TAPE_PLAYER.EXE — TAPE_01.HI8</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Italiana&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{
+    margin:0;padding:0;box-sizing:border-box;
+    /* PIXEL CURSOR — pulled from PixelTalk */
+    cursor:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='16' viewBox='0 0 10 16'%3E%3Cimage width='10' height='16' image-rendering='pixelated' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAQCAYAAAAvf+5AAAAAZUlEQVQoU6XSSw4AIQgDUHr/Q2NK1CC/WYwbjb6gKUJVVUQEADh3A4Q09BO+kJUm/MAJJ9jhEla4hRGP0ONPePHJMQa9+2DbzLfK0Q5jpqkz/gaPrb/70K9T1fIjVFX/wfMc//0Wi1Z4DezMbAwAAAAASUVORK5CYII=' xmlns:xlink='http://www.w3.org/1999/xlink'/%3E%3C/svg%3E"),auto;
+  }
+
+  :root{
+    /* tape palette — pulled from the recording */
+    --tape-black: #08080c;
+    --tape-deep:  #050307;
+    --tape-bezel: #0d0a10;
+    --crt-cream:  #f0e6e8;
+    --crt-glow:   #fff8f5;
+    --phosphor:   #c4ffd6;     /* old camcorder HUD green */
+    --phosphor-d: #5cdc80;
+    --rec-red:    #ff2a3a;
+    --rec-glow:   #ff5566;
+    --lavender:   #c4a0d4;
+    --pink:       #d4739a;
+    --rose:       #e8a0b8;
+    --gold:       #c9a96e;
+    --muted:      #8a7a8e;
+    --dim:        #3a2e3e;
+    --hud-amber:  #ffb070;
+    /* PIXEL OS CHROME — pulled from PixelTalk */
+    --os-cream:   #f9efe4;
+    --os-paper:   #f7f3e9;
+    --os-tertiary:#c2b9b1;
+    --os-ink:     #18141a;
+    --os-shadow:  rgba(0,0,0,0.55);
+  }
+
+  html{scroll-behavior:smooth;background:#000}
+  body{
+    background:var(--tape-black);
+    color:var(--crt-cream);
+    font-family:'Cormorant Garamond',Georgia,serif;
+    overflow-x:hidden;
+    min-height:100vh;
+    position:relative;
+    image-rendering:pixelated;
+    /* leave room for the OS bars */
+    padding-top:38px;
+    padding-bottom:34px;
+  }
+  /* keep type smooth (we only want pixels on chrome) */
+  .stage,.hero,section,footer,.title-card-frame,.ms-frame{image-rendering:auto}
+
+  ::selection{background:var(--lavender);color:var(--os-ink)}
+
+  /* ════════════════════════════════════════════════════
+     PIXEL OS CHROME — top + bottom bars (PixelTalk-inspired)
+     ════════════════════════════════════════════════════ */
+  .os-bar{
+    position:fixed;
+    left:0;right:0;
+    z-index:10000;
+    background:var(--os-cream);
+    color:var(--os-ink);
+    border-color:var(--os-ink);
+    font-family:'Press Start 2P',monospace;
+    font-size:9px;
+    letter-spacing:0.06em;
+    display:flex;
+    align-items:center;
+    height:34px;
+    padding:0 10px;
+    image-rendering:pixelated;
+  }
+  .os-bar.top{
+    top:0;
+    border-bottom:1.5px solid var(--os-ink);
+    box-shadow:0 3px 0 var(--os-shadow);
+    height:34px;
+  }
+  .os-bar.bot{
+    bottom:0;
+    border-top:1.5px solid var(--os-ink);
+    box-shadow:0 -3px 0 var(--os-shadow);
+    height:30px;
+    font-size:8px;
+  }
+
+  /* OS title bar — left chunk = logo + EXE */
+  .os-logo{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    padding-right:0.8rem;
+    margin-right:0.6rem;
+    border-right:1.5px solid var(--os-ink);
+    height:100%;
+  }
+  .os-logo .glyph{
+    display:inline-block;
+    width:14px;height:14px;
+    background:
+      linear-gradient(135deg, var(--lavender) 50%, var(--pink) 50%);
+    border:1.5px solid var(--os-ink);
+    box-shadow:1.5px 1.5px 0 var(--os-shadow);
+  }
+  .os-exe{font-size:8px;letter-spacing:0.1em;opacity:0.85}
+  .os-exe b{color:var(--os-ink)}
+
+  /* spacer rows — the :::::: bars from PixelTalk */
+  .os-spacer{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    justify-content:center;
+    height:18px;
+    margin:0 0.8rem;
+    opacity:0.85;
+  }
+  .os-spacer i{
+    display:block;
+    width:100%;
+    height:1.5px;
+    background:var(--os-ink);
+  }
+
+  /* window control buttons */
+  .os-controls{
+    display:flex;
+    gap:5px;
+    margin-left:0.6rem;
+  }
+  .os-btn{
+    width:20px;height:20px;
+    border:1.5px solid var(--os-ink);
+    background:var(--os-cream);
+    box-shadow:1.5px 1.5px 0 var(--os-shadow);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Press Start 2P',monospace;
+    font-size:9px;
+    color:var(--os-ink);
+    text-decoration:none;
+    line-height:1;
+    padding:0;
+    transition:transform 0.05s, background 0.05s;
+    pointer-events:auto;
+  }
+  .os-btn:hover{background:var(--lavender)}
+  .os-btn:active{transform:translate(1.5px,1.5px);box-shadow:0 0 0 var(--os-shadow)}
+  .os-btn[data-action="close"]:hover{background:var(--rec-red);color:var(--os-cream)}
+
+  /* OS pill chips for time + date */
+  .os-chip{
+    height:20px;
+    display:flex;
+    align-items:center;
+    padding:0 8px;
+    border:1.5px solid var(--os-ink);
+    background:var(--os-cream);
+    font-family:'Press Start 2P',monospace;
+    font-size:8px;
+    margin-left:6px;
+    box-shadow:1.5px 1.5px 0 var(--os-shadow);
+  }
+  .os-chip.amber{background:var(--hud-amber)}
+  .os-chip.live{background:var(--rec-red);color:var(--os-cream)}
+
+  /* bottom status bar */
+  .os-status-left{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    height:100%;
+  }
+  .os-status-mid{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:1.2rem;
+    opacity:0.85;
+  }
+  .os-status-right{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+  .os-led{
+    display:inline-block;
+    width:8px;height:8px;
+    border:1.2px solid var(--os-ink);
+    background:var(--phosphor-d);
+    box-shadow:0 0 5px var(--phosphor-d);
+    animation:ledBlink 2.4s steps(2) infinite;
+  }
+  .os-led.amber{background:var(--hud-amber);box-shadow:0 0 5px var(--hud-amber);animation-duration:1.4s}
+  @keyframes ledBlink{
+    0%,40%{opacity:1}
+    50%,100%{opacity:0.25}
+  }
+
+  /* ════════════════════════════════════════════════════
+     MINIMIZED TASKBAR PILL
+     ════════════════════════════════════════════════════ */
+  body.minimized .stage,
+  body.minimized .crt-scanlines,
+  body.minimized .crt-vignette,
+  body.minimized .crt-chroma,
+  body.minimized .crt-grain,
+  body.minimized .crt-tracking,
+  body.minimized .vf-corner,
+  body.minimized .vf-focus,
+  body.minimized .hud{
+    visibility:hidden;
+    opacity:0;
+    transition:opacity 0.3s, visibility 0s 0.3s;
+  }
+  body.minimized{
+    background:#000;
+    overflow:hidden;
+    height:100vh;
+  }
+  body.minimized::before{
+    content:'';
+    position:fixed;inset:0;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(196,160,212,0.04), transparent 70%),
+      #000;
+    pointer-events:none;
+  }
+
+  .taskbar{
+    position:fixed;
+    bottom:50%;
+    left:50%;
+    transform:translate(-50%, 50%);
+    z-index:10002;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:1.5rem;
+    pointer-events:auto;
+  }
+  body.minimized .taskbar{display:flex}
+
+  .taskbar-screen{
+    font-family:'Press Start 2P',monospace;
+    font-size:11px;
+    color:var(--phosphor);
+    text-shadow:0 0 10px var(--phosphor);
+    text-align:center;
+    line-height:2;
+    letter-spacing:0.1em;
+    opacity:0;
+    animation:taskbarIn 0.5s 0.3s forwards;
+  }
+  .taskbar-screen .dim{color:var(--dim);text-shadow:none;font-size:9px}
+  @keyframes taskbarIn{
+    from{opacity:0;transform:translateY(8px)}
+    to  {opacity:1;transform:translateY(0)}
+  }
+
+  .taskbar-pill{
+    display:flex;
+    align-items:center;
+    gap:0.7rem;
+    padding:0.7rem 1.1rem;
+    background:var(--os-cream);
+    color:var(--os-ink);
+    border:1.5px solid var(--os-ink);
+    box-shadow:3px 3px 0 var(--os-shadow);
+    font-family:'Press Start 2P',monospace;
+    font-size:9px;
+    text-decoration:none;
+    transition:all 0.05s;
+    opacity:0;
+    animation:taskbarIn 0.5s 0.5s forwards;
+  }
+  .taskbar-pill:hover{background:var(--lavender)}
+  .taskbar-pill:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--os-shadow)}
+  .taskbar-pill .glyph{
+    display:inline-block;
+    width:14px;height:14px;
+    background:linear-gradient(135deg, var(--lavender) 50%, var(--pink) 50%);
+    border:1.5px solid var(--os-ink);
+  }
+  .taskbar-pill .blink{
+    display:inline-block;
+    width:7px;height:7px;
+    background:var(--rec-red);
+    border:1px solid var(--os-ink);
+    animation:recBlink 1.4s infinite;
+  }
+
+  /* ════════════════════════════════════════════════════
+     CLOSE CONFIRMATION MODAL — PixelTalk-style window
+     ════════════════════════════════════════════════════ */
+  .pixel-modal{
+    position:fixed;
+    inset:0;
+    z-index:10003;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,0.55);
+    backdrop-filter:blur(2px);
+    -webkit-backdrop-filter:blur(2px);
+    animation:modalFade 0.2s ease-out;
+  }
+  .pixel-modal.show{display:flex}
+  @keyframes modalFade{
+    from{opacity:0}
+    to  {opacity:1}
+  }
+
+  .pixel-modal-window{
+    background:var(--os-cream);
+    color:var(--os-ink);
+    border:1.5px solid var(--os-ink);
+    box-shadow:6px 6px 0 var(--os-shadow);
+    width:min(380px, 88vw);
+    font-family:'Press Start 2P',monospace;
+    image-rendering:pixelated;
+    animation:modalScale 0.25s cubic-bezier(0.2,0.9,0.3,1.2);
+  }
+  @keyframes modalScale{
+    from{transform:scale(0.92);opacity:0}
+    to  {transform:scale(1);opacity:1}
+  }
+
+  .pixel-modal-header{
+    display:flex;
+    align-items:center;
+    padding:6px 8px;
+    background:var(--lavender);
+    border-bottom:1.5px solid var(--os-ink);
+    font-size:8px;
+    letter-spacing:0.08em;
+  }
+  .pixel-modal-header .title{flex:1;text-align:center}
+  .pixel-modal-header .close-x{
+    width:16px;height:16px;
+    border:1.5px solid var(--os-ink);
+    background:var(--os-cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:7px;
+    cursor:pointer;
+    box-shadow:1.5px 1.5px 0 var(--os-shadow);
+  }
+  .pixel-modal-header .close-x:hover{background:var(--rec-red);color:var(--os-cream)}
+
+  .pixel-modal-body{
+    padding:1.5rem 1.4rem;
+    text-align:center;
+  }
+  .pixel-modal-body .icon{
+    display:inline-block;
+    width:40px;height:40px;
+    border:1.5px solid var(--os-ink);
+    background:var(--hud-amber);
+    margin-bottom:1rem;
+    font-size:20px;
+    line-height:38px;
+    box-shadow:2px 2px 0 var(--os-shadow);
+  }
+  .pixel-modal-body p{
+    font-size:9px;
+    line-height:1.8;
+    letter-spacing:0.06em;
+    margin-bottom:0.5rem;
+  }
+  .pixel-modal-body .small{
+    font-size:7px;
+    color:rgba(24,20,26,0.65);
+    margin-top:0.6rem;
+    letter-spacing:0.05em;
+  }
+
+  .pixel-modal-actions{
+    display:flex;
+    gap:0.6rem;
+    justify-content:center;
+    padding:0 1.4rem 1.4rem;
+  }
+  .pm-btn{
+    font-family:'Press Start 2P',monospace;
+    font-size:8px;
+    padding:0.7rem 1rem;
+    border:1.5px solid var(--os-ink);
+    background:var(--os-cream);
+    color:var(--os-ink);
+    cursor:pointer;
+    box-shadow:3px 3px 0 var(--os-shadow);
+    letter-spacing:0.08em;
+    text-decoration:none;
+    transition:all 0.05s;
+  }
+  .pm-btn:hover{background:var(--lavender)}
+  .pm-btn.danger:hover{background:var(--rec-red);color:var(--os-cream)}
+  .pm-btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--os-shadow)}
+
+  /* ════════════════════════════════════════════════════
+     EJECT TAPE — CRT shutdown sequence
+     ════════════════════════════════════════════════════ */
+  .crt-eject{
+    position:fixed;
+    inset:0;
+    z-index:10010;
+    background:#000;
+    pointer-events:auto;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:var(--phosphor);
+    font-family:'Press Start 2P',monospace;
+    font-size:12px;
+    text-shadow:0 0 8px var(--phosphor);
+    letter-spacing:0.12em;
+    text-align:center;
+    line-height:2;
+  }
+  body.ejecting{overflow:hidden}
+  body.ejecting .crt-eject{display:flex;animation:crtOff 2.6s forwards}
+  @keyframes crtOff{
+    /* phase 1: scrunch the active site like a CRT collapsing */
+    0%   {background:#000}
+    /* phase 2: white horizontal line briefly */
+    65%  {background:#000}
+    72%  {background:#000}
+    100% {background:#000}
+  }
+
+  .eject-stages{display:flex;flex-direction:column;align-items:center;gap:0.9rem}
+  .eject-stages .line{opacity:0;animation:bootLine 0.4s forwards}
+  .eject-stages .line:nth-child(1){animation-delay:0.05s}
+  .eject-stages .line:nth-child(2){animation-delay:0.45s;color:var(--hud-amber);text-shadow:0 0 6px var(--hud-amber)}
+  .eject-stages .line:nth-child(3){animation-delay:0.85s;color:var(--rec-glow);text-shadow:0 0 6px var(--rec-red)}
+  .eject-stages .line:nth-child(4){animation-delay:1.3s}
+  .eject-stages .line:nth-child(5){animation-delay:1.8s;color:var(--dim);text-shadow:none}
+
+  /* the CRT collapse — shrink to a horizontal line then a dot */
+  body.ejecting .stage,
+  body.ejecting .hud,
+  body.ejecting .vf-corner,
+  body.ejecting .vf-focus,
+  body.ejecting .crt-scanlines,
+  body.ejecting .crt-vignette,
+  body.ejecting .crt-chroma,
+  body.ejecting .crt-grain,
+  body.ejecting .crt-tracking,
+  body.ejecting .os-bar{
+    transform-origin:center;
+    animation:crtCollapse 0.9s cubic-bezier(0.6,0,0.4,1) forwards;
+  }
+  @keyframes crtCollapse{
+    0%   {transform:scaleY(1) scaleX(1);opacity:1;filter:brightness(1)}
+    35%  {transform:scaleY(0.04) scaleX(1.01);opacity:1;filter:brightness(1.6)}
+    55%  {transform:scaleY(0.04) scaleX(0.02);opacity:1;filter:brightness(2.2)}
+    75%  {transform:scaleY(0.005) scaleX(0.005);opacity:0.85}
+    100% {transform:scaleY(0) scaleX(0);opacity:0}
+  }
+
+  /* ════════════════════════════════════════════════════
+     CRT VIEWFINDER STACK — fixed overlays
+     ════════════════════════════════════════════════════ */
+
+  /* 1. SCANLINES */
+  .crt-scanlines{
+    position:fixed;inset:0;z-index:9990;pointer-events:none;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.18) 3px,
+      rgba(0,0,0,0) 4px
+    );
+    mix-blend-mode:multiply;
+  }
+
+  /* 2. CRT VIGNETTE — heavy in corners, soft in center */
+  .crt-vignette{
+    position:fixed;inset:0;z-index:9991;pointer-events:none;
+    background:
+      radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 80%, rgba(0,0,0,0.85) 100%),
+      radial-gradient(ellipse at 50% 50%, rgba(196,160,212,0.04) 0%, transparent 60%);
+  }
+
+  /* 3. SUBTLE CHROMA / RGB BLEED at edges */
+  .crt-chroma{
+    position:fixed;inset:0;z-index:9992;pointer-events:none;
+    background:
+      linear-gradient(90deg, rgba(255,42,58,0.04) 0%, transparent 4%, transparent 96%, rgba(0,255,200,0.04) 100%);
+    mix-blend-mode:screen;
+  }
+
+  /* 4. GRAIN — analogue noise */
+  .crt-grain{
+    position:fixed;inset:0;z-index:9993;pointer-events:none;
+    opacity:0.08;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+    background-size:180px;
+    animation:grainShift 0.6s steps(4) infinite;
+  }
+  @keyframes grainShift{
+    0%  {transform:translate(0,0)}
+    25% {transform:translate(-2px,1px)}
+    50% {transform:translate(1px,-1px)}
+    75% {transform:translate(-1px,2px)}
+    100%{transform:translate(0,0)}
+  }
+
+  /* 5. VHS TRACKING — horizontal noise band scrolling slowly */
+  .crt-tracking{
+    position:fixed;inset:0;z-index:9994;pointer-events:none;
+    overflow:hidden;
+  }
+  .crt-tracking::before{
+    content:'';
+    position:absolute;
+    left:0;right:0;
+    height:6px;
+    background:linear-gradient(to bottom,
+      transparent,
+      rgba(255,255,255,0.06),
+      rgba(196,160,212,0.08),
+      rgba(255,255,255,0.04),
+      transparent);
+    filter:blur(0.5px);
+    animation:tracking 9s linear infinite;
+  }
+  @keyframes tracking{
+    0%  {top:-10%}
+    100%{top:110%}
+  }
+
+  /* 6. POWER-ON FLICKER + PIXEL BOOT TEXT */
+  .crt-boot{
+    position:fixed;inset:0;z-index:10001;
+    background:#000;
+    pointer-events:none;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    padding:3rem 2.5rem;
+    font-family:'Press Start 2P',monospace;
+    font-size:10px;
+    color:var(--phosphor);
+    text-shadow:0 0 6px var(--phosphor);
+    line-height:1.9;
+    letter-spacing:0.05em;
+    animation:bootFade 3.4s 0.2s forwards;
+    overflow:hidden;
+  }
+  .crt-boot .boot-line{opacity:0;animation:bootLine 0.4s forwards}
+  .crt-boot .boot-line:nth-child(1){animation-delay:0.1s}
+  .crt-boot .boot-line:nth-child(2){animation-delay:0.4s}
+  .crt-boot .boot-line:nth-child(3){animation-delay:0.7s}
+  .crt-boot .boot-line:nth-child(4){animation-delay:1.0s}
+  .crt-boot .boot-line:nth-child(5){animation-delay:1.4s;color:var(--hud-amber);text-shadow:0 0 6px var(--hud-amber)}
+  .crt-boot .boot-line:nth-child(6){animation-delay:1.8s}
+  .crt-boot .boot-line:nth-child(7){animation-delay:2.2s;color:var(--rec-glow);text-shadow:0 0 6px var(--rec-red)}
+  @keyframes bootLine{
+    from{opacity:0;transform:translateX(-4px)}
+    to  {opacity:1;transform:translateX(0)}
+  }
+  @keyframes bootFade{
+    0%  {opacity:1}
+    80% {opacity:1}
+    88% {opacity:0;background:#fff}
+    90% {opacity:1;background:#000}
+    94% {opacity:0;background:#aaa}
+    96% {opacity:0.6;background:#000}
+    100%{opacity:0;visibility:hidden}
+  }
+
+  /* ════════════════════════════════════════════════════
+     VIEWFINDER HUD — REC, TIMECODE, BATT, VU, PLAY
+     ════════════════════════════════════════════════════ */
+
+  .hud{
+    position:fixed;
+    z-index:9995;
+    pointer-events:none;
+    font-family:'VT323','IBM Plex Mono',monospace;
+    color:var(--phosphor);
+    text-shadow:0 0 8px rgba(196,255,214,0.5), 0 0 2px rgba(196,255,214,0.9);
+    font-size:14px;
+    letter-spacing:0.05em;
+  }
+
+  /* TOP-LEFT — REC + TIMECODE — sits below OS top bar */
+  .hud-tl{
+    top:calc(34px + 1.2rem);
+    left:1.6rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.35rem;
+  }
+  .hud-rec{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    font-size:13px;
+  }
+  .rec-dot{
+    width:11px;height:11px;
+    border-radius:50%;
+    background:var(--rec-red);
+    box-shadow:0 0 10px var(--rec-glow), 0 0 22px var(--rec-red), 0 0 2px #fff inset;
+    animation:recBlink 1.4s ease-in-out infinite;
+  }
+  @keyframes recBlink{
+    0%,100% {opacity:1;transform:scale(1)}
+    50%     {opacity:0.35;transform:scale(0.92)}
+  }
+  .hud-rec span{color:var(--rec-glow);text-shadow:0 0 6px var(--rec-red)}
+  .hud-tc{font-size:18px;letter-spacing:0.1em}
+  .hud-tc small{font-size:11px;color:var(--phosphor-d);opacity:0.7;margin-left:6px}
+
+  /* TOP-RIGHT — BATT + TAPE + MODE */
+  .hud-tr{
+    top:calc(34px + 1.2rem);
+    right:1.6rem;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:0.35rem;
+    font-size:13px;
+  }
+  .hud-batt{display:flex;align-items:center;gap:0.5rem}
+  .batt-icon{
+    width:24px;height:11px;
+    border:1.5px solid var(--phosphor);
+    border-radius:1px;
+    position:relative;
+    padding:1px;
+    box-shadow:0 0 6px rgba(196,255,214,0.3);
+  }
+  .batt-icon::after{
+    content:'';
+    position:absolute;
+    right:-3px;top:2px;
+    width:2px;height:5px;
+    background:var(--phosphor);
+  }
+  .batt-fill{
+    height:100%;
+    background:var(--phosphor);
+    box-shadow:0 0 4px var(--phosphor) inset;
+    width:74%;
+    animation:battDrain 18s linear infinite;
+  }
+  @keyframes battDrain{
+    0%   {width:78%}
+    100% {width:62%}
+  }
+  .hud-tape{font-size:11px;letter-spacing:0.18em;opacity:0.85}
+  .hud-mode{font-size:11px;letter-spacing:0.2em;color:var(--hud-amber);text-shadow:0 0 6px rgba(255,176,112,0.6)}
+
+  /* BOTTOM-LEFT — PLAY status + VU */
+  .hud-bl{
+    bottom:calc(30px + 1.2rem);
+    left:1.6rem;
+    display:flex;
+    flex-direction:column;
+    gap:0.4rem;
+    font-size:11px;
+    letter-spacing:0.18em;
+  }
+  .hud-play{display:flex;align-items:center;gap:0.5rem}
+  .play-tri{
+    width:0;height:0;
+    border-left:9px solid var(--phosphor);
+    border-top:6px solid transparent;
+    border-bottom:6px solid transparent;
+    filter:drop-shadow(0 0 4px var(--phosphor));
+  }
+  .vu{
+    display:flex;
+    gap:2px;
+    align-items:flex-end;
+    height:14px;
+  }
+  .vu span{
+    display:block;
+    width:3px;
+    background:var(--phosphor);
+    box-shadow:0 0 4px var(--phosphor);
+    animation:vuBars 0.8s ease-in-out infinite;
+  }
+  .vu span:nth-child(1){height:30%;animation-delay:0.0s}
+  .vu span:nth-child(2){height:55%;animation-delay:0.1s}
+  .vu span:nth-child(3){height:80%;animation-delay:0.05s}
+  .vu span:nth-child(4){height:65%;animation-delay:0.2s;background:var(--hud-amber);box-shadow:0 0 4px var(--hud-amber)}
+  .vu span:nth-child(5){height:45%;animation-delay:0.15s}
+  .vu span:nth-child(6){height:70%;animation-delay:0.25s;background:var(--rec-red);box-shadow:0 0 4px var(--rec-red)}
+  .vu span:nth-child(7){height:35%;animation-delay:0.3s}
+  .vu span:nth-child(8){height:55%;animation-delay:0.1s}
+  @keyframes vuBars{
+    0%,100%{transform:scaleY(0.6)}
+    50%    {transform:scaleY(1.15)}
+  }
+
+  /* BOTTOM-RIGHT — DEVICE TAG */
+  .hud-br{
+    bottom:calc(30px + 1.2rem);
+    right:1.6rem;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:0.3rem;
+    font-size:11px;
+    letter-spacing:0.18em;
+  }
+  .hud-br .small{opacity:0.6;font-size:10px}
+
+  /* ════════════════════════════════════════════════════
+     VIEWFINDER CORNER BRACKETS
+     ════════════════════════════════════════════════════ */
+  .vf-corner{
+    position:fixed;
+    width:60px;height:60px;
+    border:2px solid var(--phosphor);
+    z-index:9994;
+    pointer-events:none;
+    opacity:0.55;
+    box-shadow:0 0 12px rgba(196,255,214,0.25);
+  }
+  .vf-corner.tl{top:calc(34px + 0.6rem);left:0.8rem;border-right:none;border-bottom:none}
+  .vf-corner.tr{top:calc(34px + 0.6rem);right:0.8rem;border-left:none;border-bottom:none}
+  .vf-corner.bl{bottom:calc(30px + 0.6rem);left:0.8rem;border-right:none;border-top:none}
+  .vf-corner.br{bottom:calc(30px + 0.6rem);right:0.8rem;border-left:none;border-top:none}
+
+  /* center crosshair — autofocus mark */
+  .vf-focus{
+    position:fixed;
+    top:50%;left:50%;
+    width:80px;height:80px;
+    transform:translate(-50%,-50%);
+    z-index:9994;
+    pointer-events:none;
+    opacity:0;
+    animation:focusBlink 12s ease-in-out infinite;
+  }
+  .vf-focus::before,.vf-focus::after{
+    content:'';
+    position:absolute;
+    background:var(--phosphor);
+    box-shadow:0 0 4px var(--phosphor);
+  }
+  .vf-focus::before{top:50%;left:0;right:0;height:1px;transform:translateY(-50%)}
+  .vf-focus::after{left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%)}
+  .vf-focus i{
+    position:absolute;
+    width:14px;height:14px;
+    border:1px solid var(--phosphor);
+  }
+  .vf-focus i:nth-child(1){top:0;left:0;border-right:none;border-bottom:none}
+  .vf-focus i:nth-child(2){top:0;right:0;border-left:none;border-bottom:none}
+  .vf-focus i:nth-child(3){bottom:0;left:0;border-right:none;border-top:none}
+  .vf-focus i:nth-child(4){bottom:0;right:0;border-left:none;border-top:none}
+  @keyframes focusBlink{
+    0%,8%,100%{opacity:0}
+    1%,5%     {opacity:0.7}
+  }
+
+  /* ════════════════════════════════════════════════════
+     CONTENT FRAME — sit inside the viewfinder
+     ════════════════════════════════════════════════════ */
+  .stage{
+    position:relative;
+    z-index:1;
+    padding:0 1rem;
+  }
+
+  /* ════════════════════════════════════════════════════
+     HERO — POWER ON
+     ════════════════════════════════════════════════════ */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    text-align:center;
+    padding:5rem 2rem 3rem;
+  }
+
+  .hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 700px 500px at 30% 30%, rgba(196,160,212,0.10), transparent),
+      radial-gradient(ellipse 600px 600px at 70% 70%, rgba(212,115,154,0.07), transparent),
+      radial-gradient(ellipse 400px 400px at 50% 50%, rgba(201,169,110,0.04), transparent);
+    z-index:0;
+  }
+
+  .hero-content{position:relative;z-index:1;max-width:680px}
+
+  .hero-slate{
+    font-family:'Press Start 2P',monospace;
+    font-size:9px;
+    letter-spacing:0.1em;
+    color:var(--phosphor);
+    text-shadow:0 0 6px var(--phosphor);
+    margin-bottom:1.5rem;
+    opacity:0;
+    animation:slateIn 0.6s 3.8s forwards;
+  }
+  .hero-slate span{color:var(--rec-glow);text-shadow:0 0 6px var(--rec-red)}
+
+  .hero-tag{
+    font-family:'Press Start 2P',monospace;
+    font-size:0.55rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:2rem;
+    opacity:0;
+    animation:fadeUp 1s 4.1s forwards;
+  }
+
+  .hero-name{
+    font-family:'Cinzel',serif;
+    font-size:clamp(2.6rem,9vw,6.4rem);
+    font-weight:400;
+    letter-spacing:0.14em;
+    line-height:1;
+    color:var(--crt-glow);
+    margin-bottom:0.4em;
+    opacity:0;
+    animation:nameIn 1.4s 4.3s forwards;
+    text-shadow:
+      -1.5px 0 rgba(255,42,58,0.55),
+      1.5px 0 rgba(0,255,200,0.45),
+      0 0 24px rgba(196,160,212,0.25);
+  }
+  @keyframes nameIn{
+    0%  {opacity:0;transform:translateY(20px) scale(1.06);filter:blur(8px)}
+    40% {opacity:1;filter:blur(0)}
+    100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  }
+
+  .hero-sub{
+    font-family:'Italiana',serif;
+    font-size:clamp(1rem,3vw,1.7rem);
+    color:var(--lavender);
+    letter-spacing:0.3em;
+    font-weight:400;
+    opacity:0;
+    animation:fadeUp 1.2s 4.8s forwards;
+    text-shadow:0 0 14px rgba(196,160,212,0.4);
+  }
+
+  .hero-bio{
+    max-width:480px;
+    margin:2.5rem auto 0;
+    font-size:1.05rem;
+    line-height:1.85;
+    color:var(--muted);
+    font-style:italic;
+    opacity:0;
+    animation:fadeUp 1.2s 5.1s forwards;
+  }
+
+  .hero-divider{
+    width:1px;
+    height:80px;
+    background:linear-gradient(to bottom,transparent,var(--dim),transparent);
+    margin:3rem auto 0;
+    opacity:0;
+    animation:fadeUp 1.2s 5.4s forwards;
+  }
+
+  .scroll-hint{
+    position:absolute;
+    bottom:5rem;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0.5rem;
+    opacity:0;
+    animation:fadeUp 1.2s 5.7s forwards;
+  }
+  .scroll-hint span{
+    font-family:'Press Start 2P',monospace;
+    font-size:0.55rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--phosphor);
+    text-shadow:0 0 6px var(--phosphor);
+  }
+  .scroll-arrow{
+    width:1px;height:30px;
+    background:var(--phosphor);
+    box-shadow:0 0 4px var(--phosphor);
+    animation:pulseDown 2s infinite;
+  }
+  @keyframes pulseDown{
+    0%,100%{opacity:0.4;transform:scaleY(1)}
+    50%    {opacity:1;transform:scaleY(1.4);transform-origin:top}
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(20px)}
+    to  {opacity:1;transform:translateY(0)}
+  }
+  @keyframes slateIn{
+    from{opacity:0}
+    to  {opacity:0.95}
+  }
+
+  /* ════════════════════════════════════════════════════
+     SECTION
+     ════════════════════════════════════════════════════ */
+  section{
+    padding:5rem 2rem;
+    max-width:920px;
+    margin:0 auto;
+    position:relative;
+  }
+
+  /* TAPE LABEL — top of each section */
+  .tape-label{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    margin-bottom:1.5rem;
+    font-family:'Press Start 2P',monospace;
+    font-size:0.62rem;
+    letter-spacing:0.1em;
+    color:var(--phosphor);
+    text-shadow:0 0 6px var(--phosphor);
+  }
+  .tape-label::before{
+    content:'';
+    width:32px;height:1px;
+    background:var(--phosphor);
+    box-shadow:0 0 4px var(--phosphor);
+  }
+  .tape-label .tag{color:var(--hud-amber);text-shadow:0 0 6px var(--hud-amber)}
+
+  .section-title{
+    font-family:'Cinzel',serif;
+    font-size:clamp(1.6rem,4vw,2.8rem);
+    font-weight:400;
+    letter-spacing:0.1em;
+    color:var(--crt-glow);
+    margin-bottom:1rem;
+    text-shadow:
+      -1px 0 rgba(255,42,58,0.4),
+      1px 0 rgba(0,255,200,0.35);
+  }
+
+  .section-desc{
+    font-size:1.1rem;
+    line-height:1.85;
+    color:var(--muted);
+    max-width:600px;
+    font-style:italic;
+  }
+
+  /* ════════════════════════════════════════════════════
+     QUOTE — TITLE CARD
+     ════════════════════════════════════════════════════ */
+  .quote-section{
+    text-align:center;
+    padding:7rem 2rem;
+    position:relative;
+    max-width:800px;
+    margin:0 auto;
+  }
+  .quote-section::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse 600px 350px at 50% 50%, rgba(196,160,212,0.06), transparent);
+  }
+  .title-card-frame{
+    position:relative;
+    padding:3.5rem 2rem;
+    border:1.5px solid var(--lavender);
+    background:rgba(8,8,12,0.4);
+    box-shadow:6px 6px 0 var(--os-shadow), 6px 6px 0 1.5px rgba(196,160,212,0.4);
+  }
+  .title-card-frame::before,
+  .title-card-frame::after{
+    content:'';
+    position:absolute;
+    width:18px;height:18px;
+    border:1px solid var(--phosphor);
+    box-shadow:0 0 4px rgba(196,255,214,0.3);
+  }
+  .title-card-frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .title-card-frame::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+  .quote-meta{
+    font-family:'VT323',monospace;
+    font-size:0.75rem;
+    letter-spacing:0.25em;
+    color:var(--phosphor);
+    text-shadow:0 0 5px var(--phosphor);
+    margin-bottom:1.5rem;
+  }
+  .quote-mark{
+    font-family:'Cinzel',serif;
+    font-size:5rem;
+    color:var(--dim);
+    line-height:0.6;
+    opacity:0.5;
+  }
+  .quote-text{
+    font-family:'Italiana',serif;
+    font-size:clamp(1.3rem,3.2vw,2rem);
+    color:var(--rose);
+    max-width:620px;
+    margin:0 auto 1.5rem;
+    line-height:1.5;
+    letter-spacing:0.04em;
+    text-shadow:0 0 18px rgba(232,160,184,0.25);
+  }
+  .quote-attr{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+
+  /* ════════════════════════════════════════════════════
+     CLIP CARDS — each link is a recorded clip
+     ════════════════════════════════════════════════════ */
+  .clips{
+    margin-top:2.5rem;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:2px;
+    border:1.5px solid var(--lavender);
+    background:rgba(196,160,212,0.04);
+    box-shadow:5px 5px 0 rgba(196,160,212,0.18), 5px 5px 0 1.5px var(--os-shadow);
+  }
+
+  .clip{
+    display:grid;
+    grid-template-columns:auto auto 1fr auto auto;
+    align-items:center;
+    gap:1.5rem;
+    padding:1.5rem 2rem;
+    background:var(--tape-deep);
+    text-decoration:none;
+    color:var(--crt-cream);
+    position:relative;
+    overflow:hidden;
+    transition:all 0.4s cubic-bezier(0.23,1,0.32,1);
+    cursor:pointer;
+  }
+
+  .clip::before{
+    content:'';
+    position:absolute;
+    left:0;top:0;
+    width:0;height:100%;
+    background:linear-gradient(90deg,rgba(196,160,212,0.10),rgba(196,160,212,0.02) 60%,transparent);
+    transition:width 0.55s cubic-bezier(0.23,1,0.32,1);
+  }
+  .clip:hover::before{width:100%}
+  .clip:hover .clip-title{color:var(--lavender);text-shadow:0 0 12px rgba(196,160,212,0.5)}
+  .clip:hover .clip-arrow{color:var(--rec-glow);text-shadow:0 0 6px var(--rec-red);transform:translateX(4px)}
+  .clip:hover .clip-thumb{border-color:var(--phosphor);box-shadow:0 0 12px rgba(196,255,214,0.25)}
+  .clip:hover .clip-rec{opacity:1}
+
+  /* timecode IN/OUT column */
+  .clip-tc{
+    font-family:'VT323',monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--phosphor-d);
+    text-shadow:0 0 4px rgba(92,220,128,0.6);
+    line-height:1.4;
+    min-width:62px;
+    z-index:1;
+  }
+  .clip-tc small{display:block;color:var(--dim);text-shadow:none;font-size:9px;letter-spacing:0.15em}
+
+  /* film thumbnail */
+  .clip-thumb{
+    width:64px;height:64px;
+    border:1.5px solid var(--lavender);
+    background:var(--tape-bezel);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+    transition:all 0.4s;
+    z-index:1;
+    box-shadow:2.5px 2.5px 0 var(--os-shadow);
+    image-rendering:pixelated;
+  }
+  .clip-thumb img{
+    width:100%;height:100%;
+    object-fit:cover;
+    image-rendering:pixelated;
+    filter:contrast(1.1) saturate(0.85) brightness(0.95);
+    transition:filter 0.4s;
+  }
+  .clip:hover .clip-thumb img{filter:contrast(1.15) saturate(1) brightness(1.05)}
+  .clip-thumb svg{width:62%;height:62%;image-rendering:pixelated;shape-rendering:crispEdges}
+  .clip-thumb::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(0,0,0,0.25) 3px, transparent 4px);
+    pointer-events:none;
+  }
+  .clip-rec{
+    position:absolute;
+    top:3px;right:3px;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:var(--rec-red);
+    box-shadow:0 0 4px var(--rec-glow);
+    opacity:0.6;
+    animation:recBlink 1.4s infinite;
+  }
+
+  /* clip info */
+  .clip-info{display:flex;flex-direction:column;gap:0.35rem;min-width:0;z-index:1}
+  .clip-title{
+    font-family:'Italiana',serif;
+    font-size:1.2rem;
+    letter-spacing:0.14em;
+    transition:all 0.4s;
+  }
+  .clip-meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;
+    color:var(--dim);
+    letter-spacing:0.1em;
+  }
+  .clip-meta em{color:var(--muted);font-style:normal}
+
+  /* duration / size column */
+  .clip-stats{
+    font-family:'VT323',monospace;
+    font-size:11px;
+    color:var(--phosphor-d);
+    text-shadow:0 0 4px rgba(92,220,128,0.5);
+    text-align:right;
+    line-height:1.4;
+    z-index:1;
+  }
+  .clip-stats small{display:block;color:var(--dim);text-shadow:none;font-size:9px;letter-spacing:0.15em}
+
+  .clip-arrow{
+    font-family:'VT323',monospace;
+    font-size:1.2rem;
+    color:var(--dim);
+    transition:all 0.4s;
+    z-index:1;
+  }
+
+  /* ════════════════════════════════════════════════════
+     WRITING PREVIEW — manuscript on tape
+     ════════════════════════════════════════════════════ */
+  .ms-frame{
+    margin-top:2.5rem;
+    padding:3rem 3rem 2.5rem;
+    border:1.5px solid var(--lavender);
+    position:relative;
+    background:var(--tape-deep);
+    box-shadow:6px 6px 0 var(--os-shadow), 6px 6px 0 1.5px rgba(196,160,212,0.5);
+  }
+  .ms-frame::before,
+  .ms-frame::after{
+    content:'';
+    position:absolute;
+    width:22px;height:22px;
+    border-color:var(--phosphor);
+    border-style:solid;
+    box-shadow:0 0 6px rgba(196,255,214,0.3);
+  }
+  .ms-frame::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+  .ms-frame::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+
+  .ms-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:1.8rem;
+    padding-bottom:1rem;
+    border-bottom:1px dashed rgba(196,160,212,0.15);
+    font-family:'VT323',monospace;
+    font-size:11px;
+    letter-spacing:0.18em;
+    color:var(--phosphor);
+    text-shadow:0 0 4px var(--phosphor);
+  }
+  .ms-bar span:nth-child(2){color:var(--hud-amber);text-shadow:0 0 4px var(--hud-amber)}
+
+  .ms-title{
+    font-family:'Cinzel',serif;
+    font-size:1.2rem;
+    letter-spacing:0.12em;
+    color:var(--lavender);
+    margin-bottom:1.2rem;
+    text-shadow:0 0 12px rgba(196,160,212,0.3);
+  }
+
+  .ms-text{
+    font-size:1rem;
+    line-height:1.95;
+    color:var(--muted);
+    font-style:italic;
+  }
+  .ms-text + .ms-text{margin-top:1.1rem}
+  .ms-text em{color:var(--rose);font-style:italic}
+
+  .ms-cta{
+    display:inline-block;
+    margin-top:1.8rem;
+    font-family:'Press Start 2P',monospace;
+    font-size:0.6rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--os-ink);
+    text-decoration:none;
+    border:1.5px solid var(--os-ink);
+    padding:0.7rem 1.1rem;
+    transition:all 0.05s;
+    background:var(--os-cream);
+    box-shadow:3px 3px 0 var(--os-shadow);
+    image-rendering:pixelated;
+  }
+  .ms-cta:hover{background:var(--lavender);color:var(--os-ink)}
+  .ms-cta:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--os-shadow)}
+
+  /* ════════════════════════════════════════════════════
+     INK GRID — tattoo cells
+     ════════════════════════════════════════════════════ */
+  .ink-grid{
+    margin-top:2.5rem;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:2px;
+    background:rgba(196,160,212,0.08);
+    border:1.5px solid var(--lavender);
+    box-shadow:5px 5px 0 var(--os-shadow), 5px 5px 0 1.5px rgba(196,160,212,0.45);
+  }
+  .ink-cell{
+    aspect-ratio:1;
+    background:var(--tape-deep);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .ink-cell svg{
+    width:62%;height:62%;
+    opacity:0.55;
+    transition:all 0.5s;
+    image-rendering:pixelated;
+    shape-rendering:crispEdges;
+  }
+  .ink-cell::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(0,0,0,0.18) 3px, transparent 4px);
+    pointer-events:none;
+  }
+  .ink-cell::before{
+    content:attr(data-tc);
+    position:absolute;
+    bottom:6px;left:8px;
+    font-family:'VT323',monospace;
+    font-size:9px;
+    color:var(--phosphor);
+    text-shadow:0 0 4px var(--phosphor);
+    letter-spacing:0.12em;
+    z-index:2;
+  }
+  .ink-cell:hover svg{opacity:0.95;transform:scale(1.06)}
+
+  .ink-cta{
+    text-align:center;
+    margin-top:2rem;
+  }
+
+  /* ════════════════════════════════════════════════════
+     END OF TAPE — footer
+     ════════════════════════════════════════════════════ */
+  footer{
+    text-align:center;
+    padding:6rem 2rem 5rem;
+    border-top:1px dashed rgba(196,160,212,0.08);
+    position:relative;
+  }
+  .end-static{
+    height:60px;
+    margin:0 auto 2rem;
+    max-width:380px;
+    background:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity:0.18;
+    border:1px solid rgba(196,255,214,0.15);
+    position:relative;
+  }
+  .end-static::after{
+    content:'— END OF TAPE —';
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-family:'VT323',monospace;
+    font-size:0.85rem;
+    letter-spacing:0.25em;
+    color:var(--phosphor);
+    text-shadow:0 0 6px var(--phosphor);
+    background:var(--tape-black);
+    padding:0 0.6rem;
+  }
+
+  .ornament{
+    display:block;
+    margin:0 auto 1.5rem;
+    width:220px;height:40px;
+    opacity:0.4;
+  }
+
+  .footer-name{
+    font-family:'Press Start 2P',monospace;
+    font-size:0.65rem;
+    letter-spacing:0.12em;
+    color:var(--lavender);
+    text-shadow:0 0 12px rgba(196,160,212,0.4);
+  }
+  .footer-sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem;
+    letter-spacing:0.22em;
+    color:rgba(138,122,142,0.5);
+    margin-top:0.6rem;
+  }
+  .footer-meta{
+    font-family:'VT323',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.18em;
+    color:var(--dim);
+    margin-top:1.5rem;
+  }
+
+  /* ════════════════════════════════════════════════════
+     SCROLL REVEAL
+     ════════════════════════════════════════════════════ */
+  .reveal{
+    opacity:0;
+    transform:translateY(30px);
+    transition:all 0.9s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* ════════════════════════════════════════════════════
+     RESPONSIVE
+     ════════════════════════════════════════════════════ */
+  @media (max-width:780px){
+    .clip{
+      grid-template-columns:auto 1fr auto;
+      gap:1rem;
+      padding:1.2rem 1.4rem;
+    }
+    .clip-tc{display:none}
+    .ink-grid{grid-template-columns:repeat(2,1fr)}
+    .ms-frame{padding:2rem 1.5rem}
+    section{padding:4rem 1.2rem}
+    .vf-corner{width:36px;height:36px}
+    .hud-tl,.hud-tr,.hud-bl,.hud-br{font-size:11px}
+    .hud-tc{font-size:14px}
+    /* compact OS chrome on mobile */
+    .os-bar.top{height:30px;padding:0 6px;font-size:7px}
+    .os-bar.bot{height:24px;padding:0 6px;font-size:6px}
+    .os-bar .os-chip{font-size:6px;height:16px;padding:0 5px}
+    .os-btn{width:14px;height:14px;font-size:6px}
+    .os-status-mid{display:none}
+    .os-exe{display:none}
+    body{padding-top:34px;padding-bottom:28px}
+    .hud-tl{top:calc(30px + 0.8rem);left:0.8rem}
+    .hud-tr{top:calc(30px + 0.8rem);right:0.8rem}
+    .hud-bl{bottom:calc(24px + 0.8rem);left:0.8rem}
+    .hud-br{bottom:calc(24px + 0.8rem);right:0.8rem}
+    .vf-corner.tl{top:calc(30px + 0.4rem)}
+    .vf-corner.tr{top:calc(30px + 0.4rem)}
+    .vf-corner.bl{bottom:calc(24px + 0.4rem)}
+    .vf-corner.br{bottom:calc(24px + 0.4rem)}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}
+    .crt-grain,.crt-tracking::before,.rec-dot,.vu span,.crt-boot{animation:none !important}
+    .crt-boot{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     PIXEL-OS TOP BAR — title chrome
+     ════════════════════════════════════════════ -->
+<div class="os-bar top">
+  <div class="os-logo">
+    <span class="glyph"></span>
+    <span class="os-exe"><b>MINXX_OS</b> · TAPE_PLAYER.EXE</span>
+  </div>
+  <div class="os-spacer" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="os-chip live">● REC</div>
+  <div class="os-chip" id="os-clock">22:10:48</div>
+  <div class="os-chip amber" id="os-date">TUE 07 APR 2026</div>
+  <div class="os-controls">
+    <button class="os-btn" data-action="minimize" title="minimize">_</button>
+    <button class="os-btn" data-action="maximize" title="maximize / fullscreen">□</button>
+    <button class="os-btn" data-action="close" title="eject tape">×</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     MINIMIZED TASKBAR (shown when minimized)
+     ════════════════════════════════════════════ -->
+<div class="taskbar" id="taskbar">
+  <div class="taskbar-screen">
+    PROGRAM MINIMIZED<br>
+    <span class="dim">tape paused at current position</span>
+  </div>
+  <button class="taskbar-pill" data-action="restore">
+    <span class="glyph"></span>
+    <span>MINXX_OS</span>
+    <span>·</span>
+    <span>TAPE_PLAYER.EXE</span>
+    <span class="blink"></span>
+  </button>
+  <div class="taskbar-screen" style="opacity:0.6;animation-delay:0.7s">
+    <span class="dim">click pill to resume</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     CLOSE CONFIRMATION MODAL
+     ════════════════════════════════════════════ -->
+<div class="pixel-modal" id="closeModal" role="dialog" aria-modal="true" aria-labelledby="closeModalTitle">
+  <div class="pixel-modal-window">
+    <div class="pixel-modal-header">
+      <div class="title" id="closeModalTitle">SYSTEM · EJECT TAPE?</div>
+      <button class="close-x" data-action="dismiss-modal" aria-label="cancel">×</button>
+    </div>
+    <div class="pixel-modal-body">
+      <div class="icon">!</div>
+      <p>EJECT TAPE_01.HI8 ?</p>
+      <p class="small">unsaved memories may be lost. recording will stop. tape will be powered off.</p>
+    </div>
+    <div class="pixel-modal-actions">
+      <button class="pm-btn" data-action="dismiss-modal">CANCEL</button>
+      <button class="pm-btn danger" data-action="confirm-close">EJECT ▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     EJECT TAPE — CRT SHUTDOWN SCREEN
+     ════════════════════════════════════════════ -->
+<div class="crt-eject" id="ejectScreen">
+  <div class="eject-stages">
+    <div class="line">▶ STOPPING RECORDING...</div>
+    <div class="line">● TAPE EJECTED</div>
+    <div class="line">○ POWERING DOWN HANDYCAM...</div>
+    <div class="line">·</div>
+    <div class="line">— SEE YOU IN THE NEXT TAPE —</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     CRT VIEWFINDER STACK
+     ════════════════════════════════════════════ -->
+<div class="crt-boot">
+  <div class="boot-line">MINXX_OS v1.0 — (C) GRACE INDUSTRIES 2026</div>
+  <div class="boot-line">MEMORY OK · 640K · 1024 EXT</div>
+  <div class="boot-line">DETECTING TAPE DRIVE........... [HI-8 OK]</div>
+  <div class="boot-line">LOADING TAPE_PLAYER.EXE........ [DONE]</div>
+  <div class="boot-line">MOUNTING TAPE_01.HI8 — MEMOIRS — 8.0 GB</div>
+  <div class="boot-line">PRESS ANY KEY TO PLAY...</div>
+  <div class="boot-line">▶ ROLLING ●</div>
+</div>
+<div class="crt-scanlines"></div>
+<div class="crt-vignette"></div>
+<div class="crt-chroma"></div>
+<div class="crt-grain"></div>
+<div class="crt-tracking"></div>
+
+<!-- corner brackets + center focus -->
+<div class="vf-corner tl"></div>
+<div class="vf-corner tr"></div>
+<div class="vf-corner bl"></div>
+<div class="vf-corner br"></div>
+<div class="vf-focus"><i></i><i></i><i></i><i></i></div>
+
+<!-- HUD overlays -->
+<div class="hud hud-tl">
+  <div class="hud-rec">
+    <div class="rec-dot"></div>
+    <span>● REC</span>
+  </div>
+  <div class="hud-tc" id="timecode">00:00:00:00 <small>SP</small></div>
+</div>
+
+<div class="hud hud-tr">
+  <div class="hud-batt">
+    <span>BATT</span>
+    <div class="batt-icon"><div class="batt-fill"></div></div>
+  </div>
+  <div class="hud-tape">TAPE 01 · MEMOIRS</div>
+  <div class="hud-mode">HI-8 · 4:3 · NTSC</div>
+</div>
+
+<div class="hud hud-bl">
+  <div class="hud-play">
+    <div class="play-tri"></div>
+    <span>PLAY</span>
+  </div>
+  <div class="vu" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+</div>
+
+<div class="hud hud-br">
+  <div>HANDYCAM</div>
+  <div class="small">CCD-TR81</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     STAGE
+     ════════════════════════════════════════════ -->
+<div class="stage">
+
+  <!-- ╔═══════════════════════════════════╗ -->
+  <!-- ║              HERO                 ║ -->
+  <!-- ╚═══════════════════════════════════╝ -->
+  <div class="hero">
+    <div class="hero-content">
+      <p class="hero-slate">SLATE · TAKE 01 · <span>● ROLLING</span></p>
+      <p class="hero-tag">a recorded archive</p>
+      <h1 class="hero-name">Phoebe Juanita</h1>
+      <p class="hero-sub">minxx</p>
+      <p class="hero-bio">
+        God's gypsy princess. Film grain memories, sacred ink, words that heal,
+        frequencies that move. This is the tape — pressed Play.
+      </p>
+      <div class="hero-divider"></div>
+    </div>
+    <div class="scroll-hint">
+      <span>▼ press play</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════╗ -->
+  <!-- ║         TITLE CARD QUOTE          ║ -->
+  <!-- ╚═══════════════════════════════════╝ -->
+  <div class="quote-section reveal">
+    <div class="title-card-frame">
+      <p class="quote-meta">▶ TITLE CARD · 00:00:48</p>
+      <div class="quote-mark">"</div>
+      <p class="quote-text">Ride with God or die and try again</p>
+      <p class="quote-attr">— minxx</p>
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════╗ -->
+  <!-- ║       TAPE I — WORLDS             ║ -->
+  <!-- ╚═══════════════════════════════════╝ -->
+  <section class="reveal">
+    <div class="tape-label"><span class="tag">TAPE I</span><span>· BODY OF WORK</span></div>
+    <h2 class="section-title">Worlds</h2>
+    <p class="section-desc">
+      Six clips. Each discipline a different doorway — film grain memories,
+      sacred ink, words that heal, frequencies that move.
+    </p>
+
+    <div class="clips">
+
+      <a class="clip" href="https://zyliaminx.my.canva.site/film" target="_blank" rel="noopener">
+        <div class="clip-tc">00:01:14<small>IN</small></div>
+        <div class="clip-thumb">
+          <img src="img/thumb_film.jpg" alt="Vintage film strip — travel photographs">
+          <div class="clip-rec"></div>
+        </div>
+        <div class="clip-info">
+          <span class="clip-title">Film &amp; Photography</span>
+          <span class="clip-meta">CLIP_01.MOV · <em>35mm — travel, life, people</em></span>
+        </div>
+        <div class="clip-stats">04:32<small>1.2 GB</small></div>
+        <span class="clip-arrow">▶</span>
+      </a>
+
+      <a class="clip" href="https://zyliaminx.my.canva.site/healing4princesswarrior?fbclid=PAQ0xDSwMExcBleHRuA2FlbQIxMQABp6ZcQ8dZu-_nupecEFtUBBslJXzZ19-ik6k2Okr4PpidsrXSG8Cdecx4JigC_aem_ec_Zoq3N8nfqUunXPVee8A" target="_blank" rel="noopener">
+        <div class="clip-tc">00:05:46<small>IN</small></div>
+        <div class="clip-thumb">
+          <img src="img/thumb_writing.jpg" alt="Unconventional Healing — warrior princess">
+          <div class="clip-rec"></div>
+        </div>
+        <div class="clip-info">
+          <span class="clip-title">Writing</span>
+          <span class="clip-meta">CLIP_02.TXT · <em>healing 4 the warrior princess</em></span>
+        </div>
+        <div class="clip-stats">12:18<small>846 KB</small></div>
+        <span class="clip-arrow">▶</span>
+      </a>
+
+      <a class="clip" href="https://zyliaminx.my.canva.site/videodiaries" target="_blank" rel="noopener">
+        <div class="clip-tc">00:18:04<small>IN</small></div>
+        <div class="clip-thumb">
+          <img src="img/thumb_video.jpg" alt="Video diary — bedroom mirror moment">
+          <div class="clip-rec"></div>
+        </div>
+        <div class="clip-info">
+          <span class="clip-title">Video Diaries</span>
+          <span class="clip-meta">CLIP_03.MP4 · <em>raw, unfiltered moving life</em></span>
+        </div>
+        <div class="clip-stats">08:47<small>2.4 GB</small></div>
+        <span class="clip-arrow">▶</span>
+      </a>
+
+      <a class="clip" href="https://soundcloud.com/zylla-minx" target="_blank" rel="noopener">
+        <div class="clip-tc">00:26:51<small>IN</small></div>
+        <div class="clip-thumb">
+          <img src="img/thumb_songs.jpg" alt="Live show — frequencies that move">
+          <div class="clip-rec"></div>
+        </div>
+        <div class="clip-info">
+          <span class="clip-title">Songs</span>
+          <span class="clip-meta">CLIP_04.WAV · <em>SoundCloud — Zylla Minx</em></span>
+        </div>
+        <div class="clip-stats">31:09<small>584 MB</small></div>
+        <span class="clip-arrow">▶</span>
+      </a>
+
+      <a class="clip" href="https://minxtatu.com" target="_blank" rel="noopener">
+        <div class="clip-tc">00:57:60<small>IN</small></div>
+        <div class="clip-thumb">
+          <img src="img/thumb_tattoo.jpg" alt="MINX tatu — gothic warrior flashbook">
+          <div class="clip-rec"></div>
+        </div>
+        <div class="clip-info">
+          <span class="clip-title">Tattoo Art</span>
+          <span class="clip-meta">CLIP_05.AI · <em>minxtatu — sacred, gothic, tribal</em></span>
+        </div>
+        <div class="clip-stats">∞<small>FOREVER</small></div>
+        <span class="clip-arrow">▶</span>
+      </a>
+
+      <a class="clip" href="https://www.instagram.com/babybenjjy/" target="_blank" rel="noopener">
+        <div class="clip-tc">01:12:33<small>IN</small></div>
+        <div class="clip-thumb">
+          <img src="img/thumb_ig.jpg" alt="Instagram profile — @babybenjjy">
+          <div class="clip-rec"></div>
+        </div>
+        <div class="clip-info">
+          <span class="clip-title">Instagram</span>
+          <span class="clip-meta">CLIP_06.LIVE · <em>@babybenjjy</em></span>
+        </div>
+        <div class="clip-stats">LIVE<small>STREAMING</small></div>
+        <span class="clip-arrow">▶</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ╔═══════════════════════════════════╗ -->
+  <!-- ║       TAPE II — WORDS             ║ -->
+  <!-- ╚═══════════════════════════════════╝ -->
+  <section class="reveal">
+    <div class="tape-label"><span class="tag">TAPE II</span><span>· WORDS</span></div>
+    <h2 class="section-title">Healing 4 The Warrior Princess</h2>
+    <p class="section-desc">
+      The dark and twisted truth of domestic violence — and how to alchemise it.
+    </p>
+
+    <div class="ms-frame">
+      <div class="ms-bar">
+        <span>▶ MANUSCRIPT.TXT</span>
+        <span>● UNCONVENTIONAL HEALING</span>
+        <span>04:31:16</span>
+      </div>
+
+      <p class="ms-title">Unconventional Healing</p>
+
+      <p class="ms-text">
+        Warriors, princesses, you crave a mission, you crave real. You see beings as they are.
+        You are curious, absorb then multiply. You need risk, and you know you need to put this
+        <em>ride or die</em> energy into yourself. Cos your life depends on it.
+      </p>
+
+      <p class="ms-text">
+        It's so gangsta to heal, trust yourself, to smile. Thank God for everything.
+        Thank God what I wanted was refused and declined.
+      </p>
+
+      <a class="ms-cta" href="https://zyliaminx.my.canva.site/healing4princesswarrior?fbclid=PAQ0xDSwMExcBleHRuA2FlbQIxMQABp6ZcQ8dZu-_nupecEFtUBBslJXzZ19-ik6k2Okr4PpidsrXSG8Cdecx4JigC_aem_ec_Zoq3N8nfqUunXPVee8A" target="_blank" rel="noopener">▶ READ FULL FILE</a>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════════════════════════╗ -->
+  <!-- ║       TAPE III — INK              ║ -->
+  <!-- ╚═══════════════════════════════════╝ -->
+  <section class="reveal">
+    <div class="tape-label"><span class="tag">TAPE III</span><span>· INK</span></div>
+    <h2 class="section-title">Minxtatu</h2>
+    <p class="section-desc">
+      Sacred geometry, tribal hearts, gothic angels — tattoo art designed for warriors.
+    </p>
+
+    <div class="ink-grid">
+      <!-- Cell 1: Tribal heart -->
+      <div class="ink-cell" data-tc="01:01:01">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 85 C25 65 5 50 5 30 C5 15 18 5 30 5 C38 5 45 10 50 18 C55 10 62 5 70 5 C82 5 95 15 95 30 C95 50 75 65 50 85Z" fill="none" stroke="#c4a0d4" stroke-width="1.5"/>
+          <line x1="50" y1="18" x2="50" y2="75" stroke="#3a2e3e" stroke-width="0.5"/>
+          <circle cx="50" cy="45" r="8" fill="none" stroke="#3a2e3e" stroke-width="0.5"/>
+        </svg>
+      </div>
+
+      <!-- Cell 2: Star tribal -->
+      <div class="ink-cell" data-tc="01:02:14">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="50,10 61,40 95,40 68,58 78,90 50,72 22,90 32,58 5,40 39,40" fill="none" stroke="#c4a0d4" stroke-width="1.2"/>
+          <circle cx="50" cy="50" r="15" fill="none" stroke="#3a2e3e" stroke-width="0.5" stroke-dasharray="3,2"/>
+          <circle cx="50" cy="50" r="28" fill="none" stroke="#3a2e3e" stroke-width="0.3"/>
+        </svg>
+      </div>
+
+      <!-- Cell 3: Wings + cross -->
+      <div class="ink-cell" data-tc="01:03:08">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 60 C40 50 20 35 10 40 C15 30 30 25 40 35 C35 25 25 15 15 18 C25 10 40 15 45 30 C42 20 38 8 30 5 C42 5 48 20 50 35" fill="none" stroke="#c4a0d4" stroke-width="1"/>
+          <path d="M50 60 C60 50 80 35 90 40 C85 30 70 25 60 35 C65 25 75 15 85 18 C75 10 60 15 55 30 C58 20 62 8 70 5 C58 5 52 20 50 35" fill="none" stroke="#c4a0d4" stroke-width="1"/>
+          <line x1="50" y1="50" x2="50" y2="92" stroke="#c4a0d4" stroke-width="1.2"/>
+          <line x1="42" y1="62" x2="58" y2="62" stroke="#c4a0d4" stroke-width="1.2"/>
+        </svg>
+      </div>
+
+      <!-- Cell 4: Serpent -->
+      <div class="ink-cell" data-tc="01:04:22">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M25 80 C25 60 35 50 50 50 C65 50 75 40 75 25 C75 15 68 10 60 10 C52 10 48 18 55 22" fill="none" stroke="#c4a0d4" stroke-width="1.2"/>
+          <circle cx="58" cy="14" r="2" fill="#c4a0d4" opacity="0.6"/>
+          <path d="M25 80 C30 85 35 82 32 77" fill="none" stroke="#c4a0d4" stroke-width="1"/>
+          <path d="M40 50 C42 45 48 42 50 50" fill="none" stroke="#3a2e3e" stroke-width="0.5" stroke-dasharray="2,2"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="ink-cta">
+      <a class="ms-cta" href="https://minxtatu.com" target="_blank" rel="noopener">▶ ENTER MINXTATU</a>
+    </div>
+  </section>
+
+  <!-- ╔═══════════════════════════════════╗ -->
+  <!-- ║         CLOSING TITLE CARD        ║ -->
+  <!-- ╚═══════════════════════════════════╝ -->
+  <div class="quote-section reveal">
+    <div class="title-card-frame">
+      <p class="quote-meta">▶ TITLE CARD · 01:18:42</p>
+      <div class="quote-mark">"</div>
+      <p class="quote-text">Beauty is one thing, but a pure heart — that is beautiful</p>
+      <p class="quote-attr">— Phoebe Juanita</p>
+    </div>
+  </div>
+
+  <!-- ╔═══════════════════════════════════╗ -->
+  <!-- ║              FOOTER               ║ -->
+  <!-- ╚═══════════════════════════════════╝ -->
+  <footer>
+    <div class="end-static"></div>
+    <svg class="ornament" viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 20 Q30 5 55 20 Q70 30 85 20 L135 20 Q150 10 165 20 Q190 35 220 20" fill="none" stroke="#3a2e3e" stroke-width="0.8"/>
+      <circle cx="110" cy="20" r="3" fill="none" stroke="#c4a0d4" stroke-width="0.8"/>
+      <circle cx="110" cy="20" r="1" fill="#c4a0d4"/>
+    </svg>
+    <p class="footer-name">PHOEBE JUANITA LILY</p>
+    <p class="footer-sub">zyllaminx · minxx · babybenjjy</p>
+    <p class="footer-meta">REC 04 · 07 · 2026 · ALL RIGHTS PROTECTED BY GRACE</p>
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════════
+     PIXEL-OS BOTTOM STATUS BAR
+     ════════════════════════════════════════════ -->
+<div class="os-bar bot">
+  <div class="os-status-left">
+    <span class="os-led"></span>
+    <span>READY</span>
+  </div>
+  <div class="os-status-mid">
+    <span>TAPE_01.HI8</span>
+    <span>·</span>
+    <span>SP MODE</span>
+    <span>·</span>
+    <span>1.2 GB / 8.0 GB</span>
+    <span>·</span>
+    <span>NTSC 4:3</span>
+  </div>
+  <div class="os-status-right">
+    <span class="os-led amber"></span>
+    <span>DRIVE</span>
+    <span class="os-chip">CAP</span>
+    <span class="os-chip">NUM</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCRIPT
+     ════════════════════════════════════════════ -->
+<script>
+// LIVE TIMECODE — looks like a real camcorder
+(function(){
+  const tc = document.getElementById('timecode');
+  if(!tc) return;
+  const start = Date.now();
+  function update(){
+    const elapsed = Math.floor((Date.now() - start) / 1000);
+    const h = String(Math.floor(elapsed / 3600)).padStart(2,'0');
+    const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2,'0');
+    const s = String(elapsed % 60).padStart(2,'0');
+    const f = String(Math.floor((Date.now() % 1000) / 33.33)).padStart(2,'0'); // 30fps frames
+    tc.innerHTML = `${h}:${m}:${s}:${f} <small>SP</small>`;
+  }
+  setInterval(update, 33);
+  update();
+})();
+
+// LIVE OS CLOCK + DATE chips (PixelTalk-style)
+(function(){
+  const clock = document.getElementById('os-clock');
+  const date  = document.getElementById('os-date');
+  if(!clock || !date) return;
+  const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  function tick(){
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    const ss = String(d.getSeconds()).padStart(2,'0');
+    clock.textContent = `${hh}:${mm}:${ss}`;
+    date.textContent = `${days[d.getDay()]} ${String(d.getDate()).padStart(2,'0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+  setInterval(tick, 1000);
+  tick();
+})();
+
+// SCROLL REVEAL
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+},{threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// STAGGER CLIPS ON REVEAL
+const clipsObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const items = e.target.querySelectorAll('.clip');
+      items.forEach((item, i)=>{
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(15px)';
+        item.style.transition = `all 0.6s ${i*0.09}s cubic-bezier(0.23,1,0.32,1)`;
+        requestAnimationFrame(()=>{
+          requestAnimationFrame(()=>{
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          });
+        });
+      });
+      clipsObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.clips').forEach(el=>clipsObs.observe(el));
+
+// OCCASIONAL VHS GLITCH — momentary chromatic kick
+(function(){
+  const stage = document.querySelector('.stage');
+  if(!stage) return;
+  function glitch(){
+    if(document.body.classList.contains('minimized') || document.body.classList.contains('ejecting')) {
+      setTimeout(glitch, 5000);
+      return;
+    }
+    stage.style.transition = 'transform 0.04s linear, filter 0.04s linear';
+    stage.style.transform = `translateX(${(Math.random()*4-2).toFixed(2)}px)`;
+    stage.style.filter = 'hue-rotate(8deg) contrast(1.05)';
+    setTimeout(()=>{
+      stage.style.transform = 'translateX(0)';
+      stage.style.filter = 'none';
+    }, 80);
+    setTimeout(glitch, 5000 + Math.random()*10000);
+  }
+  setTimeout(glitch, 6000);
+})();
+
+// ════════════════════════════════════════════
+// WINDOW CONTROLS — _ □ × wired
+// ════════════════════════════════════════════
+(function(){
+  const body = document.body;
+  const modal = document.getElementById('closeModal');
+  const ejectScreen = document.getElementById('ejectScreen');
+  const taskbar = document.getElementById('taskbar');
+
+  // helper — restore focus on key for a11y
+  function trapFocus(node){
+    if(!node) return;
+    const focusable = node.querySelectorAll('button,a,[tabindex]');
+    if(focusable.length) focusable[0].focus();
+  }
+
+  function minimize(){
+    if(body.classList.contains('minimized')) return;
+    body.classList.add('minimized');
+    // scroll to top so when restored we're predictable
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+
+  function restore(){
+    body.classList.remove('minimized');
+  }
+
+  let wasFullscreen = false;
+  async function maximize(){
+    try{
+      if(!document.fullscreenElement && document.documentElement.requestFullscreen){
+        await document.documentElement.requestFullscreen();
+        wasFullscreen = true;
+      } else if(document.exitFullscreen){
+        await document.exitFullscreen();
+        wasFullscreen = false;
+      }
+    }catch(e){
+      // fullscreen denied — fall back to a "maximize the viewfinder" visual cue
+      body.classList.toggle('faux-max');
+    }
+  }
+
+  function showCloseModal(){
+    modal.classList.add('show');
+    trapFocus(modal);
+  }
+  function hideCloseModal(){
+    modal.classList.remove('show');
+  }
+
+  function ejectTape(){
+    hideCloseModal();
+    body.classList.add('ejecting');
+    // after the CRT collapse + shutdown text plays, redirect to instagram (her real "next tape")
+    setTimeout(()=>{
+      // give the user a chance to see the message — then go to her IG
+      // (using assign so back button works)
+      window.location.href = 'https://www.instagram.com/babybenjjy/';
+    }, 4200);
+  }
+
+  // delegated click handler for any [data-action]
+  document.addEventListener('click', (e)=>{
+    const target = e.target.closest('[data-action]');
+    if(!target) return;
+    const action = target.getAttribute('data-action');
+    e.preventDefault();
+    switch(action){
+      case 'minimize': minimize(); break;
+      case 'maximize': maximize(); break;
+      case 'close':    showCloseModal(); break;
+      case 'restore':  restore(); break;
+      case 'dismiss-modal': hideCloseModal(); break;
+      case 'confirm-close': ejectTape(); break;
+    }
+  });
+
+  // ESC closes modal / restores from minimized
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      if(modal.classList.contains('show')){ hideCloseModal(); return; }
+      if(body.classList.contains('minimized')){ restore(); return; }
+    }
+    // any key restores from minimized (per the boot screen meme)
+    if(body.classList.contains('minimized') && e.key.length === 1){
+      restore();
+    }
+  });
+
+  // click anywhere outside modal to dismiss
+  modal.addEventListener('click', (e)=>{
+    if(e.target === modal) hideCloseModal();
+  });
+})();
+</script>
+
+</body>
+</html>
