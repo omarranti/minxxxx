@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unconventional Healing 4 the Warrior Princess — Phoebe Juanita</title>
+<meta name="description" content="An honest unconventional healing guide for the warrior princess. By Phoebe Juanita.">
+<meta property="og:title" content="Unconventional Healing 4 the Warrior Princess">
+<meta property="og:description" content="An honest unconventional healing guide for the warrior princess. By Phoebe Juanita.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+/* ════════════════════════════════════════════
+   PALETTE — pulled from the original Canva file
+   ════════════════════════════════════════════ */
+:root{
+  --paper:        #f1f4f0;     /* canva bg #f1f4f0 */
+  --paper-shadow: #e2e6dd;
+  --paper-edge:   #c8ccc1;
+  --ink:          #0a0a0a;
+  --ornament:     #181a16;
+  --rule:         #1a1c17;
+  --accent:       #c43a4a;     /* warrior red — for the heart, callout */
+  --rose:         #d4739a;     /* matches main site rose */
+  --lavender:     #c4a0d4;
+  --bg-stage:     #08080c;     /* matches main site tape-black */
+  --bg-stage-2:   #0d0a10;
+  --crt-cream:    #f0e6e8;
+  --hud-amber:    #ffb070;
+}
+
+/* ════════════════════════════════════════════
+   RESET + STAGE
+   ════════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  background:var(--bg-stage);
+  color:var(--crt-cream);
+  font-family:'Arimo','Helvetica Neue',Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  min-height:100vh;
+}
+body{
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(196,160,212,0.07), transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(212,115,154,0.05), transparent 60%),
+    var(--bg-stage);
+  padding:0;
+  overflow-x:hidden;
+}
+
+/* ════════════════════════════════════════════
+   READER CHROME — top bar
+   ════════════════════════════════════════════ */
+.chrome{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(8,8,12,0.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0.85rem 1.4rem;
+  font-family:'Press Start 2P','VT323',monospace;
+  font-size:9px;
+  letter-spacing:0.08em;
+}
+.chrome a{color:var(--rose);text-decoration:none}
+.chrome a:hover{color:var(--lavender)}
+.chrome .left{display:flex;align-items:center;gap:0.9rem}
+.chrome .right{display:flex;align-items:center;gap:0.9rem}
+.chrome .title{
+  font-family:'Cinzel',serif;
+  font-size:11px;
+  letter-spacing:0.18em;
+  color:var(--crt-cream);
+  text-transform:uppercase;
+}
+.chrome .author{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:13px;
+  letter-spacing:0.04em;
+  color:var(--lavender);
+  text-transform:none;
+}
+.chrome .pageind{
+  font-family:'Press Start 2P',monospace;
+  font-size:8px;
+  color:var(--hud-amber);
+  padding:0.35rem 0.55rem;
+  border:1px solid rgba(255,176,112,0.3);
+  border-radius:2px;
+  background:rgba(255,176,112,0.05);
+}
+.chrome button.btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.18);
+  color:var(--crt-cream);
+  font-family:'Press Start 2P',monospace;
+  font-size:8px;
+  padding:0.55rem 0.7rem;
+  cursor:pointer;
+  letter-spacing:0.06em;
+  border-radius:2px;
+  transition:all 0.15s ease;
+}
+.chrome button.btn:hover{
+  background:var(--rose);
+  color:var(--bg-stage);
+  border-color:var(--rose);
+}
+
+/* ════════════════════════════════════════════
+   BOOK STAGE — viewport for pages
+   ════════════════════════════════════════════ */
+.book{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3.5rem;
+  padding:3.2rem 1.2rem 6rem;
+  max-width:100vw;
+}
+
+/* a single page */
+.page{
+  position:relative;
+  width:min(95vw, 720px);
+  aspect-ratio: 1 / 1.414;       /* A4 portrait */
+  background:var(--paper);
+  color:var(--ink);
+  box-shadow:
+    0 2px 0 var(--paper-edge),
+    0 24px 60px -10px rgba(0,0,0,0.6),
+    0 8px 30px -8px rgba(196,160,212,0.15);
+  /* faint paper texture */
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(0,0,0,0.018) 0 1px, transparent 1px),
+    radial-gradient(circle at 78% 62%, rgba(0,0,0,0.014) 0 1px, transparent 1px),
+    radial-gradient(circle at 40% 88%, rgba(0,0,0,0.012) 0 1px, transparent 1px);
+  background-size:9px 9px, 13px 13px, 17px 17px;
+  scroll-margin-top:120px;
+  font-family:'Arimo',sans-serif;
+  break-inside:avoid;
+}
+
+/* the inner rule frame (just inside the ornaments) */
+.frame{
+  position:absolute;
+  inset: 6.5% 7%;
+  border:1px solid var(--rule);
+  padding: 7% 7%;
+  display:flex;
+  flex-direction:column;
+  gap:1.05em;
+  overflow:hidden;
+}
+
+/* the four corner ornaments */
+.corner{
+  position:absolute;
+  width:14%;
+  height:auto;
+  color:var(--ornament);
+  pointer-events:none;
+}
+.corner.tl{ top: 3.2%; left: 3.5%; }
+.corner.tr{ top: 3.2%; right: 3.5%; transform:scaleX(-1); }
+.corner.bl{ bottom: 3.2%; left: 3.5%; transform:scaleY(-1); }
+.corner.br{ bottom: 3.2%; right: 3.5%; transform:scale(-1,-1); }
+
+/* horizontal flourish top + bottom */
+.flourish{
+  position:absolute;
+  left: 22%;
+  right: 22%;
+  height: 3.5%;
+  color:var(--ornament);
+}
+.flourish.top{    top: 4.2%; }
+.flourish.bottom{ bottom: 4.2%; transform:scaleY(-1); }
+
+/* page number / running foot */
+.folio{
+  position:absolute;
+  bottom:1.6%;
+  left:0;right:0;
+  text-align:center;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:11px;
+  letter-spacing:0.12em;
+  color:var(--ornament);
+  opacity:0.85;
+}
+
+/* ════════════════════════════════════════════
+   BODY TYPOGRAPHY
+   ════════════════════════════════════════════ */
+.body{
+  font-family:'Arimo',sans-serif;
+  font-size: clamp(11px, 1.55vw, 14.5px);
+  line-height: 1.62;
+  text-align: justify;
+  color:var(--ink);
+  hyphens:auto;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:0.85em;
+}
+.body p{ margin:0 }
+.body em{ font-style:italic }
+.body strong{ font-weight:700 }
+.body .center{ text-align:center }
+.body .caps{ text-transform:uppercase; letter-spacing:0.02em; font-weight:500 }
+.body .rule-num{
+  font-weight:700;
+  letter-spacing:0.03em;
+}
+.body ul.bullets{
+  list-style:none;
+  padding-left:0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.4em 1.2em;
+  font-weight:500;
+}
+.body ul.bullets li::before{content:"— "}
+
+/* affirmation block — bold callout near foot */
+.affirm{
+  margin-top:auto;
+  padding:0.75em 0.9em 0.75em 1em;
+  font-weight:700;
+  font-size: clamp(11px, 1.55vw, 14px);
+  line-height:1.5;
+  border-left:3px solid var(--ink);
+  background:rgba(0,0,0,0.02);
+}
+
+/* ════════════════════════════════════════════
+   COVER PAGE
+   ════════════════════════════════════════════ */
+.page.cover .frame{
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:1.2em;
+  padding: 9% 8%;
+}
+.cover-eyebrow{
+  font-family:'Press Start 2P',monospace;
+  font-size:8px;
+  letter-spacing:0.18em;
+  color:var(--ornament);
+  text-transform:uppercase;
+}
+.cover-title{
+  font-family:'Cinzel',serif;
+  font-weight:700;
+  font-size: clamp(22px, 4.2vw, 38px);
+  line-height:1.05;
+  letter-spacing:0.02em;
+  color:var(--ink);
+  text-transform:uppercase;
+}
+.cover-amp{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:1.8em;
+  font-weight:400;
+  display:block;
+  text-transform:none;
+  color:var(--accent);
+  margin: 0.1em 0;
+}
+.cover-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size: clamp(13px, 1.7vw, 17px);
+  color:var(--ornament);
+  max-width:36ch;
+  line-height:1.45;
+}
+.cover-divider{
+  width:60%;
+  height:18px;
+  color:var(--ornament);
+  margin:0.4em 0;
+}
+.cover-author{
+  font-family:'Cinzel',serif;
+  font-size:13px;
+  letter-spacing:0.18em;
+  color:var(--ink);
+  text-transform:uppercase;
+}
+.cover-date{
+  font-family:'Press Start 2P',monospace;
+  font-size:8px;
+  letter-spacing:0.12em;
+  color:var(--ornament);
+}
+.cover-heart{
+  display:inline-block;
+  color:var(--accent);
+  font-size:1.4em;
+  vertical-align:middle;
+}
+
+/* ════════════════════════════════════════════
+   NAVIGATION FLOATING CONTROLS
+   ════════════════════════════════════════════ */
+.nav-fixed{
+  position:fixed;
+  bottom:1.6rem;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:90;
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  padding:0.55rem 0.65rem;
+  background:rgba(8,8,12,0.85);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:999px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.5);
+}
+.nav-fixed button{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.2);
+  color:var(--crt-cream);
+  width:34px;height:34px;
+  border-radius:50%;
+  cursor:pointer;
+  font-family:'Press Start 2P',monospace;
+  font-size:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.15s ease;
+}
+.nav-fixed button:hover{
+  background:var(--rose);
+  color:var(--bg-stage);
+  border-color:var(--rose);
+}
+.nav-fixed .pos{
+  font-family:'Press Start 2P',monospace;
+  font-size:9px;
+  color:var(--hud-amber);
+  padding:0 0.55rem;
+  letter-spacing:0.05em;
+  min-width:48px;
+  text-align:center;
+}
+
+/* ════════════════════════════════════════════
+   FOOTER LINK BACK
+   ════════════════════════════════════════════ */
+.tail{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.6rem;
+  padding: 1.5rem 1rem 4rem;
+  text-align:center;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:var(--lavender);
+  font-size:14px;
+  opacity:0.85;
+}
+.tail a{
+  color:var(--rose);
+  text-decoration:none;
+  border-bottom:1px dotted rgba(212,115,154,0.5);
+  font-family:'Press Start 2P',monospace;
+  font-size:8px;
+  font-style:normal;
+  letter-spacing:0.1em;
+  padding-bottom:1px;
+}
+.tail a:hover{ color:var(--lavender); border-bottom-color:var(--lavender) }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════ */
+@media (max-width: 600px){
+  .chrome{ padding:0.7rem 0.9rem; flex-wrap:wrap; gap:0.5rem }
+  .chrome .title{ font-size:9px }
+  .chrome .author{ font-size:11px }
+  .chrome .right{ width:100%; justify-content:space-between }
+  .book{ padding: 2rem 0.7rem 6rem; gap:2rem }
+  .page{ width: 100%; }
+  .frame{ inset: 6% 6%; padding: 8% 7% }
+  .corner{ width: 16% }
+  .body{ font-size: 12px; line-height:1.55 }
+  .affirm{ font-size: 12px }
+}
+
+/* ════════════════════════════════════════════
+   PRINT — clean A4 export
+   ════════════════════════════════════════════ */
+@media print{
+  body{ background:white }
+  .chrome,.nav-fixed,.tail{ display:none !important }
+  .book{ padding:0; gap:0 }
+  .page{
+    width: 100%;
+    height: 100vh;
+    box-shadow:none;
+    page-break-after:always;
+    break-after:page;
+    margin:0;
+  }
+  @page{ size: A4; margin:0 }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     SVG SYMBOLS — corner ornament + flourish
+     hand-drawn baroque scrollwork. one source,
+     mirrored to all four corners via CSS.
+     ════════════════════════════════════════════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+
+    <!-- corner: 100×100 viewbox, the ornament hugs the top-left -->
+    <symbol id="orn-corner" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <!-- main scroll arc -->
+        <path d="M4 4 C 4 26, 14 40, 30 44 M4 4 C 26 4, 40 14, 44 30"/>
+        <!-- inner companion arc -->
+        <path d="M9 9 C 9 24, 18 32, 30 36 M9 9 C 24 9, 32 18, 36 30"/>
+        <!-- swirl tendril off the elbow -->
+        <path d="M30 44 q 6 4 10 0 q 4 -4 -2 -8 q -6 -4 -8 2"/>
+        <path d="M44 30 q 4 6 0 10 q -4 4 -8 -2 q -4 -6 2 -8"/>
+        <!-- leafy buds along the inner curve -->
+        <path d="M16 16 q 4 -2 6 2 q 2 4 -2 5 q -4 1 -4 -7"/>
+        <path d="M22 22 q 5 -1 6 4 q 1 5 -4 5 q -5 0 -2 -9"/>
+        <!-- diagonal thread that runs into the frame -->
+        <path d="M44 44 q 12 -2 22 -1"/>
+        <path d="M44 44 q -2 12 -1 22"/>
+        <!-- tiny tail flourish reaching toward the rule -->
+        <path d="M66 43 q 6 0 8 4 q 2 4 -2 5"/>
+        <path d="M43 66 q 0 6 4 8 q 4 2 5 -2"/>
+      </g>
+      <!-- decorative dots / berries -->
+      <g fill="currentColor">
+        <circle cx="30" cy="30" r="1.6"/>
+        <circle cx="44" cy="20" r="1.2"/>
+        <circle cx="20" cy="44" r="1.2"/>
+        <circle cx="13" cy="13" r="1.4"/>
+        <circle cx="68" cy="48" r="1.1"/>
+        <circle cx="48" cy="68" r="1.1"/>
+      </g>
+    </symbol>
+
+    <!-- horizontal flourish: 200×20 viewbox, mirrored on top + bottom -->
+    <symbol id="orn-flourish" viewBox="0 0 200 20" preserveAspectRatio="xMidYMid meet">
+      <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+        <path d="M14 10 q 22 -8 44 0 q 22 8 42 0 q 22 -8 44 0 q 22 8 42 0"/>
+        <path d="M58 10 q 4 -6 10 -2"/>
+        <path d="M132 10 q 6 -6 12 -2"/>
+      </g>
+      <g fill="currentColor">
+        <circle cx="100" cy="10" r="2"/>
+        <circle cx="58"  cy="10" r="1.4"/>
+        <circle cx="142" cy="10" r="1.4"/>
+        <circle cx="14"  cy="10" r="1.2"/>
+        <circle cx="186" cy="10" r="1.2"/>
+      </g>
+    </symbol>
+
+    <!-- cover divider — bigger flourish for the cover page -->
+    <symbol id="orn-divider" viewBox="0 0 240 18" preserveAspectRatio="xMidYMid meet">
+      <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+        <path d="M10 9 q 30 -10 60 0 q 30 10 60 0 q 30 -10 60 0 q 20 6 40 0"/>
+        <path d="M64 9 q 6 -8 12 -3"/>
+        <path d="M164 9 q -6 -8 -12 -3"/>
+      </g>
+      <g fill="currentColor">
+        <path d="M120 4 l 3 5 -3 5 -3 -5 z"/>
+        <circle cx="64"  cy="9" r="1.4"/>
+        <circle cx="164" cy="9" r="1.4"/>
+        <circle cx="20"  cy="9" r="1.2"/>
+        <circle cx="220" cy="9" r="1.2"/>
+      </g>
+    </symbol>
+
+  </defs>
+</svg>
+
+<!-- ════════════════════════════════════════════
+     READER CHROME
+     ════════════════════════════════════════════ -->
+<header class="chrome">
+  <div class="left">
+    <a href="../index.html" aria-label="Back to MINXX_OS">◀ MINXX_OS</a>
+    <span class="title">UNCONVENTIONAL HEALING</span>
+    <span class="author">— by Phoebe Juanita</span>
+  </div>
+  <div class="right">
+    <span class="pageind" id="pageind">PAGE 01 / 12</span>
+    <button class="btn" id="printBtn" type="button">PRINT / PDF</button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════
+     THE BOOK
+     ════════════════════════════════════════════ -->
+<main class="book" id="book">
+
+  <!-- ─── COVER ─── -->
+  <article class="page cover" data-page="0" id="page-0">
+    <svg class="corner tl"><use href="#orn-corner"/></svg>
+    <svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg>
+    <svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="cover-eyebrow">A FIELD GUIDE FOR THE</div>
+      <h1 class="cover-title">
+        Unconventional<br>
+        Healing<br>
+        <span class="cover-amp">4 the</span>
+        Warrior<br>Princess
+      </h1>
+      <svg class="cover-divider" preserveAspectRatio="xMidYMid meet"><use href="#orn-divider"/></svg>
+      <p class="cover-sub">
+        an honest field journal —<br>
+        for slightly crazy girls who crave the real,
+        the wild, and a way back to themselves.
+      </p>
+      <svg class="cover-divider" preserveAspectRatio="xMidYMid meet"><use href="#orn-divider"/></svg>
+      <div class="cover-author">PHOEBE JUANITA</div>
+      <div class="cover-date">VOL. 01 &nbsp;·&nbsp; <span class="cover-heart">♥</span> &nbsp;·&nbsp; PRESS_PLAY</div>
+    </div>
+
+    <div class="folio">— cover —</div>
+  </article>
+
+  <!-- ─── PAGE 1 — Rules / Intro ─── -->
+  <article class="page" data-page="1">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p>Imma go thru my experience honestly and how I've moved through it (sparing any private, maybe illegal juicy details,, sowrryyyy)</p>
+
+        <p><span class="rule-num">RULE 1:</span> If your currently in one &amp; want help i have another document 4 u</p>
+
+        <p><span class="rule-num">RULE 2:</span> <span class="caps">Yes, i will be deep diving into the</span> <em>twisted</em> <span class="caps">positives of being in an abusive relationship.</span></p>
+
+        <p><em>This is unconventional, if it triggers you, stay, there are conclusions to the insanity.</em></p>
+
+        <p><strong>BUT If u need a more gentle approach maybe do not read this. this is for my slightly crazy girls,</strong> it's how my brain works, it's worked for me so far. And yes this is vulnerable in my own weird way- so be gentle. It is not to be heard but felt by who needs it.</p>
+
+        <p><span class="rule-num">RULE 3:</span> <span class="caps">Never judge a bitch whos going thru it. ony if you know, you know.</span></p>
+      </div>
+    </div>
+    <div class="folio">— i —</div>
+  </article>
+
+  <!-- ─── PAGE 2 ─── -->
+  <article class="page" data-page="2">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p><span class="caps">Once</span> he realises he might lose you, he <span class="caps">gets the most violent.</span> We know this, so you cant rush a girl out. She needs to be smart.</p>
+
+        <ul class="bullets">
+          <li>DRUG ADDICCTION</li>
+          <li>MENTAL ILLNESS</li>
+          <li>A BAD CHILDHOOD / FAMILY</li>
+          <li>DISABILITY</li>
+          <li>SUICIDAL THOUGHTS</li>
+        </ul>
+
+        <p>= <strong>NO excuse to hurt you.</strong> No way you ever act, what you did, said, deserves any physical response.</p>
+
+        <p>A real man will never do that, knowing how much stronger he is, he wants to protect you from men like that. with his life. thats his idea of hell that happening to you.</p>
+
+        <p>Warriors, princesses, you crave a mission, you crave real. You see beings as they are. You are curious, absorb then multiply. You need risk, and you know you need to put this ride or die energy into yourself. Cos your life depends on it.</p>
+      </div>
+    </div>
+    <div class="folio">— ii —</div>
+  </article>
+
+  <!-- ─── PAGE 3 ─── -->
+  <article class="page" data-page="3">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p><strong>So, HOW does an abusive relationship feel?</strong> The dark, <em>'he hit me and it felt like a kiss'</em> psysop.</p>
+
+        <p>Abusers take us away from the illusion of a normal life. U two may seem normal, but what u experience day to day is not. A new reality is warped, and that — minus all the negatives, is so reliving you would pay good money to experience it. <em>The escape due to a trauma bond is a sober way to be on drugs.</em></p>
+
+        <p>Once you get to know this man, sometimes he feels so weak. Childlike. He is also at risk. He is tired from masking and changing personalities to charm &amp; hide. He doesn't seem to have any control over his actions. Many have problems with authority &amp; are already doing other illegal things, at risk of ending up in a cell, or struggling with his outbursts &amp; drama that follows. He'll need you to protect him. you'll probably become his mother, a teacher, a true friend at many times during this. It's an extremely strange bond.</p>
+
+        <p>The verbal abuse makes u feel strong mentally. Breaks you down, breaks you open, you start to question everything.</p>
+      </div>
+    </div>
+    <div class="folio">— iii —</div>
+  </article>
+
+  <!-- ─── PAGE 4 ─── -->
+  <article class="page" data-page="4">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p>You start to trust him, he tells you things no one else would ever say. Now, no one else can hurt you. It feels like he actually does so much shadow work for you, it's so enlightening, you thank him for showing you how you need to grow.</p>
+
+        <p><em>Physical abuse, with enough manipulation, feels like tough love but mostly punishment.</em> u can feel it changing ur body chemistry, feel fear &amp; emotions u never felt before. The adrenaline and then the calm that comes after bonds you like animals. This is an evil way to get to our hearts because truly we:</p>
+
+        <p class="caps center"><strong>Want to be re-wilded. We want to be wild. Wildness feels natural to us. We miss the animals we used to be.</strong></p>
+
+        <p class="caps center"><strong>We miss our power, we hate fakeness, we need a new path. And we can achieve all of ths in. fucking healthy way.</strong> without this loser.</p>
+
+        <p>In this relationship, U feel invincible but then ur body starts to show signs of hurt. ur brain hurts and u 'need' him. he becomes ur parent and ur god…</p>
+      </div>
+    </div>
+    <div class="folio">— iv —</div>
+  </article>
+
+  <!-- ─── PAGE 5 — the page from the screen recording ─── -->
+  <article class="page" data-page="5">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p>and u become a shell of yourself. he's insanely good at repairing the damage, cos this was prolly all <em>part of the plan</em> &lt;33</p>
+
+        <p>I think girls who get into these situations are usually such curious, sensitive people, open to intense energy. we crave a fight. Not a physical one. But a mission, for our lives to have purpose. We aren't perfect, no one is. But we crave meaning. Freedom, adrenaline.</p>
+
+        <p>We have to learn to redirect this risk, romance, obsession, to something new, healthy, Healthy ish. Us girls want danger because we ourselves are powerful beings who are really just complicated and starved of real emotion. And the way you do this will be extremely tailored to you. you must be patient. You must allow the process.</p>
+      </div>
+
+      <div class="affirm">
+        You must be brave, have faith in a new future, and be so delusional about it working out. even if u wanna die rn, you need this vision for future you to keep u going. u might not understand it yet. even if its just a feeling, hold on tight to that.
+      </div>
+    </div>
+    <div class="folio">— v —</div>
+  </article>
+
+  <!-- ─── PAGE 6 ─── -->
+  <article class="page" data-page="6">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p><strong>Where u will end up if you stay, or go back.</strong></p>
+
+        <p><em>A genuine warning, because everyone tells you and you don't listen,</em> It is irritating to hear. It becomes repetitive but u also have cognitive dissonance. You know u are not safe but YOU are <em>alchemising and transforming</em>…</p>
+
+        <p>Sometimes u just need to find out for yourself, reach your new low, high, come to your own conclusion. You decide. Ur beyond ready to give yourself ONE chance. instead of him his 20th. If you don't you might end up dead or dead inside. He won't ever change, in fact it will, and it aways, gets worse. It's not romantic.</p>
+
+        <p>Okayyy? YES &lt;3 so</p>
+
+        <p>Separate ur feelings, chemistry, your idea of reality and look at this for what it is. ur under a spell that feels like love and truth, but right now is hurting you.</p>
+      </div>
+    </div>
+    <div class="folio">— vi —</div>
+  </article>
+
+  <!-- ─── PAGE 7 ─── -->
+  <article class="page" data-page="7">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p><strong><em>*im in pain but this is my soul mate, if we get separated I am nothing*</em></strong>… a clear indication you have been successfully manipulated and ur being used.</p>
+
+        <p><em>Because you've repressed ur intuition, all reasoning, you cannot trust yourself right now.</em> THE MIND FUCK IS UNREAL. let's acknowledge that. THIS PART IS HARD, the next is worse, but it's all part processing.</p>
+
+        <p>Once it's over, <span class="caps">u do not know who u are anymore. the depersonalisation, dissociation, the death of your old self, reality warping back to 'normal'.</span> The days after r so scarily quiet, so wrong, u trust no one. I missed the chaos, sympathy felt dirty, I held onto memories, videos, pics of the injuries. But I hated the word victim so much. I felt like I was equally as bad, just not illegally.</p>
+
+        <p><em>I wanted to keep this energy of evil and excitement forever.</em> Worried that if it would fade, my spark would go out, the connection would mean nothing, no one seeing what I went through, how strong I was, how boring and slow healing felt.</p>
+      </div>
+    </div>
+    <div class="folio">— vii —</div>
+  </article>
+
+  <!-- ─── PAGE 8 ─── -->
+  <article class="page" data-page="8">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p>You'll have a period of mixed feelings, serious loneliness, feeling like it was your fault, you could have saved him, feeling like an evil monster. accepting you aren't a good person. But Girl rn you are essentially going through a withdrawal that is chemically stronger than one off drugs, your nervous system is resetting and your mind has yet to catch up. <em>this healing I call 'glitching'</em></p>
+
+        <p class="caps center"><strong>OK. NOW?</strong></p>
+
+        <p>All your pain is yours and yours to hold. What if this happened, not just to you, but <strong>for</strong> <em>you</em>. Now you get to take full accountability. <strong>FULL RESPONSIBILITY.</strong> How relieving. No one else is involved.</p>
+
+        <p>Become BEST friends with the you that romanisiced, accepted, believed, it was ok and normal for you to be hit, spoken down to, controlled. There is no part of you that is to be resisted. These questions seem backwards cos ppl want to baby &amp; console u, im giving victim blaming vibes, idc, we have to be real, for me it's the only way to heal.</p>
+
+        <p><em>Take a pen if you want or just answer aloud intuitively;</em></p>
+      </div>
+    </div>
+    <div class="folio">— viii —</div>
+  </article>
+
+  <!-- ─── PAGE 9 — the prompts ─── -->
+  <article class="page" data-page="9">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p>Why you were drawn to this person, why they were so expressive and fascinating to you, so beautiful? Why did the darkness draw you in? Why you didn't want to leave when they became violent? Why were you not disinterested when they started to insult you? When they slowly changed?</p>
+
+        <p><em>Stay curious. Be honest.</em></p>
+
+        <p>What part of you was the vampire of the energy exchange? What were u learning from him? Getting from him? Feeling through him?</p>
+
+        <p>What were you trying to save? What could you see in him that he was trying to destroy? How did you relate to him? How did you feel when you could help him? Did it make you feel like a good person? Did sacrificing yourself feel good? Righteous? Did you get to see another side to yourself? When you would start to shout back, when you started to react and experience these crazy feelings? The energy it gave you or took away from you?</p>
+      </div>
+    </div>
+    <div class="folio">— ix —</div>
+  </article>
+
+  <!-- ─── PAGE 10 ─── -->
+  <article class="page" data-page="10">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p>If we can figure this all out, ALONE, with each other. We are fucking winning. <span class="caps">we feel rejected anyways… time to create a new path.</span></p>
+
+        <p>I want you to take ur <strong>power</strong> <em>back</em>. To be really real with you, that man wasn't special. He wasn't different. A million men could Abuse you, manipulate you, hurt you &amp; make u feel special and loved at the same time. <strong>Hurt people hurt people.</strong> The pattern will keep doing its thing…..</p>
+
+        <p>You have to break yourself open and see the flames, redirect the fire into your own health, ur dreams. Reparent yourself, forgive yourself. The past already is gone. You might have to kill your old self. It might take drastic changes, probably will. The ripples of the abuse will always be there, you have to ride the waves.</p>
+
+        <p><em>It's so gansta to heal, trust yourself, to smile.</em> I always wanted to prove my pain but what a cool thing that they can't tell. I Thank God for everything Ive been through. Thank God what I wanted was refused and declined, that relationship was all I wanted at the time, and for my safety he was actually put away.</p>
+      </div>
+    </div>
+    <div class="folio">— x —</div>
+  </article>
+
+  <!-- ─── PAGE 11 — closing ─── -->
+  <article class="page" data-page="11">
+    <svg class="corner tl"><use href="#orn-corner"/></svg><svg class="corner tr"><use href="#orn-corner"/></svg>
+    <svg class="corner bl"><use href="#orn-corner"/></svg><svg class="corner br"><use href="#orn-corner"/></svg>
+    <svg class="flourish top"    preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+    <svg class="flourish bottom" preserveAspectRatio="none"><use href="#orn-flourish"/></svg>
+
+    <div class="frame">
+      <div class="body">
+        <p>I Kept momentum of the chaos, just channeled in slightly more healthy ways each time. It all feels pointless, till you take more risks, redirect that energy, you've hit rock bottom now you need to do something whist you have nothing to lose.</p>
+
+        <p>I needed adventure. I needed to heal my faith in humanity, I needed to feel safe in my body, home on this planet. But in a new way, one I never experienced before. I still felt lonely, but I filled in the dark, shadow spaces of myself with curiosity, and new perceptions. I was curious, unaware of my on shadow, and him violently expressing his made me open to the world and myself more. I still give him too much credit, I think in this big playground of free will, these very realizations would have come from elsewhere. But that was my path.</p>
+
+        <p>I'll just say we need to see how precious and short life is, we don't need to keep our enemies <strong>THAT</strong> close.</p>
+
+        <p class="center"><em>Stay bad, stay safe, I am praying for youuu</em> <span style="color:var(--accent)">♥</span> <em>xoxo (gossip girl)</em></p>
+      </div>
+
+      <div class="affirm" style="text-align:center;border-left:none;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);font-family:'Cinzel',serif;letter-spacing:0.18em;text-transform:uppercase;font-size:13px;background:transparent">
+        Phoebe Juanita
+      </div>
+    </div>
+    <div class="folio">— xi —</div>
+  </article>
+
+</main>
+
+<!-- ════════════════════════════════════════════
+     FLOATING NAV
+     ════════════════════════════════════════════ -->
+<nav class="nav-fixed" aria-label="Page navigation">
+  <button id="prevBtn" type="button" aria-label="Previous page">‹</button>
+  <span class="pos" id="navPos">01 / 12</span>
+  <button id="nextBtn" type="button" aria-label="Next page">›</button>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     TAIL — link back to main site
+     ════════════════════════════════════════════ -->
+<footer class="tail">
+  <p>End of file. Stay bad, stay safe.</p>
+  <a href="../index.html">◀ RETURN TO MINXX_OS</a>
+</footer>
+
+<script>
+  // ──────────────────────────────────────────
+  // page tracking via IntersectionObserver
+  // ──────────────────────────────────────────
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const total = pages.length;
+  const navPos = document.getElementById('navPos');
+  const pageInd = document.getElementById('pageind');
+  let current = 0;
+
+  function setCurrent(i){
+    current = Math.max(0, Math.min(total-1, i));
+    const human = String(current+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+    navPos.textContent = human;
+    pageInd.textContent = 'PAGE ' + human;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    let best = null;
+    for(const e of entries){
+      if(e.isIntersecting){
+        if(!best || e.intersectionRatio > best.intersectionRatio) best = e;
+      }
+    }
+    if(best){
+      const idx = pages.indexOf(best.target);
+      if(idx !== -1) setCurrent(idx);
+    }
+  }, { threshold: [0.35, 0.6, 0.85] });
+  pages.forEach(p => io.observe(p));
+
+  // ──────────────────────────────────────────
+  // navigation
+  // ──────────────────────────────────────────
+  function goto(i){
+    const target = pages[Math.max(0, Math.min(total-1, i))];
+    if(target) target.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  document.getElementById('prevBtn').addEventListener('click', ()=> goto(current-1));
+  document.getElementById('nextBtn').addEventListener('click', ()=> goto(current+1));
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){ e.preventDefault(); goto(current+1) }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); goto(current-1) }
+    else if(e.key === 'Home'){ e.preventDefault(); goto(0) }
+    else if(e.key === 'End'){ e.preventDefault(); goto(total-1) }
+  });
+
+  // ──────────────────────────────────────────
+  // print
+  // ──────────────────────────────────────────
+  document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+
+  // ──────────────────────────────────────────
+  // initial
+  // ──────────────────────────────────────────
+  setCurrent(0);
+</script>
+
+</body>
+</html>
