@@ -8,8 +8,61 @@
 <style>
   *,*::before,*::after{
     margin:0;padding:0;box-sizing:border-box;
-    /* PIXEL CURSOR — pulled from PixelTalk */
+  }
+  /* PIXEL CURSOR — pulled from PixelTalk. Scoped to body so user
+     system cursor preferences (large/inverted/high-contrast) still
+     apply on interactive elements + assistive overlays. */
+  body{
     cursor:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='16' viewBox='0 0 10 16'%3E%3Cimage width='10' height='16' image-rendering='pixelated' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAQCAYAAAAvf+5AAAAAZUlEQVQoU6XSSw4AIQgDUHr/Q2NK1CC/WYwbjb6gKUJVVUQEADh3A4Q09BO+kJUm/MAJJ9jhEla4hRGP0ONPePHJMQa9+2DbzLfK0Q5jpqkz/gaPrb/70K9T1fIjVFX/wfMc//0Wi1Z4DezMbAwAAAAASUVORK5CYII=' xmlns:xlink='http://www.w3.org/1999/xlink'/%3E%3C/svg%3E"),auto;
+  }
+  a,button,[role="button"],input,select,textarea,label,.clip,.os-btn,.ms-cta,.pm-btn{cursor:pointer}
+  input[type="text"],input[type="email"],textarea{cursor:text}
+
+  /* ════════════════════════════════════════════════════
+     A11Y — skip link, focus rings, reduced motion, hit-area
+     ════════════════════════════════════════════════════ */
+  .skip-link{
+    position:fixed;
+    top:-100px;
+    left:8px;
+    z-index:99999;
+    background:var(--phosphor);
+    color:var(--tape-black);
+    font-family:'Press Start 2P',monospace;
+    font-size:10px;
+    padding:10px 14px;
+    border:2px solid var(--tape-black);
+    box-shadow:3px 3px 0 var(--os-shadow);
+    text-decoration:none;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    transition:top 0.15s ease-out;
+  }
+  .skip-link:focus{top:8px}
+  .skip-link:focus-visible{outline:2px solid var(--tape-black);outline-offset:2px}
+
+
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  .clip:focus-visible,
+  .os-btn:focus-visible,
+  .ms-cta:focus-visible,
+  .pm-btn:focus-visible{
+    outline:2px solid var(--phosphor);
+    outline-offset:3px;
+    box-shadow:0 0 12px rgba(196,255,214,0.55);
+    border-radius:1px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:0.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:0.01ms !important;
+      scroll-behavior:auto !important;
+    }
+    body{cursor:auto !important}
+    a,button,[role="button"],input,select,textarea,label,.clip,.os-btn,.ms-cta,.pm-btn{cursor:pointer !important}
   }
 
   :root{
@@ -135,7 +188,7 @@
     margin-left:0.6rem;
   }
   .os-btn{
-    width:20px;height:20px;
+    width:24px;height:24px;
     border:1.5px solid var(--os-ink);
     background:var(--os-cream);
     box-shadow:1.5px 1.5px 0 var(--os-shadow);
@@ -143,13 +196,26 @@
     align-items:center;
     justify-content:center;
     font-family:'Press Start 2P',monospace;
-    font-size:9px;
+    font-size:10px;
     color:var(--os-ink);
     text-decoration:none;
     line-height:1;
     padding:0;
     transition:transform 0.05s, background 0.05s;
     pointer-events:auto;
+    position:relative;
+  }
+  /* invisible 44×44 hit-area for touch (WCAG 2.5.5) */
+  .os-btn::before{
+    content:"";
+    position:absolute;
+    inset:-10px;
+    min-width:44px;
+    min-height:44px;
+    /* keep centered when inset is asymmetric due to small button */
+    left:50%;top:50%;
+    width:44px;height:44px;
+    transform:translate(-50%,-50%);
   }
   .os-btn:hover{background:var(--lavender)}
   .os-btn:active{transform:translate(1.5px,1.5px);box-shadow:0 0 0 var(--os-shadow)}
@@ -391,9 +457,10 @@
     padding:0 1.4rem 1.4rem;
   }
   .pm-btn{
+    position:relative;
     font-family:'Press Start 2P',monospace;
     font-size:8px;
-    padding:0.7rem 1rem;
+    padding:14px 18px;
     border:1.5px solid var(--os-ink);
     background:var(--os-cream);
     color:var(--os-ink);
@@ -402,6 +469,15 @@
     letter-spacing:0.08em;
     text-decoration:none;
     transition:all 0.05s;
+  }
+  /* invisible 44×44 minimum hit-area (WCAG 2.5.5) */
+  .pm-btn::before{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:max(100%,44px);
+    height:max(100%,44px);
+    transform:translate(-50%,-50%);
   }
   .pm-btn:hover{background:var(--lavender)}
   .pm-btn.danger:hover{background:var(--rec-red);color:var(--os-cream)}
@@ -1038,7 +1114,7 @@
     font-size:0.7rem;
     letter-spacing:0.3em;
     text-transform:uppercase;
-    color:var(--dim);
+    color:var(--muted);
   }
 
   /* ════════════════════════════════════════════════════
@@ -1149,10 +1225,10 @@
   .clip-meta{
     font-family:'IBM Plex Mono',monospace;
     font-size:0.7rem;
-    color:var(--dim);
+    color:var(--muted);
     letter-spacing:0.1em;
   }
-  .clip-meta em{color:var(--muted);font-style:normal}
+  .clip-meta em{color:var(--lavender);font-style:normal;opacity:0.85}
 
   /* duration / size column */
   .clip-stats{
@@ -1231,7 +1307,9 @@
   .ms-text em{color:var(--rose);font-style:italic}
 
   .ms-cta{
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    min-height:44px;
     margin-top:1.8rem;
     font-family:'Press Start 2P',monospace;
     font-size:0.6rem;
@@ -1240,7 +1318,7 @@
     color:var(--os-ink);
     text-decoration:none;
     border:1.5px solid var(--os-ink);
-    padding:0.7rem 1.1rem;
+    padding:0.85rem 1.2rem;
     transition:all 0.05s;
     background:var(--os-cream);
     box-shadow:3px 3px 0 var(--os-shadow);
@@ -1359,7 +1437,7 @@
     font-family:'VT323',monospace;
     font-size:0.7rem;
     letter-spacing:0.18em;
-    color:var(--dim);
+    color:var(--muted);
     margin-top:1.5rem;
   }
 
@@ -1393,7 +1471,7 @@
     .os-bar.top{height:30px;padding:0 6px;font-size:7px}
     .os-bar.bot{height:24px;padding:0 6px;font-size:6px}
     .os-bar .os-chip{font-size:6px;height:16px;padding:0 5px}
-    .os-btn{width:14px;height:14px;font-size:6px}
+    .os-btn{width:18px;height:18px;font-size:7px}
     .os-status-mid{display:none}
     .os-exe{display:none}
     body{padding-top:34px;padding-bottom:28px}
@@ -1416,24 +1494,27 @@
 </head>
 <body>
 
+<!-- skip link for keyboard / screen-reader users -->
+<a href="#main" class="skip-link">Skip to main content</a>
+
 <!-- ════════════════════════════════════════════
      PIXEL-OS TOP BAR — title chrome
      ════════════════════════════════════════════ -->
-<div class="os-bar top">
+<header class="os-bar top" role="banner">
   <div class="os-logo">
     <span class="glyph"></span>
     <span class="os-exe"><b>PHOEBE_OS</b> · TAPE_PLAYER.EXE</span>
   </div>
   <div class="os-spacer" aria-hidden="true"><i></i><i></i><i></i></div>
-  <div class="os-chip live">● REC</div>
-  <div class="os-chip" id="os-clock">22:10:48</div>
+  <div class="os-chip live" aria-label="Recording status">● REC</div>
+  <div class="os-chip" id="os-clock" aria-live="off">22:10:48</div>
   <div class="os-chip amber" id="os-date">TUE 07 APR 2026</div>
-  <div class="os-controls">
-    <button class="os-btn" data-action="minimize" title="minimize">_</button>
-    <button class="os-btn" data-action="maximize" title="maximize / fullscreen">□</button>
-    <button class="os-btn" data-action="close" title="eject tape">×</button>
+  <div class="os-controls" role="group" aria-label="Window controls">
+    <button class="os-btn" data-action="minimize" title="minimize" aria-label="Minimize window">_</button>
+    <button class="os-btn" data-action="maximize" title="maximize / fullscreen" aria-label="Maximize / fullscreen">□</button>
+    <button class="os-btn" data-action="close" title="eject tape" aria-label="Eject tape and exit">×</button>
   </div>
-</div>
+</header>
 
 <!-- ════════════════════════════════════════════
      MINIMIZED TASKBAR (shown when minimized)
@@ -1549,9 +1630,9 @@
 </div>
 
 <!-- ════════════════════════════════════════════
-     STAGE
+     STAGE — main landmark
      ════════════════════════════════════════════ -->
-<div class="stage">
+<main class="stage" id="main">
 
   <!-- ╔═══════════════════════════════════╗ -->
   <!-- ║              HERO                 ║ -->
@@ -1801,12 +1882,12 @@
     <p class="footer-meta">REC 04 · 07 · 2026 · ALL RIGHTS PROTECTED BY GRACE</p>
   </footer>
 
-</div>
+</main>
 
 <!-- ════════════════════════════════════════════
      PIXEL-OS BOTTOM STATUS BAR
      ════════════════════════════════════════════ -->
-<div class="os-bar bot">
+<div class="os-bar bot" role="contentinfo" aria-label="System status">
   <div class="os-status-left">
     <span class="os-led"></span>
     <span>READY</span>
@@ -1899,10 +1980,14 @@ const clipsObs = new IntersectionObserver((entries)=>{
 document.querySelectorAll('.clips').forEach(el=>clipsObs.observe(el));
 
 // OCCASIONAL VHS GLITCH — momentary chromatic kick
+// Respects prefers-reduced-motion (WCAG 2.3.3 Animation from Interactions)
 (function(){
   const stage = document.querySelector('.stage');
   if(!stage) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if(reduceMotion.matches) return;
   function glitch(){
+    if(reduceMotion.matches) return;
     if(document.body.classList.contains('minimized') || document.body.classList.contains('ejecting')) {
       setTimeout(glitch, 5000);
       return;
@@ -1928,11 +2013,38 @@ document.querySelectorAll('.clips').forEach(el=>clipsObs.observe(el));
   const ejectScreen = document.getElementById('ejectScreen');
   const taskbar = document.getElementById('taskbar');
 
-  // helper — restore focus on key for a11y
+  // ──── focus trap (WCAG 2.1.2 No Keyboard Trap, 2.4.3 Focus Order) ────
+  let lastFocusedBeforeModal = null;
+  let trapKeyHandler = null;
   function trapFocus(node){
     if(!node) return;
-    const focusable = node.querySelectorAll('button,a,[tabindex]');
-    if(focusable.length) focusable[0].focus();
+    const focusable = node.querySelectorAll(
+      'button,a[href],[tabindex]:not([tabindex="-1"]),input,select,textarea'
+    );
+    if(!focusable.length) return;
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+    lastFocusedBeforeModal = document.activeElement;
+    first.focus();
+    trapKeyHandler = (e)=>{
+      if(e.key !== 'Tab') return;
+      if(e.shiftKey && document.activeElement === first){
+        e.preventDefault();
+        last.focus();
+      } else if(!e.shiftKey && document.activeElement === last){
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    node.addEventListener('keydown', trapKeyHandler);
+  }
+  function releaseFocus(node){
+    if(node && trapKeyHandler){ node.removeEventListener('keydown', trapKeyHandler); }
+    trapKeyHandler = null;
+    if(lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function'){
+      lastFocusedBeforeModal.focus();
+    }
+    lastFocusedBeforeModal = null;
   }
 
   function minimize(){
@@ -1968,6 +2080,7 @@ document.querySelectorAll('.clips').forEach(el=>clipsObs.observe(el));
   }
   function hideCloseModal(){
     modal.classList.remove('show');
+    releaseFocus(modal);
   }
 
   function ejectTape(){
