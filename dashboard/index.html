@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>MINXX_OS — CAREER DASHBOARD — PRIVATE</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  /* ────────────────────────────────────────────
+     TOKENS
+     ──────────────────────────────────────────── */
+  :root{
+    /* MINXX_OS terminal */
+    --term-bg:        #08080c;
+    --term-bezel:     #0d0a10;
+    --term-screen:    #050307;
+    --phosphor:       #c4ffd6;
+    --phosphor-dim:   #5cdc80;
+    --amber:          #ffb070;
+    --rec-red:        #ff2a3a;
+    --rec-glow:       #ff5566;
+    --term-muted:     #8a7a8e;
+
+    /* Dashboard — Minxx brand, warm paper */
+    --bg:          #FAFAF7;
+    --white:       #FFFFFF;
+    --cream:       #F5F2ED;
+    --warm50:      #FDF8F3;
+    --text:        #1A1A1A;
+    --text-med:    #3D3D3D;
+    --text-light:  #6B6B6B;
+    --text-muted:  #9A9590;
+    --border:      #E8E4DF;
+    --border-light:#F0EDE8;
+
+    /* Pillar accents */
+    --terracotta:     #C2714F;
+    --terracotta-light:#F3E8E1;
+    --gold:           #B8963E;
+    --gold-light:     #FAF5EB;
+    --sage:           #7A8B6F;
+    --sage-light:     #EFF3EC;
+    --slate:          #5C6B7A;
+    --slate-light:    #EDF0F3;
+
+    /* Semantic */
+    --danger:      #DC2626;
+    --warning:     #E0A030;
+    --success:     #2F9E44;
+  }
+
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{background:var(--term-bg)}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Source Serif 4',Georgia,serif;
+    min-height:100vh;
+  }
+  ::selection{background:var(--terracotta);color:var(--white)}
+  :focus-visible{outline:2px solid var(--terracotta);outline-offset:2px;border-radius:2px}
+  .term-root :focus-visible{outline-color:var(--phosphor)}
+
+  a{color:inherit}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+  /* skip link */
+  .skip-link{
+    position:fixed;top:-100px;left:8px;z-index:99999;
+    background:var(--terracotta);color:var(--white);
+    padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:12px;
+    font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    text-decoration:none;border-radius:4px;
+    transition:top 0.15s;
+  }
+  .skip-link:focus{top:8px}
+
+  /* ════════════════════════════════════════════
+     SIGN-IN — CRT MONITOR
+     ════════════════════════════════════════════ */
+  .term-root{
+    position:fixed;inset:0;
+    background:var(--term-bg);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    font-family:'VT323','Courier New',monospace;
+    z-index:9000;
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .term-root.hidden{opacity:0;pointer-events:none;transform:scale(0.96)}
+
+  .term-root::before{
+    content:"";position:fixed;inset:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(196,255,214,0.05), transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(255,42,58,0.07), transparent 50%);
+  }
+
+  .crt{
+    position:relative;
+    width:100%;max-width:720px;
+    background:var(--term-screen);
+    border:2px solid #1a1920;
+    border-radius:16px;
+    padding:5px;
+    box-shadow:
+      0 0 0 1px #2a2730,
+      0 0 0 10px var(--term-bezel),
+      0 0 0 12px #1a1920,
+      0 40px 100px -20px rgba(0,0,0,0.95),
+      0 10px 40px rgba(196,160,212,0.06);
+    animation:crtGlowIn 0.9s ease-out;
+  }
+  @keyframes crtGlowIn{
+    from{opacity:0;filter:blur(6px) brightness(2)}
+    to  {opacity:1;filter:blur(0) brightness(1)}
+  }
+
+  .crt-screen{
+    position:relative;
+    border-radius:10px;
+    padding:26px 32px 28px;
+    min-height:520px;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at center, rgba(196,255,214,0.035) 0%, rgba(5,3,7,0) 60%),
+      var(--term-screen);
+  }
+
+  /* scanlines */
+  .crt-scan{
+    position:absolute;inset:0;pointer-events:none;z-index:3;
+    background-image:repeating-linear-gradient(0deg, rgba(0,0,0,0.32) 0 2px, transparent 2px 4px);
+    mix-blend-mode:multiply;
+    animation:scanShift 0.12s linear infinite alternate;
+  }
+  @keyframes scanShift{
+    from{transform:translateY(-2px)}
+    to  {transform:translateY(2px)}
+  }
+
+  /* vignette */
+  .crt-vignette{
+    position:absolute;inset:0;pointer-events:none;z-index:3;
+    background:radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+  }
+
+  .crt-hud{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:20px;
+    font-family:'Press Start 2P',monospace;
+    font-size:8px;letter-spacing:0.1em;
+    position:relative;z-index:4;
+  }
+  .crt-hud .rec{color:var(--rec-red);animation:recPulse 1.4s ease-in-out infinite}
+  .crt-hud .title{color:var(--amber)}
+  .crt-hud .clock{color:var(--phosphor-dim)}
+  @keyframes recPulse{
+    0%,100%{opacity:1;text-shadow:0 0 6px var(--rec-red),0 0 14px var(--rec-glow)}
+    50%    {opacity:0.35;text-shadow:0 0 2px var(--rec-red)}
+  }
+
+  .crt-body{
+    position:relative;z-index:2;
+    font-family:'VT323','Courier New',monospace;
+    font-size:19px;
+    line-height:1.18;
+    color:var(--phosphor);
+    white-space:pre-wrap;
+    word-break:break-word;
+    text-shadow:0 0 2px var(--phosphor),0 0 10px rgba(196,255,214,0.45),0 0 22px rgba(92,220,128,0.25);
+    min-height:340px;
+    animation:crtFlicker 5.5s linear infinite;
+  }
+  @keyframes crtFlicker{
+    0%,100%{opacity:1}
+    2%{opacity:0.82} 3%{opacity:1}
+    7%{opacity:0.94} 9%{opacity:1}
+    41%{opacity:0.92} 42%{opacity:1}
+    68%{opacity:0.88} 69%{opacity:1}
+  }
+
+  .crt-cursor{
+    display:inline-block;
+    animation:blink 1s steps(1) infinite;
+    color:var(--phosphor);
+    text-shadow:0 0 4px var(--phosphor),0 0 12px rgba(196,255,214,0.5);
+  }
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+  .crt-prompt{
+    margin-top:10px;position:relative;z-index:2;
+    font-family:'VT323','Courier New',monospace;
+    font-size:20px;color:var(--phosphor);
+    display:flex;align-items:center;gap:8px;
+    text-shadow:0 0 2px var(--phosphor),0 0 10px rgba(196,255,214,0.45);
+  }
+  .crt-prompt .user{color:var(--amber);text-shadow:0 0 6px rgba(255,176,112,0.45)}
+  .crt-prompt input{
+    flex:1;min-width:0;
+    background:transparent;border:none;outline:none;
+    color:var(--phosphor);
+    font-family:'VT323','Courier New',monospace;
+    font-size:20px;letter-spacing:0.24em;
+    caret-color:var(--phosphor);
+    text-shadow:0 0 2px var(--phosphor),0 0 8px rgba(196,255,214,0.4);
+    padding:0;
+  }
+
+  .crt-error{
+    margin-top:12px;
+    font-family:'VT323','Courier New',monospace;
+    font-size:18px;color:var(--rec-red);
+    text-shadow:0 0 3px var(--rec-red),0 0 10px var(--rec-glow);
+  }
+  .crt-loading{
+    margin-top:12px;
+    font-family:'VT323','Courier New',monospace;
+    font-size:18px;color:var(--amber);
+    text-shadow:0 0 6px rgba(255,176,112,0.4);
+  }
+  .crt-granted{
+    margin-top:14px;position:relative;z-index:2;
+    font-family:'VT323','Courier New',monospace;
+    font-size:22px;color:var(--phosphor);
+    text-shadow:0 0 2px var(--phosphor),0 0 12px rgba(196,255,214,0.6),0 0 28px rgba(92,220,128,0.4);
+  }
+  .crt-dots::after{
+    content:"...";
+    display:inline-block;width:1.2em;text-align:left;
+    animation:dotsCycle 1s steps(4) infinite;
+  }
+  @keyframes dotsCycle{
+    0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}100%{content:""}
+  }
+
+  .crt-foot{
+    margin-top:22px;
+    display:flex;justify-content:space-between;align-items:center;
+    position:relative;z-index:2;
+    font-family:'Press Start 2P',monospace;
+    font-size:7px;color:var(--term-muted);
+    letter-spacing:0.12em;
+    border-top:1px dashed #1e1b24;
+    padding-top:14px;
+  }
+  .crt-foot .confidential{color:var(--phosphor-dim)}
+
+  /* ════════════════════════════════════════════
+     DASHBOARD LAYOUT
+     ════════════════════════════════════════════ */
+  .dash{
+    opacity:0;transition:opacity 0.5s ease;
+    min-height:100vh;background:var(--bg);
+  }
+  .dash.visible{opacity:1}
+
+  .dash-header{
+    background:var(--white);
+    border-bottom:1px solid var(--border);
+    padding:36px 32px 28px;
+    text-align:center;
+  }
+  .dash-title{
+    font-family:'Playfair Display',serif;
+    font-weight:800;
+    font-size:clamp(2rem,5vw,3rem);
+    color:var(--text);
+    letter-spacing:-0.01em;
+  }
+  .dash-subtitle{
+    font-family:'DM Sans',sans-serif;
+    font-weight:500;font-size:0.72rem;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--text-muted);
+    margin-top:6px;
+  }
+  .dash-rule{width:48px;height:2px;background:var(--terracotta);margin:14px auto 0;border-radius:1px}
+  .dash-prepared{
+    font-family:'Source Serif 4',serif;
+    font-style:italic;font-size:0.88rem;
+    color:var(--text-light);
+    margin-top:10px;
+  }
+
+  /* ──── nav ──── */
+  .dash-nav{
+    display:flex;
+    background:var(--white);
+    border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:100;
+    box-shadow:0 1px 8px rgba(0,0,0,0.04);
+  }
+  .nav-btn{
+    flex:1;padding:18px 10px 16px;
+    border-bottom:2.5px solid transparent;
+    transition:all 0.25s ease;
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    position:relative;
+    cursor:pointer;
+  }
+  .nav-btn:hover{background:var(--warm50)}
+  .nav-btn.active{
+    background:var(--white);
+    border-bottom-color:var(--pillar-accent);
+  }
+  .nav-btn .num{
+    font-family:'DM Sans',sans-serif;
+    font-weight:600;font-size:0.58rem;
+    letter-spacing:0.12em;
+    color:var(--text-muted);
+  }
+  .nav-btn.active .num{color:var(--pillar-accent)}
+  .nav-btn .label{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-weight:600;
+    font-size:clamp(0.62rem,1.2vw,0.78rem);
+    color:var(--text-light);
+  }
+  .nav-btn.active .label{color:var(--text)}
+
+  /* per-pillar progress ring inside the nav — Feature 2 */
+  .nav-btn .ring{
+    position:absolute;top:6px;right:8px;
+    width:22px;height:22px;
+    pointer-events:none;
+  }
+  .nav-btn .ring svg{display:block}
+  .nav-btn .ring .bg{stroke:var(--border);stroke-width:2.5;fill:none}
+  .nav-btn .ring .fg{
+    stroke:var(--pillar-accent);stroke-width:2.5;fill:none;
+    stroke-linecap:round;
+    transform-origin:50% 50%;
+    transform:rotate(-90deg);
+    transition:stroke-dashoffset 0.6s cubic-bezier(.4,.2,.2,1);
+  }
+  .nav-btn .ring .pct{
+    font-family:'JetBrains Mono',monospace;
+    font-size:6.5px;font-weight:700;
+    fill:var(--text-med);
+    text-anchor:middle;
+    dominant-baseline:central;
+  }
+
+  /* ──── content shell ──── */
+  .dash-main{
+    max-width:940px;margin:0 auto;
+    padding:36px 24px 80px;
+  }
+  .view{display:none}
+  .view.active{display:block;animation:fadeUp 0.4s ease}
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(12px)}
+    to  {opacity:1;transform:translateY(0)}
+  }
+
+  .view-header{margin-bottom:32px}
+  .view-header h2{
+    font-family:'Playfair Display',serif;
+    font-weight:800;
+    font-size:clamp(1.5rem,3.5vw,2.1rem);
+    color:var(--text);
+  }
+  .view-header .tagline{
+    font-family:'Source Serif 4',serif;
+    font-style:italic;
+    font-size:1rem;
+    color:var(--pillar-accent);
+    margin-top:4px;
+  }
+  .view-header .rule{
+    width:40px;height:2px;
+    background:var(--pillar-accent);
+    margin:14px 0;
+    border-radius:1px;
+  }
+  .view-header .blurb{
+    font-family:'Source Serif 4',serif;
+    font-size:0.92rem;
+    color:var(--text-med);
+    line-height:1.75;
+    max-width:680px;
+  }
+
+  .card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:24px 28px;
+    margin-bottom:24px;
+  }
+  .card-label{
+    font-family:'DM Sans',sans-serif;
+    font-weight:600;font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--pillar-accent);
+    margin-bottom:14px;
+  }
+
+  /* ──── phase tabs (writing) ──── */
+  .phase-tabs{
+    display:flex;gap:0;margin-bottom:24px;
+    border-radius:6px;overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .phase-tab{
+    flex:1;padding:16px 14px;text-align:left;
+    background:var(--bg);
+    border-right:1px solid var(--border);
+    transition:all 0.2s;
+  }
+  .phase-tab:last-child{border-right:none}
+  .phase-tab.active{background:var(--pillar-accent-light)}
+  .phase-tab .name{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;font-size:0.85rem;
+    color:var(--text-light);
+  }
+  .phase-tab.active .name{color:var(--pillar-accent)}
+  .phase-tab .time{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.68rem;
+    color:var(--text-muted);
+    margin-top:3px;
+  }
+
+  /* ──── action items (checkable) — Feature 2 ──── */
+  .action-list{list-style:none}
+  .action-item{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:14px 2px;
+    border-bottom:1px solid var(--border-light);
+    cursor:pointer;
+    transition:background 0.15s;
+    border-radius:4px;
+  }
+  .action-item:last-child{border-bottom:none}
+  .action-item:hover{background:var(--warm50)}
+
+  .check{
+    flex-shrink:0;
+    width:20px;height:20px;margin-top:2px;
+    border:1.5px solid var(--border);
+    border-radius:4px;
+    background:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.2s;
+  }
+  .action-item:hover .check{border-color:var(--pillar-accent)}
+  .check svg{
+    width:12px;height:12px;
+    opacity:0;transform:scale(0.5);
+    transition:all 0.25s cubic-bezier(.4,.2,.2,1);
+  }
+  .action-item[data-done="1"] .check{
+    background:var(--pillar-accent);
+    border-color:var(--pillar-accent);
+  }
+  .action-item[data-done="1"] .check svg{opacity:1;transform:scale(1)}
+  .action-item[data-done="1"] .text{
+    color:var(--text-muted);
+    text-decoration:line-through;
+    text-decoration-color:var(--pillar-accent);
+    text-decoration-thickness:1.5px;
+  }
+  .action-item .text{
+    font-family:'Source Serif 4',serif;
+    font-size:0.88rem;
+    color:var(--text-med);
+    line-height:1.55;
+    flex:1;
+    transition:color 0.2s;
+  }
+
+  /* numbered badge variant (modeling) */
+  .action-num{
+    flex-shrink:0;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--pillar-accent-light);
+    color:var(--pillar-accent);
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.65rem;
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.2s;
+  }
+  .action-item[data-done="1"] .action-num{
+    background:var(--pillar-accent);
+    color:var(--white);
+  }
+
+  /* ──── revenue calculator — Feature 1 ──── */
+  .revcalc{margin-top:10px}
+
+  .rev-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:12px 20px;
+    padding:18px 0;
+    border-bottom:1px solid var(--border-light);
+    align-items:center;
+  }
+  .rev-row:last-of-type{border-bottom:2px solid var(--border)}
+  .rev-name{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;font-size:0.95rem;
+    color:var(--text);
+  }
+  .rev-sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--text-muted);
+    margin-top:3px;
+  }
+  .rev-value{
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:1.05rem;
+    color:var(--pillar-accent);
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  .rev-bar{
+    grid-column:1 / -1;
+    height:6px;
+    background:var(--border-light);
+    border-radius:3px;
+    overflow:hidden;
+    margin-top:4px;
+    position:relative;
+  }
+  .rev-bar .fill{
+    position:absolute;
+    top:0;left:0;bottom:0;
+    background:linear-gradient(90deg, var(--pillar-accent-light), var(--pillar-accent));
+    border-radius:3px;
+    width:0;
+    transition:width 0.35s cubic-bezier(.4,.2,.2,1);
+  }
+  .rev-slider-wrap{
+    grid-column:1 / -1;
+    display:flex;align-items:center;gap:14px;
+    margin-top:10px;
+  }
+  .rev-slider{
+    flex:1;
+    -webkit-appearance:none;appearance:none;
+    height:4px;
+    background:var(--border);
+    border-radius:2px;
+    outline:none;
+  }
+  .rev-slider::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;
+    width:18px;height:18px;
+    border-radius:50%;
+    background:var(--white);
+    border:2.5px solid var(--pillar-accent);
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
+    cursor:grab;
+    transition:transform 0.15s;
+  }
+  .rev-slider::-webkit-slider-thumb:hover{transform:scale(1.15)}
+  .rev-slider::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.25)}
+  .rev-slider::-moz-range-thumb{
+    width:18px;height:18px;
+    border-radius:50%;
+    background:var(--white);
+    border:2.5px solid var(--pillar-accent);
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
+    cursor:grab;
+  }
+  .rev-count{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+    font-weight:500;
+    color:var(--text-med);
+    min-width:100px;
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .rev-total{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:20px 0 6px;
+    margin-top:10px;
+  }
+  .rev-total .label{
+    font-family:'DM Sans',sans-serif;
+    font-weight:600;font-size:0.75rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .rev-total .value{
+    font-family:'Playfair Display',serif;
+    font-weight:800;font-size:2.2rem;
+    color:var(--text);
+    font-variant-numeric:tabular-nums;
+  }
+  .rev-total .value .currency{
+    font-size:1.2rem;
+    color:var(--text-muted);
+    font-weight:600;
+    vertical-align:0.5rem;
+    margin-right:4px;
+  }
+
+  .rev-note{
+    margin-top:16px;
+    padding:14px 18px;
+    background:var(--pillar-accent-light);
+    border-radius:6px;
+    border:1px solid var(--border);
+    font-family:'Source Serif 4',serif;
+    font-size:0.85rem;
+    line-height:1.65;
+    color:var(--text-med);
+  }
+  .rev-note strong{color:var(--pillar-accent)}
+  .rev-reset{
+    margin-top:10px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    padding:6px 10px;
+    border:1px solid var(--border);
+    border-radius:4px;
+    transition:all 0.2s;
+  }
+  .rev-reset:hover{background:var(--warm50);color:var(--text)}
+
+  /* ──── tables (camcorder platforms, modeling rates) ──── */
+  table{width:100%;border-collapse:collapse}
+  th{
+    text-align:left;
+    padding:12px 14px 10px;
+    font-family:'DM Sans',sans-serif;
+    font-weight:600;font-size:0.65rem;
+    letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--text-muted);
+    border-bottom:2px solid var(--border);
+  }
+  th.num{text-align:right}
+  td{
+    padding:14px;
+    border-bottom:1px solid var(--border-light);
+    font-family:'DM Sans',sans-serif;
+    font-size:0.82rem;
+    color:var(--text-light);
+  }
+  td.primary{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;font-size:0.88rem;
+    color:var(--text);
+  }
+  td.mono{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+  }
+  td.accent{
+    color:var(--pillar-accent);
+    font-weight:600;
+  }
+  td.num{text-align:right;font-weight:700}
+
+  /* ──── content pillar cards (camcorder) ──── */
+  .pillar-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .pillar-card{
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    background:var(--bg);
+    transition:all 0.2s;
+    text-align:left;
+  }
+  .pillar-card:hover{
+    background:var(--pillar-accent-light);
+    border-color:var(--pillar-accent);
+    transform:translateY(-1px);
+  }
+  .pillar-card .name{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;font-size:0.9rem;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+  .pillar-card .desc{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.78rem;
+    color:var(--text-light);
+    line-height:1.6;
+  }
+
+  /* ──── milestone list (camcorder) ──── */
+  .milestone{
+    display:flex;align-items:center;gap:20px;
+    padding:16px 0;
+    border-bottom:1px solid var(--border-light);
+  }
+  .milestone:last-child{border-bottom:none}
+  .milestone .circle{
+    width:44px;height:44px;
+    border-radius:50%;flex-shrink:0;
+    background:var(--bg);
+    border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.7rem;
+    color:var(--text-muted);
+  }
+  .milestone:nth-child(-n+2) .circle{
+    background:var(--pillar-accent-light);
+    border-color:var(--pillar-accent);
+    color:var(--pillar-accent);
+  }
+  .milestone .body{flex:1}
+  .milestone .target{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;font-size:0.92rem;
+    color:var(--text);
+  }
+  .milestone .when{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.78rem;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .milestone .unlock{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.78rem;
+    color:var(--pillar-accent);
+    font-weight:600;
+    text-align:right;
+  }
+
+  /* ──── modeling two-column cards ──── */
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  .list-item{
+    padding:12px 0;
+    border-bottom:1px solid var(--border-light);
+  }
+  .list-item:last-child{border-bottom:none}
+  .list-item .name{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;font-size:0.88rem;
+    color:var(--text);
+  }
+  .list-item .note{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.75rem;
+    color:var(--text-muted);
+    margin-top:3px;
+  }
+  .rate-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:12px 0;
+    border-bottom:1px solid var(--border-light);
+  }
+  .rate-row:last-child{border-bottom:none}
+  .rate-row .type{
+    font-family:'Source Serif 4',serif;
+    font-size:0.85rem;
+    color:var(--text);
+  }
+  .rate-row .type small{
+    display:block;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.7rem;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .rate-row .range{
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.85rem;
+    color:var(--pillar-accent);
+    white-space:nowrap;
+  }
+
+  /* ──── visa pathway tabs ──── */
+  .pathway-tabs{
+    display:flex;gap:10px;margin-bottom:24px;
+  }
+  .pathway-tab{
+    flex:1;padding:16px;text-align:left;
+    border-radius:6px;
+    border:1px solid var(--border);
+    background:var(--bg);
+    transition:all 0.2s;
+  }
+  .pathway-tab:hover{background:var(--warm50)}
+  .pathway-tab.active{
+    border-color:var(--pillar-accent);
+    background:var(--pillar-accent-light);
+  }
+  .pathway-tab .name{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;font-size:0.88rem;
+    color:var(--text-light);
+  }
+  .pathway-tab.active .name{color:var(--text)}
+  .pathway-tab .subtitle{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.7rem;
+    color:var(--text-muted);
+    margin-top:3px;
+  }
+
+  .pathway-body{
+    padding:24px;
+    border-radius:6px;
+    background:var(--bg);
+    border:1px solid var(--border-light);
+  }
+  .pathway-body p{
+    font-family:'Source Serif 4',serif;
+    font-size:0.88rem;
+    color:var(--text-med);
+    line-height:1.7;
+  }
+  .evidence-grid{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .evidence-chip{
+    padding:10px 14px;
+    border-radius:4px;
+    background:var(--white);
+    border:1px solid var(--border);
+    font-family:'DM Sans',sans-serif;
+    font-size:0.78rem;
+    color:var(--text-med);
+    display:flex;align-items:center;gap:10px;
+  }
+  .evidence-chip::before{
+    content:"●";
+    color:var(--pillar-accent);
+    font-size:0.5rem;
+  }
+
+  /* urgent priority dots */
+  .urgent-item{
+    display:flex;gap:14px;align-items:center;
+    padding:14px 2px;
+    border-bottom:1px solid var(--border-light);
+  }
+  .urgent-item:last-child{border-bottom:none}
+  .urgent-item .dot{
+    width:10px;height:10px;
+    border-radius:50%;flex-shrink:0;
+  }
+  .urgent-item[data-priority="critical"] .dot{background:var(--danger)}
+  .urgent-item[data-priority="high"] .dot{background:var(--pillar-accent)}
+  .urgent-item[data-priority="medium"] .dot{background:var(--text-muted)}
+  .urgent-item .text{
+    font-family:'Source Serif 4',serif;
+    font-size:0.88rem;
+    line-height:1.55;
+    color:var(--text-med);
+  }
+  .urgent-item[data-priority="critical"] .text{
+    color:var(--danger);font-weight:700;
+  }
+
+  /* ──── visa status banner + countdown ──── */
+  .visa-banner{
+    margin-top:20px;
+    padding:18px 22px;
+    border-radius:6px;
+    background:#FEF2F2;
+    border:1px solid #FECACA;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .visa-banner .msg{
+    font-family:'Source Serif 4',serif;
+    font-size:0.88rem;
+    color:#991B1B;
+    line-height:1.6;
+    flex:1;min-width:220px;
+  }
+  .visa-banner strong{font-weight:700}
+  .visa-countdown{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    display:flex;flex-direction:column;align-items:flex-end;
+    white-space:nowrap;
+  }
+  .visa-countdown .days{
+    font-size:2rem;
+    color:#991B1B;
+    font-variant-numeric:tabular-nums;
+  }
+  .visa-countdown .lbl{
+    font-family:'DM Sans',sans-serif;
+    font-weight:600;
+    font-size:0.65rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:#991B1B;
+    opacity:0.8;
+  }
+
+  /* visa compliance note (modeling) */
+  .warn-banner{
+    margin-top:20px;
+    padding:16px 20px;
+    border-radius:6px;
+    background:#FFF9F0;
+    border:1px solid #F0E4D4;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.8rem;
+    color:#8B6830;
+    line-height:1.7;
+  }
+  .warn-banner strong{font-weight:700}
+
+  /* ══════════════════════════════════════
+     INTERACTIVE TIMELINE — Feature 3
+     ══════════════════════════════════════ */
+  .timeline-card{
+    padding:24px 28px 28px;
+  }
+  .timeline-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:18px;
+    gap:16px;flex-wrap:wrap;
+  }
+  .timeline-head .current{
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .timeline-head .current .val{
+    color:var(--terracotta);
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    padding-left:8px;
+  }
+
+  .timeline-scrub-wrap{
+    position:relative;
+    padding:18px 0 28px;
+  }
+
+  /* track with phase segments */
+  .timeline-track{
+    position:relative;
+    height:44px;
+    border-radius:6px;
+    overflow:visible;
+    display:flex;
+    border:1px solid var(--border);
+    background:var(--bg);
+  }
+  .timeline-phase{
+    flex:var(--phase-weight,1);
+    position:relative;
+    border-right:1px solid var(--border);
+    transition:all 0.25s;
+    min-width:0;
+  }
+  .timeline-phase:last-child{border-right:none}
+  .timeline-phase.active{background:var(--phase-accent-light)}
+  .timeline-phase .pname{
+    position:absolute;
+    top:50%;left:10px;right:10px;
+    transform:translateY(-50%);
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.65rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-light);
+    pointer-events:none;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    transition:color 0.25s;
+  }
+  .timeline-phase.active .pname{color:var(--phase-accent)}
+
+  /* today marker — fixed position */
+  .timeline-today{
+    position:absolute;
+    top:-8px;bottom:-8px;
+    left:var(--today-pct,0%);
+    width:2px;
+    background:var(--terracotta);
+    z-index:2;
+    pointer-events:none;
+    box-shadow:0 0 10px rgba(194,113,79,0.5);
+  }
+  .timeline-today::before{
+    content:"NOW";
+    position:absolute;
+    top:-18px;left:50%;transform:translateX(-50%);
+    font-family:'Press Start 2P',monospace;
+    font-size:7px;letter-spacing:0.1em;
+    color:var(--terracotta);
+    background:var(--white);
+    padding:2px 6px;
+    border:1px solid var(--terracotta);
+    border-radius:2px;
+    white-space:nowrap;
+  }
+
+  /* scrubber handle */
+  .timeline-scrubber{
+    position:absolute;
+    top:0;bottom:0;
+    left:var(--scrub-pct,0%);
+    width:3px;
+    background:var(--text);
+    z-index:3;
+    box-shadow:0 0 8px rgba(0,0,0,0.25);
+    transition:left 0.05s linear;
+  }
+  .timeline-scrubber::after{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:18px;height:18px;
+    border-radius:50%;
+    background:var(--text);
+    border:2px solid var(--white);
+    box-shadow:0 0 0 2px var(--text), 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  /* month tick labels below */
+  .timeline-ticks{
+    position:relative;
+    margin-top:12px;
+    height:14px;
+  }
+  .timeline-tick{
+    position:absolute;
+    top:0;
+    transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.62rem;
+    color:var(--text-muted);
+    white-space:nowrap;
+  }
+
+  /* master range input — invisible overlay */
+  .timeline-range{
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    width:100%;
+    -webkit-appearance:none;appearance:none;
+    background:transparent;
+    margin:0;padding:0;border:none;
+    cursor:grab;
+    z-index:4;
+    opacity:0;
+  }
+  .timeline-range:active{cursor:grabbing}
+  .timeline-range::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;
+    width:30px;height:56px;
+  }
+  .timeline-range::-moz-range-thumb{
+    width:30px;height:56px;border:none;background:transparent;
+  }
+
+  /* expanded phase card */
+  .timeline-expanded{
+    margin-top:22px;
+    padding:22px 24px;
+    border-radius:6px;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-left:4px solid var(--phase-accent,var(--terracotta));
+    transition:all 0.3s cubic-bezier(.4,.2,.2,1);
+  }
+  .timeline-expanded .ehead{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:6px;
+    gap:16px;flex-wrap:wrap;
+  }
+  .timeline-expanded .phase{
+    font-family:'Playfair Display',serif;
+    font-weight:800;font-size:1.3rem;
+    color:var(--text);
+  }
+  .timeline-expanded .range{
+    font-family:'DM Sans',sans-serif;
+    font-weight:600;font-size:0.72rem;
+    letter-spacing:0.04em;
+    color:var(--phase-accent);
+  }
+  .timeline-expanded .status{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.75rem;
+    color:var(--text-muted);
+    margin-bottom:16px;
+    font-style:italic;
+  }
+  .timeline-chips{
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .timeline-chip{
+    padding:8px 14px;
+    border-radius:20px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    font-family:'DM Sans',sans-serif;
+    font-size:0.78rem;
+    color:var(--text-med);
+    transition:all 0.2s;
+  }
+  .timeline-chip:hover{
+    background:var(--phase-accent-light);
+    border-color:var(--phase-accent);
+  }
+
+  /* all-phases mini overview */
+  .timeline-overview{
+    margin-top:26px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+  }
+  .overview-cell{
+    padding:14px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    background:var(--white);
+    border-left:3px solid var(--cell-accent,var(--border));
+    text-align:left;
+    transition:all 0.2s;
+  }
+  .overview-cell:hover{transform:translateY(-2px)}
+  .overview-cell.active{
+    background:var(--cell-accent-light);
+  }
+  .overview-cell .pn{
+    font-family:'Playfair Display',serif;
+    font-weight:700;font-size:0.95rem;
+    color:var(--text);
+  }
+  .overview-cell .tm{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.65rem;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .overview-cell .count{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--cell-accent);
+    margin-top:6px;
+    font-weight:600;
+  }
+
+  /* ──── footer ──── */
+  .dash-footer{
+    text-align:center;
+    padding:32px 24px;
+    border-top:1px solid var(--border);
+    background:var(--white);
+  }
+  .dash-footer .name{
+    font-family:'Playfair Display',serif;
+    font-weight:700;font-size:1.1rem;
+    color:var(--text);
+  }
+  .dash-footer .meta{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.65rem;
+    letter-spacing:0.14em;
+    color:var(--text-muted);
+    text-transform:uppercase;
+    margin-top:6px;
+  }
+  .dash-footer .actions{
+    margin-top:18px;
+    display:inline-flex;gap:8px;
+  }
+  .dash-footer button{
+    padding:8px 14px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:4px;
+    transition:all 0.2s;
+  }
+  .dash-footer button:hover{
+    background:var(--warm50);
+    color:var(--text);
+    border-color:var(--text-muted);
+  }
+
+  /* ──── responsive ──── */
+  @media (max-width: 720px){
+    .dash-header{padding:24px 16px 20px}
+    .dash-main{padding:24px 16px 60px}
+    .card{padding:18px 16px}
+    .phase-tabs{flex-direction:column}
+    .phase-tab{border-right:none;border-bottom:1px solid var(--border)}
+    .phase-tab:last-child{border-bottom:none}
+    .pillar-grid,.two-col,.evidence-grid,.timeline-overview{grid-template-columns:1fr}
+    .pathway-tabs{flex-direction:column}
+    .milestone{flex-wrap:wrap}
+    .milestone .unlock{width:100%;text-align:left;padding-left:64px}
+    .nav-btn .label{font-size:0.58rem}
+    .nav-btn .ring{display:none}
+    .rev-total .value{font-size:1.6rem}
+    .visa-countdown .days{font-size:1.5rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:0.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ══════════════════════════════════════
+     SIGN-IN SCREEN
+     ══════════════════════════════════════ -->
+<div class="term-root" id="signin" role="dialog" aria-label="Sign in to MINXX_OS career dashboard">
+  <div class="crt">
+    <div class="crt-screen">
+      <div class="crt-scan" aria-hidden="true"></div>
+      <div class="crt-vignette" aria-hidden="true"></div>
+      <div class="crt-hud">
+        <span class="rec">● REC</span>
+        <span class="title">MINXX_OS · AUTH.EXE</span>
+        <span class="clock" id="crtClock">--:--:--</span>
+      </div>
+      <pre class="crt-body" id="crtBody"></pre>
+      <form id="crtForm" class="crt-prompt" hidden>
+        <span class="user">PHOEBE@MINXX:~$</span>
+        <input type="password" id="crtPw" autocomplete="current-password" autofocus aria-label="Access code">
+      </form>
+      <div id="crtError" class="crt-error" hidden>! ACCESS DENIED — CODE INVALID. RE-ENTER.</div>
+      <div id="crtLoading" class="crt-loading" hidden>&gt; VERIFYING CREDENTIALS<span class="crt-dots"></span></div>
+      <div id="crtGranted" class="crt-granted" hidden>&gt; ACCESS GRANTED.<br>&gt; LOADING CAREER DASHBOARD<span class="crt-dots"></span></div>
+      <div class="crt-foot">
+        <span id="crtHint">[ANY KEY] SKIP</span>
+        <span class="confidential">CONFIDENTIAL</span>
+        <span>TAPE_01.HI8</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DASHBOARD
+     ══════════════════════════════════════ -->
+<div class="dash" id="dash" hidden>
+  <header class="dash-header" role="banner">
+    <div class="dash-title">Minxx</div>
+    <div class="dash-subtitle">Career Dashboard · Brand Strategy Blueprint</div>
+    <div class="dash-rule"></div>
+    <div class="dash-prepared">Prepared for Phoebe · Creative Direction by Omar Ranti · April 2026</div>
+  </header>
+
+  <nav class="dash-nav" id="dashNav" aria-label="Primary"></nav>
+
+  <main class="dash-main" id="main" role="main">
+    <div class="view" id="view-writing" data-pillar="writing"></div>
+    <div class="view" id="view-camcorder" data-pillar="camcorder"></div>
+    <div class="view" id="view-modeling" data-pillar="modeling"></div>
+    <div class="view" id="view-visa" data-pillar="visa"></div>
+    <div class="view" id="view-timeline"></div>
+  </main>
+
+  <footer class="dash-footer" role="contentinfo">
+    <div class="name">Minxx</div>
+    <div class="meta">Confidential · Brand Strategy & Business Blueprint · April 2026</div>
+    <div class="actions">
+      <button id="resetAll" title="Clear all checked items and slider positions">Reset progress</button>
+      <button id="signOut">Sign out</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════
+const AUTH_KEY  = 'minxx_explorer_auth_v1';
+const STATE_KEY = 'minxx_dashboard_state_v1';
+// SHA-256 of "warriorprincess" — same as the JSX original
+const PASSWORD_HASH = 'cbeabaf851642e1c30e0a3217b857a53748fbe2322437094750c7a84ec0c772c';
+
+// Phoebe's B-1/B-2 expires May 28, 2026
+const VISA_EXPIRY = new Date('2026-05-28T23:59:59');
+
+// Timeline anchor — phases are measured in months from this start date
+const TIMELINE_START = new Date('2026-04-01');
+const TIMELINE_END   = new Date('2027-06-30'); // ~15 months total
+
+// ══════════════════════════════════════
+// DATA
+// ══════════════════════════════════════
+const PILLARS = [
+  {
+    id:'writing', num:'01', label:'Writing & Publishing',
+    accent:'--terracotta', accentLight:'--terracotta-light',
+    tagline:'The pen before the lens',
+    blurb:"Publishing is the most immediately monetizable pillar with the fewest legal restrictions. Book royalties from self-publishing are classified as passive income from creative works — making this the priority revenue stream.",
+    phases:[
+      { name:'Establish Catalog', time:'Now – June 2026', items:[
+        'Finalize first book manuscript — prioritize completion over perfection',
+        'Self-publish via Amazon KDP for speed to market and global reach',
+        'Design cover art matching the Minxx brand aesthetic',
+        'Set up author profiles on Amazon, Goodreads, and website',
+        'Price accessibly: $9.99–14.99 paperback, $4.99–6.99 digital'
+      ]},
+      { name:'Build Ecosystem', time:'June – December 2026', items:[
+        'Launch Substack or email newsletter with excerpts and essays',
+        'Release second book to establish catalog credibility',
+        'Pursue independent bookstore placement, especially LA shops',
+        'Pitch literary podcasts and book review outlets',
+        'Create limited signed editions for direct website sales'
+      ]},
+      { name:'Expand the IP', time:'2027 and beyond', items:[
+        'Audiobook versions narrated by Phoebe (voice is part of the brand)',
+        'Investigate rights licensing for international markets',
+        'Develop a writing workshop or course leveraging her unique style',
+        'Consider chapbook series or zine collection as entry points'
+      ]}
+    ],
+    // Revenue calculator config — Feature 1
+    revenue:[
+      { id:'ebook',     name:'KDP eBook',           perUnit:3.50,  unitLabel:'royalty/unit', volumeLabel:'units sold', min:0, max:10000, default:2000, step:100 },
+      { id:'paperback', name:'KDP Paperback',       perUnit:5.00,  unitLabel:'royalty/unit', volumeLabel:'units sold', min:0, max:5000,  default:1000, step:50 },
+      { id:'direct',    name:'Direct Sales (signed)',perUnit:17.50, unitLabel:'margin/unit',  volumeLabel:'units sold', min:0, max:1000,  default:200,  step:10 },
+      { id:'substack',  name:'Substack (paid tier)',perUnit:72.00, unitLabel:'$/year ($6/mo)',volumeLabel:'subscribers',min:0, max:2000,  default:500,  step:10 },
+      { id:'speaking',  name:'Speaking & Workshops',perUnit:1250,  unitLabel:'avg fee/event', volumeLabel:'events/year',min:0, max:30,    default:9,    step:1  }
+    ]
+  },
+  {
+    id:'camcorder', num:'02', label:'Camcorder',
+    accent:'--gold', accentLight:'--gold-light',
+    tagline:'Low resolution, high quality memories',
+    blurb:"Not a trend or an aesthetic choice for engagement. A worldview: the grain, the warmth, the imperfection of analog video preserves something that 4K erases. This philosophy is the brand.",
+    contentPillars:[
+      { name:'Day-to-Day Diaries', desc:'Unscripted camcorder footage of daily LA life. Coffee shops, drives, golden hour walks, cooking, reading. The mundane made beautiful.' },
+      { name:'Group Moments',      desc:'The social footage. Friends together, nights out, house parties, beach days. Phoebe as the documentarian of her circle.' },
+      { name:'Camcorder Confessionals', desc:'Direct-to-camera pieces where Phoebe speaks. Thoughts, observations, mini-essays delivered through the analog lens.' },
+      { name:'"How We Used to Live"',    desc:'A recurring series contrasting modern habits with analog alternatives. The most brandable, most pitch-worthy content for partnerships.' }
+    ],
+    platforms:[
+      { name:'Instagram Reels', format:'30–60s edits',      cadence:'4–5× / week', goal:'Core audience & brand identity' },
+      { name:'TikTok',          format:'15–60s clips',      cadence:'5–7× / week', goal:'Discovery & new audience' },
+      { name:'YouTube',         format:'5–15 min compilations', cadence:'1–2× / month', goal:'Long-form, ad revenue, archive' },
+      { name:'YouTube Shorts',  format:'15–30s clips',      cadence:'3–4× / week', goal:'Cross-promotion' }
+    ],
+    milestones:[
+      { target:'1,000 followers',   time:'Month 1–2', unlock:'Community foundation' },
+      { target:'5,000 followers',   time:'Month 3–4', unlock:'Gifted partnerships' },
+      { target:'10,000 followers',  time:'Month 5–7', unlock:'Paid micro-deals ($200–500/post)' },
+      { target:'25,000 followers',  time:'Month 8–12',unlock:'Mid-tier deals ($500–2,000/post)' },
+      { target:'50,000+ followers', time:'Year 2',    unlock:'Significant brand revenue' }
+    ]
+  },
+  {
+    id:'modeling', num:'03', label:'Modeling',
+    accent:'--sage', accentLight:'--sage-light',
+    tagline:'Presence is the portfolio',
+    blurb:"A model who also writes books and runs a popular camcorder content brand is exponentially more valuable than someone who only models. The audience is the leverage.",
+    actions:[
+      "Curate 20–30 of Phoebe's strongest existing photos into a preliminary portfolio",
+      'Identify 5–10 LA-based photographers who do TFP (time for print) shoots',
+      'Schedule 3–5 test shoots across different looks: editorial, commercial, lifestyle, beauty',
+      'Create a digital comp card (front: headshot + full body; back: stats, contact, social links)',
+      'Research agencies that align with her look and sponsor international talent'
+    ],
+    agencies:[
+      { name:'Wilhelmina Models',         note:'Known for diverse talent and international roster' },
+      { name:'Next Management',           note:'Strong editorial and commercial divisions' },
+      { name:'The Industry Model Management', note:'LA boutique agency with high fashion focus' },
+      { name:'State Management',          note:'Digital-first, influencer-model hybrid positioning' },
+      { name:'Freedom Models LA',         note:'Boutique agency focused on emerging talent' }
+    ],
+    rates:[
+      { type:'Editorial (magazines)', range:'$150–500/day',      note:'Prestige over pay initially' },
+      { type:'Commercial (brands)',   range:'$1,000–5,000/day',  note:'Primary revenue driver' },
+      { type:'Content Creation (UGC)', range:'$500–2,000/project', note:'Leverages existing skills' },
+      { type:'Brand Ambassador',      range:'$2,000–10,000/campaign', note:'Long-term partnerships' },
+      { type:'Runway',                range:'$500–2,500/show',   note:'Seasonal, high visibility' }
+    ]
+  },
+  {
+    id:'visa', num:'04', label:'Visa & Legal',
+    accent:'--slate', accentLight:'--slate-light',
+    tagline:'Every milestone is evidence',
+    blurb:"Not a separate workstream — the lens through which every other decision is made. Every book published, every follower milestone reached, every agency meeting becomes evidence in a visa petition.",
+    pathways:[
+      {
+        name:'O-1B Visa', subtitle:'Extraordinary Ability in the Arts',
+        details:'The strongest professional pathway. Requires evidence of sustained national or international acclaim. Realistically 6–12 months to build a strong enough portfolio of evidence.',
+        evidence:[
+          'Published works (books count directly)',
+          'Press coverage and media features',
+          'Social media following as public interest',
+          'Agency representation by gatekeepers',
+          'Professional recommendation letters',
+          'Original contribution (camcorder aesthetic)',
+          'Industry organization memberships'
+        ]
+      },
+      { name:'K-1 Fiancé Visa', subtitle:'Relationship-Based Pathway',
+        details:'Requires engagement. Processing time approximately 12–18 months from filing. Phoebe would need to return to the UK during processing. Stated factually as a planning consideration.' },
+      { name:'Employer Sponsorship', subtitle:'Agency or Publisher Sponsored',
+        details:'If a modeling agency, publishing house, or media company sponsors, an H-1B or O-1 could be filed on her behalf. Less likely near-term but becomes viable as her professional profile grows.' }
+    ],
+    urgentActions:[
+      { text:'Consult an immigration attorney within the next 30 days', priority:'high' },
+      { text:'Begin documenting ALL professional milestones in a visa evidence folder', priority:'high' },
+      { text:'Register a UK Ltd company for receiving international income', priority:'high' },
+      { text:'Understand the exact terms of B-1/B-2 visa and extension options', priority:'medium' },
+      { text:'Do NOT overstay — this would jeopardize all future visa pathways', priority:'critical' }
+    ]
+  }
+];
+
+const TIMELINE = [
+  { phase:'Foundation', time:'April – May 2026',       startMonth:0,  endMonth:2,  accent:'--terracotta', accentLight:'--terracotta-light', items:['Finalize Minxx brand identity','Launch Instagram & TikTok','Complete first manuscript','Schedule 3+ TFP shoots','Register UK Ltd company','Consult immigration attorney','Build & launch website'] },
+  { phase:'Growth',     time:'June – September 2026',  startMonth:2,  endMonth:6,  accent:'--gold',       accentLight:'--gold-light',       items:['Publish Book 1 on KDP','Launch Substack newsletter','5,000+ Instagram followers','Submit to agencies','Pursue press coverage','O-1B evidence file','Launch YouTube channel'] },
+  { phase:'Monetize',   time:'Oct 2026 – Mar 2027',    startMonth:6,  endMonth:12, accent:'--sage',       accentLight:'--sage-light',       items:['Brand partnerships (UK Ltd)','Publish Book 2','10,000+ followers','File O-1B petition','Website shop launch','Camcorder filming services'] },
+  { phase:'Scale',      time:'April 2027+',            startMonth:12, endMonth:15, accent:'--slate',      accentLight:'--slate-light',      items:['25K+ across platforms','Digital products launch','Agency representation','Workshops & events','Build team'] }
+];
+
+// ══════════════════════════════════════
+// STATE (persisted)
+// ══════════════════════════════════════
+// Shape:
+// { checks: {pillarId: {itemKey: true}}, rev: {id: volume}, scrub: monthIdx }
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STATE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(_){ /* ignore */ }
+  return { checks:{}, rev:{}, scrub:null };
+}
+function saveState(){
+  try{ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }catch(_){}
+}
+const state = loadState();
+
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
+function fmtMoney(n){
+  n = Math.round(n);
+  return n.toLocaleString('en-US');
+}
+function fmtInt(n){ return Math.round(n).toLocaleString('en-US'); }
+
+async function sha256Hex(str){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function el(tag, attrs, ...children){
+  const node = document.createElement(tag);
+  if(attrs){
+    for(const [k,v] of Object.entries(attrs)){
+      if(k === 'class')      node.className = v;
+      else if(k === 'style') node.setAttribute('style', v);
+      else if(k === 'html')  node.innerHTML = v;
+      else if(k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
+      else if(v === true)    node.setAttribute(k, '');
+      else if(v !== false && v != null) node.setAttribute(k, v);
+    }
+  }
+  for(const c of children){
+    if(c == null || c === false) continue;
+    node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+  }
+  return node;
+}
+
+// how many total items per pillar (for progress ring)
+function countPillarItems(p){
+  let n = 0;
+  if(p.phases)        p.phases.forEach(ph => n += ph.items.length);
+  if(p.actions)       n += p.actions.length;
+  if(p.urgentActions) n += p.urgentActions.length;
+  return n;
+}
+function countPillarChecked(p){
+  const checks = state.checks[p.id] || {};
+  let n = 0;
+  for(const k in checks) if(checks[k]) n++;
+  return n;
+}
+
+function toggleCheck(pillarId, key){
+  state.checks[pillarId] = state.checks[pillarId] || {};
+  state.checks[pillarId][key] = !state.checks[pillarId][key];
+  if(!state.checks[pillarId][key]) delete state.checks[pillarId][key];
+  saveState();
+  updateProgressRings();
+}
+
+// ══════════════════════════════════════
+// SIGN-IN — CRT BOOT
+// ══════════════════════════════════════
+const BOOT_LINES = [
+  'MINXX_OS  v1.0   CAREER_DASHBOARD.EXE',
+  '(c) 1996  HANDYCAM INDUSTRIES',
+  '',
+  '> INIT VIDEO PHOSPHOR..........  OK',
+  '> LOAD TAPE  /dev/hi8/01.......  OK',
+  '> MOUNT  /vol/career/dash......  OK',
+  '> VERIFY SIGNAL INTEGRITY......  OK',
+  '> LOAD AUTH MODULE.............  OK',
+  '',
+  '========================================',
+  '  PRIVATE TERMINAL  *  ACCESS RESTRICTED',
+  '========================================',
+  '',
+  '> HELLO, PHOEBE.',
+  '> THIS DASHBOARD IS FOR YOUR EYES ONLY.',
+  '> PLEASE ENTER YOUR ACCESS CODE.',
+  ''
+];
+const BOOT_TEXT = BOOT_LINES.join('\n');
+
+function boot(){
+  const $body   = document.getElementById('crtBody');
+  const $form   = document.getElementById('crtForm');
+  const $pw     = document.getElementById('crtPw');
+  const $err    = document.getElementById('crtError');
+  const $load   = document.getElementById('crtLoading');
+  const $grant  = document.getElementById('crtGranted');
+  const $hint   = document.getElementById('crtHint');
+  const $clock  = document.getElementById('crtClock');
+
+  // live clock
+  const pad = n => String(n).padStart(2,'0');
+  function tickClock(){
+    const d = new Date();
+    $clock.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  let idx = 0;
+  let skip = false;
+  let done = false;
+
+  function typeStep(){
+    if(done) return;
+    if(skip){
+      $body.textContent = BOOT_TEXT;
+      $body.appendChild(cursorSpan());
+      finish();
+      return;
+    }
+    if(idx >= BOOT_TEXT.length){
+      finish();
+      return;
+    }
+    const ch = BOOT_TEXT[idx++];
+    $body.textContent = BOOT_TEXT.slice(0, idx);
+    $body.appendChild(cursorSpan());
+    const delay = ch === '\n' ? 80 : (ch === '.' ? 20 : 10);
+    setTimeout(typeStep, delay);
+  }
+  function cursorSpan(){
+    const s = document.createElement('span');
+    s.className = 'crt-cursor';
+    s.textContent = '█';
+    return s;
+  }
+  function finish(){
+    if(done) return;
+    done = true;
+    // remove trailing cursor before the prompt takes over
+    const c = $body.querySelector('.crt-cursor');
+    if(c) c.remove();
+    $form.hidden = false;
+    $hint.textContent = '[RETURN] SUBMIT';
+    setTimeout(() => $pw.focus(), 20);
+  }
+
+  // any key / click during boot = skip
+  function onAny(){
+    if(!done) skip = true;
+  }
+  window.addEventListener('keydown', onAny, { once:false });
+  window.addEventListener('click',   onAny, { once:false });
+
+  // submit
+  $form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = $pw.value;
+    if(!pw) return;
+    $err.hidden  = true;
+    $load.hidden = false;
+    try{
+      const hash = await sha256Hex(pw);
+      await new Promise(r => setTimeout(r, 420)); // fake latency for vibe
+      if(hash === PASSWORD_HASH){
+        try{ localStorage.setItem(AUTH_KEY, '1'); }catch(_){}
+        $load.hidden = true;
+        $grant.hidden = false;
+        setTimeout(enterDashboard, 620);
+      } else {
+        $load.hidden = true;
+        $err.hidden  = false;
+        $pw.value = '';
+        $pw.focus();
+      }
+    }catch(_){
+      $load.hidden = true;
+      $err.hidden  = false;
+    }
+  });
+
+  typeStep();
+}
+
+function enterDashboard(){
+  const $signin = document.getElementById('signin');
+  const $dash   = document.getElementById('dash');
+  $signin.classList.add('hidden');
+  $dash.hidden = false;
+  requestAnimationFrame(() => $dash.classList.add('visible'));
+  // remove signin from tab order entirely
+  setTimeout(() => { $signin.style.display = 'none'; }, 700);
+  renderAll();
+}
+
+// ══════════════════════════════════════
+// DASHBOARD RENDER
+// ══════════════════════════════════════
+let activeView = 'writing';
+
+function renderAll(){
+  renderNav();
+  renderWritingView();
+  renderCamcorderView();
+  renderModelingView();
+  renderVisaView();
+  renderTimelineView();
+  switchView(activeView);
+  updateProgressRings();
+}
+
+function renderNav(){
+  const $nav = document.getElementById('dashNav');
+  $nav.innerHTML = '';
+  PILLARS.forEach(p => {
+    const btn = el('button', {
+      class:'nav-btn',
+      'data-view':p.id,
+      style:`--pillar-accent:var(${p.accent});--pillar-accent-light:var(${p.accentLight})`,
+      onclick:() => switchView(p.id),
+      role:'tab',
+      'aria-selected':'false'
+    },
+      el('div', { class:'ring' }, progressRingSVG(p.id)),
+      el('span', { class:'num' }, p.num),
+      el('span', { class:'label' }, p.label)
+    );
+    $nav.appendChild(btn);
+  });
+  // timeline tab
+  const tl = el('button', {
+    class:'nav-btn', 'data-view':'timeline',
+    style:'--pillar-accent:var(--terracotta);--pillar-accent-light:var(--terracotta-light)',
+    onclick:() => switchView('timeline'),
+    role:'tab',
+    'aria-selected':'false'
+  },
+    el('span', { class:'num' }, '→'),
+    el('span', { class:'label' }, 'Timeline')
+  );
+  $nav.appendChild(tl);
+}
+
+function progressRingSVG(pillarId){
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <circle class="bg" cx="12" cy="12" r="9"></circle>
+      <circle class="fg" cx="12" cy="12" r="9" data-ring="${pillarId}"
+              stroke-dasharray="56.55"
+              stroke-dashoffset="56.55"></circle>
+      <text class="pct" x="12" y="12" data-ring-label="${pillarId}">0%</text>
+    </svg>`;
+  return wrap.firstElementChild;
+}
+
+function updateProgressRings(){
+  const CIRC = 2 * Math.PI * 9; // ≈ 56.55
+  PILLARS.forEach(p => {
+    const total = countPillarItems(p);
+    const done  = countPillarChecked(p);
+    const pct   = total ? done / total : 0;
+    const ring  = document.querySelector(`[data-ring="${p.id}"]`);
+    const label = document.querySelector(`[data-ring-label="${p.id}"]`);
+    if(ring){
+      ring.setAttribute('stroke-dashoffset', (CIRC * (1 - pct)).toFixed(2));
+    }
+    if(label){
+      label.textContent = Math.round(pct * 100) + '%';
+    }
+  });
+}
+
+function switchView(id){
+  activeView = id;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + id);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    const on = b.getAttribute('data-view') === id;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// ──── header helper ────
+function viewHeader(p){
+  return el('div', { class:'view-header', style:`--pillar-accent:var(${p.accent})` },
+    el('h2', null, p.label),
+    el('div', { class:'tagline' }, p.tagline),
+    el('div', { class:'rule' }),
+    el('p', { class:'blurb' }, p.blurb)
+  );
+}
+
+// ══════════════════════════════════════
+// WRITING VIEW — phases + revenue calculator
+// ══════════════════════════════════════
+let writingActivePhase = 0;
+
+function renderWritingView(){
+  const p = PILLARS[0];
+  const $v = document.getElementById('view-writing');
+  $v.innerHTML = '';
+  $v.style.setProperty('--pillar-accent',      `var(${p.accent})`);
+  $v.style.setProperty('--pillar-accent-light',`var(${p.accentLight})`);
+  $v.appendChild(viewHeader(p));
+
+  // phase card
+  const card = el('div', { class:'card' });
+  card.appendChild(el('div', { class:'card-label' }, 'Publishing Roadmap'));
+
+  const tabs = el('div', { class:'phase-tabs', role:'tablist' });
+  p.phases.forEach((ph, i) => {
+    const tab = el('button', {
+      class:'phase-tab' + (i === writingActivePhase ? ' active' : ''),
+      role:'tab',
+      'aria-selected': i === writingActivePhase ? 'true' : 'false',
+      onclick:() => { writingActivePhase = i; renderWritingView(); }
+    },
+      el('div', { class:'name' }, ph.name),
+      el('div', { class:'time' }, ph.time)
+    );
+    tabs.appendChild(tab);
+  });
+  card.appendChild(tabs);
+
+  const list = el('ul', { class:'action-list' });
+  const phase = p.phases[writingActivePhase];
+  phase.items.forEach((item, i) => {
+    const key  = `phase-${writingActivePhase}-${i}`;
+    const done = !!((state.checks[p.id] || {})[key]);
+    const li = el('li', {
+      class:'action-item',
+      'data-done': done ? '1' : '0',
+      tabindex:'0',
+      role:'checkbox',
+      'aria-checked': done ? 'true' : 'false',
+      onclick:() => {
+        toggleCheck(p.id, key);
+        renderWritingView();
+      },
+      onkeydown:(e) => {
+        if(e.key === ' ' || e.key === 'Enter'){
+          e.preventDefault();
+          toggleCheck(p.id, key);
+          renderWritingView();
+        }
+      }
+    },
+      el('span', { class:'check' }, checkSVG()),
+      el('span', { class:'text' }, item)
+    );
+    list.appendChild(li);
+  });
+  card.appendChild(list);
+  $v.appendChild(card);
+
+  // revenue calculator — Feature 1
+  $v.appendChild(renderRevenueCalculator(p));
+}
+
+function checkSVG(){
+  const wrap = document.createElement('div');
+  wrap.innerHTML = '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true"><path d="M2.5 6.5 L5 9 L9.5 3.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return wrap.firstElementChild;
+}
+
+// ══════════════════════════════════════
+// FEATURE 1 — REVENUE CALCULATOR
+// ══════════════════════════════════════
+function renderRevenueCalculator(p){
+  const card = el('div', { class:'card revcalc' });
+  card.appendChild(el('div', { class:'card-label' }, 'Year 1 Revenue Projection — interactive'));
+
+  // init state from defaults if missing
+  p.revenue.forEach(r => {
+    if(typeof state.rev[r.id] !== 'number'){
+      state.rev[r.id] = r.default;
+    }
+  });
+
+  const body = el('div', null);
+
+  // we compute the max so bars are scaled
+  function computeAll(){
+    return p.revenue.map(r => {
+      const volume = state.rev[r.id];
+      const annual = volume * r.perUnit;
+      return { r, volume, annual };
+    });
+  }
+  function maxAnnual(){
+    const rows = computeAll();
+    return Math.max(1, ...rows.map(x => x.annual));
+  }
+
+  p.revenue.forEach(r => {
+    const row = el('div', { class:'rev-row' });
+
+    const nameCol = el('div', null,
+      el('div', { class:'rev-name' }, r.name),
+      el('div', { class:'rev-sub' }, `$${r.perUnit.toFixed(2)} ${r.unitLabel}`)
+    );
+    const valueCol = el('div', {
+      class:'rev-value',
+      'data-rev-value':r.id
+    }, '$0');
+
+    const bar = el('div', { class:'rev-bar' },
+      el('div', { class:'fill', 'data-rev-bar':r.id })
+    );
+
+    const sliderWrap = el('div', { class:'rev-slider-wrap' });
+    const slider = el('input', {
+      type:'range',
+      class:'rev-slider',
+      min:String(r.min), max:String(r.max), step:String(r.step),
+      value:String(state.rev[r.id]),
+      'aria-label': `${r.name} — ${r.volumeLabel}`,
+      'data-rev-slider':r.id,
+      oninput:(e) => {
+        state.rev[r.id] = +e.target.value;
+        saveState();
+        refreshCalc();
+      }
+    });
+    const count = el('div', {
+      class:'rev-count',
+      'data-rev-count':r.id
+    }, '0');
+    sliderWrap.appendChild(slider);
+    sliderWrap.appendChild(count);
+
+    row.appendChild(nameCol);
+    row.appendChild(valueCol);
+    row.appendChild(bar);
+    row.appendChild(sliderWrap);
+    body.appendChild(row);
+  });
+
+  // total
+  const total = el('div', { class:'rev-total' },
+    el('div', { class:'label' }, 'Annual potential'),
+    el('div', { class:'value' }, el('span', { 'data-rev-total':'1', html:'<span class="currency">$</span>0' }))
+  );
+  body.appendChild(total);
+
+  // insight note
+  const note = el('div', {
+    class:'rev-note',
+    'data-rev-note':'1'
+  });
+  body.appendChild(note);
+
+  // reset
+  const reset = el('button', {
+    class:'rev-reset',
+    onclick:() => {
+      p.revenue.forEach(r => { state.rev[r.id] = r.default; });
+      saveState();
+      // update slider dom values
+      p.revenue.forEach(r => {
+        const s = card.querySelector(`[data-rev-slider="${r.id}"]`);
+        if(s) s.value = r.default;
+      });
+      refreshCalc();
+    }
+  }, '↺ Reset to baseline');
+  body.appendChild(reset);
+
+  card.appendChild(body);
+
+  function refreshCalc(){
+    const rows = computeAll();
+    const max  = maxAnnual();
+    let sum = 0;
+    rows.forEach(({ r, volume, annual }) => {
+      sum += annual;
+      const $val   = card.querySelector(`[data-rev-value="${r.id}"]`);
+      const $bar   = card.querySelector(`[data-rev-bar="${r.id}"]`);
+      const $count = card.querySelector(`[data-rev-count="${r.id}"]`);
+      if($val)   $val.textContent = '$' + fmtMoney(annual);
+      if($bar)   $bar.style.width = (annual / max * 100).toFixed(1) + '%';
+      if($count) $count.textContent = fmtInt(volume) + ' ' + r.volumeLabel;
+    });
+    const $tot = card.querySelector('[data-rev-total]');
+    if($tot){
+      $tot.innerHTML = '<span class="currency">$</span>' + fmtMoney(sum);
+    }
+    const $note = card.querySelector('[data-rev-note]');
+    if($note){
+      let verdict;
+      if(sum < 15000)      verdict = 'Below the conservative floor. More volume needed to justify the pillar.';
+      else if(sum < 30000) verdict = 'Conservative Year 1 territory. Reasonable given a single title.';
+      else if(sum < 60000) verdict = 'Strong Year 1 if Substack growth holds. Begins to fund the other pillars.';
+      else if(sum < 120000)verdict = 'Aggressive Year 1. Requires either multiple titles or breakout newsletter.';
+      else                 verdict = 'Year 2–3 territory. Treat as aspirational, not a baseline.';
+      $note.innerHTML = `<strong>Projection:</strong> ${verdict} Drag the sliders to stress-test different growth curves.`;
+    }
+  }
+
+  // first paint after DOM attach
+  requestAnimationFrame(refreshCalc);
+
+  return card;
+}
+
+// ══════════════════════════════════════
+// CAMCORDER VIEW
+// ══════════════════════════════════════
+function renderCamcorderView(){
+  const p = PILLARS[1];
+  const $v = document.getElementById('view-camcorder');
+  $v.innerHTML = '';
+  $v.style.setProperty('--pillar-accent',      `var(${p.accent})`);
+  $v.style.setProperty('--pillar-accent-light',`var(${p.accentLight})`);
+  $v.appendChild(viewHeader(p));
+
+  // content pillars
+  const card1 = el('div', { class:'card' });
+  card1.appendChild(el('div', { class:'card-label' }, 'Content Pillars'));
+  const grid = el('div', { class:'pillar-grid' });
+  p.contentPillars.forEach(cp => {
+    grid.appendChild(el('div', { class:'pillar-card' },
+      el('div', { class:'name' }, cp.name),
+      el('div', { class:'desc' }, cp.desc)
+    ));
+  });
+  card1.appendChild(grid);
+  $v.appendChild(card1);
+
+  // platforms table
+  const card2 = el('div', { class:'card' });
+  card2.appendChild(el('div', { class:'card-label' }, 'Platform Strategy'));
+  const table = el('table', null,
+    el('thead', null,
+      el('tr', null,
+        el('th', null, 'Platform'),
+        el('th', null, 'Format'),
+        el('th', null, 'Cadence'),
+        el('th', null, 'Goal')
+      )
+    )
+  );
+  const tbody = el('tbody', null);
+  p.platforms.forEach(pl => {
+    tbody.appendChild(el('tr', null,
+      el('td', { class:'primary' }, pl.name),
+      el('td', null, pl.format),
+      el('td', { class:'accent' }, pl.cadence),
+      el('td', null, pl.goal)
+    ));
+  });
+  table.appendChild(tbody);
+  card2.appendChild(table);
+  $v.appendChild(card2);
+
+  // milestones
+  const card3 = el('div', { class:'card' });
+  card3.appendChild(el('div', { class:'card-label' }, 'Growth Milestones'));
+  p.milestones.forEach((m, i) => {
+    card3.appendChild(el('div', { class:'milestone' },
+      el('div', { class:'circle' }, String(i + 1)),
+      el('div', { class:'body' },
+        el('div', { class:'target' }, m.target),
+        el('div', { class:'when' }, m.time)
+      ),
+      el('div', { class:'unlock' }, m.unlock)
+    ));
+  });
+  $v.appendChild(card3);
+}
+
+// ══════════════════════════════════════
+// MODELING VIEW
+// ══════════════════════════════════════
+function renderModelingView(){
+  const p = PILLARS[2];
+  const $v = document.getElementById('view-modeling');
+  $v.innerHTML = '';
+  $v.style.setProperty('--pillar-accent',      `var(${p.accent})`);
+  $v.style.setProperty('--pillar-accent-light',`var(${p.accentLight})`);
+  $v.appendChild(viewHeader(p));
+
+  // action items (numbered badges, checkable)
+  const card1 = el('div', { class:'card' });
+  card1.appendChild(el('div', { class:'card-label' }, 'Immediate Action Items'));
+  const list = el('ul', { class:'action-list' });
+  p.actions.forEach((a, i) => {
+    const key  = `act-${i}`;
+    const done = !!((state.checks[p.id] || {})[key]);
+    list.appendChild(el('li', {
+      class:'action-item',
+      'data-done': done ? '1' : '0',
+      tabindex:'0',
+      role:'checkbox',
+      'aria-checked': done ? 'true' : 'false',
+      onclick:() => { toggleCheck(p.id, key); renderModelingView(); },
+      onkeydown:(e) => {
+        if(e.key === ' ' || e.key === 'Enter'){
+          e.preventDefault();
+          toggleCheck(p.id, key);
+          renderModelingView();
+        }
+      }
+    },
+      el('span', { class:'action-num' }, String(i + 1)),
+      el('span', { class:'text' }, a)
+    ));
+  });
+  card1.appendChild(list);
+  $v.appendChild(card1);
+
+  // two-col: agencies + rates
+  const cols = el('div', { class:'two-col' });
+
+  const card2 = el('div', { class:'card' });
+  card2.appendChild(el('div', { class:'card-label' }, 'Target Agencies'));
+  p.agencies.forEach(a => {
+    card2.appendChild(el('div', { class:'list-item' },
+      el('div', { class:'name' }, a.name),
+      el('div', { class:'note' }, a.note)
+    ));
+  });
+  cols.appendChild(card2);
+
+  const card3 = el('div', { class:'card' });
+  card3.appendChild(el('div', { class:'card-label' }, 'Rate Card (post authorization)'));
+  p.rates.forEach(r => {
+    card3.appendChild(el('div', { class:'rate-row' },
+      el('div', { class:'type' }, r.type, el('small', null, r.note)),
+      el('div', { class:'range' }, r.range)
+    ));
+  });
+  cols.appendChild(card3);
+
+  $v.appendChild(cols);
+
+  // warning banner
+  $v.appendChild(el('div', { class:'warn-banner' },
+    el('strong', null, '⚠ Visa compliance: '),
+    document.createTextNode('Cannot do paid work on B-1/B-2. Unpaid TFP shoots, portfolio building, comp cards, and agency signing are permitted. All paid work awaits authorization.')
+  ));
+}
+
+// ══════════════════════════════════════
+// VISA VIEW
+// ══════════════════════════════════════
+let visaActivePath = 0;
+
+function renderVisaView(){
+  const p = PILLARS[3];
+  const $v = document.getElementById('view-visa');
+  $v.innerHTML = '';
+  $v.style.setProperty('--pillar-accent',      `var(${p.accent})`);
+  $v.style.setProperty('--pillar-accent-light',`var(${p.accentLight})`);
+  $v.appendChild(viewHeader(p));
+
+  // pathway card
+  const card1 = el('div', { class:'card' });
+  card1.appendChild(el('div', { class:'card-label' }, 'Visa Pathways'));
+
+  const tabs = el('div', { class:'pathway-tabs', role:'tablist' });
+  p.pathways.forEach((pw, i) => {
+    tabs.appendChild(el('button', {
+      class:'pathway-tab' + (i === visaActivePath ? ' active' : ''),
+      role:'tab',
+      'aria-selected': i === visaActivePath ? 'true' : 'false',
+      onclick:() => { visaActivePath = i; renderVisaView(); }
+    },
+      el('div', { class:'name' }, pw.name),
+      el('div', { class:'subtitle' }, pw.subtitle)
+    ));
+  });
+  card1.appendChild(tabs);
+
+  const pw = p.pathways[visaActivePath];
+  const body = el('div', { class:'pathway-body' },
+    el('p', null, pw.details)
+  );
+  if(pw.evidence){
+    body.appendChild(el('div', { class:'card-label', style:'margin-top:20px;margin-bottom:14px' }, 'Evidence Being Built'));
+    const grid = el('div', { class:'evidence-grid' });
+    pw.evidence.forEach(e => {
+      grid.appendChild(el('div', { class:'evidence-chip' }, e));
+    });
+    body.appendChild(grid);
+  }
+  card1.appendChild(body);
+  $v.appendChild(card1);
+
+  // urgent actions — checkable
+  const card2 = el('div', { class:'card' });
+  card2.appendChild(el('div', { class:'card-label' }, 'Urgent Action Items'));
+  p.urgentActions.forEach((a, i) => {
+    const key  = `urgent-${i}`;
+    const done = !!((state.checks[p.id] || {})[key]);
+    const row = el('li', {
+      class:'urgent-item',
+      'data-priority':a.priority,
+      'data-done': done ? '1' : '0',
+      tabindex:'0',
+      role:'checkbox',
+      'aria-checked': done ? 'true' : 'false',
+      onclick:() => { toggleCheck(p.id, key); renderVisaView(); },
+      onkeydown:(e) => {
+        if(e.key === ' ' || e.key === 'Enter'){
+          e.preventDefault();
+          toggleCheck(p.id, key);
+          renderVisaView();
+        }
+      }
+    });
+    const check = el('span', { class:'check', style:`--pillar-accent:var(${p.accent})` }, checkSVG());
+    row.appendChild(check);
+    row.appendChild(el('span', { class:'dot' }));
+    row.appendChild(el('span', { class:'text' }, a.text));
+    card2.appendChild(row);
+  });
+  $v.appendChild(card2);
+
+  // visa countdown banner
+  const daysLeft = Math.ceil((VISA_EXPIRY - new Date()) / (1000 * 60 * 60 * 24));
+  $v.appendChild(el('div', { class:'visa-banner' },
+    el('div', { class:'msg' },
+      el('strong', null, 'Current status: '),
+      document.createTextNode(`B-1/B-2 tourist visa expiring May 28, 2026. All monetization must flow through UK-based entities or be structured as passive income until legal status changes.`)
+    ),
+    el('div', { class:'visa-countdown' },
+      el('div', { class:'days' }, String(daysLeft)),
+      el('div', { class:'lbl' }, daysLeft === 1 ? 'day left' : 'days left')
+    )
+  ));
+}
+
+// ══════════════════════════════════════
+// FEATURE 3 — INTERACTIVE TIMELINE
+// ══════════════════════════════════════
+function renderTimelineView(){
+  const $v = document.getElementById('view-timeline');
+  $v.innerHTML = '';
+
+  // header
+  $v.appendChild(el('div', { class:'view-header', style:'--pillar-accent:var(--terracotta)' },
+    el('h2', null, 'Master Timeline'),
+    el('div', { class:'tagline' }, 'Every milestone is a brick in the foundation'),
+    el('div', { class:'rule' }),
+    el('p', { class:'blurb' }, 'Drag the scrubber to walk the timeline month-by-month. Phase cards expand as you scrub through them. The red marker shows today.')
+  ));
+
+  // compute timeline geometry
+  const totalMonths = TIMELINE[TIMELINE.length - 1].endMonth;
+  const now = new Date();
+  const todayMonth = Math.max(0, Math.min(totalMonths,
+    (now.getFullYear() - TIMELINE_START.getFullYear()) * 12 +
+    (now.getMonth() - TIMELINE_START.getMonth()) +
+    now.getDate() / 30
+  ));
+  const todayPct = (todayMonth / totalMonths) * 100;
+
+  // init scrub state — default to today
+  if(state.scrub == null){
+    state.scrub = Math.round(todayMonth);
+    saveState();
+  }
+  let scrubMonth = Math.max(0, Math.min(totalMonths, state.scrub));
+
+  // which phase is the scrubber over?
+  function phaseAt(m){
+    for(let i = 0; i < TIMELINE.length; i++){
+      if(m >= TIMELINE[i].startMonth && m < TIMELINE[i].endMonth) return i;
+    }
+    return TIMELINE.length - 1;
+  }
+
+  const card = el('div', { class:'card timeline-card' });
+
+  // head
+  const head = el('div', { class:'timeline-head' },
+    el('div', { class:'card-label' }, 'Roadmap scrubber'),
+    el('div', { class:'current' },
+      document.createTextNode('You are on'),
+      el('span', { class:'val', 'data-current-month':'1' }, '—')
+    )
+  );
+  card.appendChild(head);
+
+  // scrubber region
+  const scrubWrap = el('div', { class:'timeline-scrub-wrap' });
+  const track = el('div', { class:'timeline-track' });
+
+  TIMELINE.forEach((t, i) => {
+    const weight = (t.endMonth - t.startMonth);
+    const phase = el('div', {
+      class:'timeline-phase',
+      'data-phase':String(i),
+      style:`--phase-weight:${weight};--phase-accent:var(${t.accent});--phase-accent-light:var(${t.accentLight})`
+    },
+      el('span', { class:'pname' }, t.phase)
+    );
+    track.appendChild(phase);
+  });
+
+  const todayMark = el('div', {
+    class:'timeline-today',
+    style:`--today-pct:${todayPct.toFixed(2)}%`,
+    'aria-hidden':'true'
+  });
+  track.appendChild(todayMark);
+
+  const scrubber = el('div', {
+    class:'timeline-scrubber',
+    'data-scrubber':'1',
+    style:`--scrub-pct:${(scrubMonth/totalMonths*100).toFixed(2)}%`,
+    'aria-hidden':'true'
+  });
+  track.appendChild(scrubber);
+
+  // invisible range input overlay
+  const range = el('input', {
+    type:'range',
+    class:'timeline-range',
+    min:'0', max:String(totalMonths), step:'0.25',
+    value:String(scrubMonth),
+    'aria-label':'Timeline scrubber — drag to walk through the roadmap month by month',
+    oninput:(e) => {
+      scrubMonth = +e.target.value;
+      state.scrub = scrubMonth;
+      saveState();
+      refreshTimeline();
+    }
+  });
+  track.appendChild(range);
+
+  scrubWrap.appendChild(track);
+
+  // month ticks below track
+  const ticks = el('div', { class:'timeline-ticks' });
+  const TICK_MONTHS = ['Apr ’26','Jun','Aug','Oct','Dec','Feb ’27','Apr','Jun'];
+  const TICK_AT     = [0, 2, 4, 6, 8, 10, 12, 14];
+  TICK_MONTHS.forEach((label, i) => {
+    const pct = (TICK_AT[i] / totalMonths) * 100;
+    ticks.appendChild(el('span', {
+      class:'timeline-tick',
+      style:`left:${pct.toFixed(2)}%`
+    }, label));
+  });
+  scrubWrap.appendChild(ticks);
+  card.appendChild(scrubWrap);
+
+  // expanded current phase card
+  const expanded = el('div', { class:'timeline-expanded', 'data-expanded':'1' });
+  card.appendChild(expanded);
+
+  // all-phases overview
+  const overview = el('div', { class:'timeline-overview' });
+  TIMELINE.forEach((t, i) => {
+    overview.appendChild(el('button', {
+      class:'overview-cell',
+      'data-overview':String(i),
+      style:`--cell-accent:var(${t.accent});--cell-accent-light:var(${t.accentLight})`,
+      onclick:() => {
+        scrubMonth = t.startMonth + 0.5;
+        state.scrub = scrubMonth;
+        saveState();
+        range.value = String(scrubMonth);
+        refreshTimeline();
+      }
+    },
+      el('div', { class:'pn' }, t.phase),
+      el('div', { class:'tm' }, t.time),
+      el('div', { class:'count' }, t.items.length + ' milestones')
+    ));
+  });
+  card.appendChild(overview);
+
+  $v.appendChild(card);
+
+  // ── refresh logic ──
+  function monthToLabel(m){
+    const d = new Date(TIMELINE_START);
+    d.setMonth(d.getMonth() + Math.floor(m));
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  function refreshTimeline(){
+    // scrubber position
+    const pct = (scrubMonth / totalMonths * 100).toFixed(2);
+    const $sc = card.querySelector('[data-scrubber]');
+    if($sc) $sc.style.setProperty('--scrub-pct', pct + '%');
+
+    // active phase
+    const active = phaseAt(scrubMonth);
+    card.querySelectorAll('.timeline-phase').forEach((pEl, i) => {
+      pEl.classList.toggle('active', i === active);
+    });
+    card.querySelectorAll('.overview-cell').forEach((cEl, i) => {
+      cEl.classList.toggle('active', i === active);
+    });
+
+    // current month label
+    const $cur = card.querySelector('[data-current-month]');
+    if($cur) $cur.textContent = monthToLabel(scrubMonth);
+
+    // expanded card
+    const t   = TIMELINE[active];
+    const $ex = card.querySelector('[data-expanded]');
+    $ex.style.setProperty('--phase-accent',       `var(${t.accent})`);
+    $ex.style.setProperty('--phase-accent-light', `var(${t.accentLight})`);
+
+    // "you are here" relative to now
+    let statusTxt;
+    const delta = scrubMonth - todayMonth;
+    if(Math.abs(delta) < 0.5)      statusTxt = '▸ You are here (present).';
+    else if(delta < 0)             statusTxt = `▸ ${Math.abs(delta).toFixed(1)} months in the past.`;
+    else                           statusTxt = `▸ ${delta.toFixed(1)} months ahead of today.`;
+
+    $ex.innerHTML = '';
+    $ex.appendChild(el('div', { class:'ehead' },
+      el('div', { class:'phase' }, t.phase),
+      el('div', { class:'range' }, t.time)
+    ));
+    $ex.appendChild(el('div', { class:'status' }, statusTxt));
+    const chips = el('div', { class:'timeline-chips' });
+    t.items.forEach(item => {
+      chips.appendChild(el('div', { class:'timeline-chip' }, item));
+    });
+    $ex.appendChild(chips);
+  }
+
+  requestAnimationFrame(refreshTimeline);
+}
+
+// ══════════════════════════════════════
+// FOOTER ACTIONS
+// ══════════════════════════════════════
+document.getElementById('signOut').addEventListener('click', () => {
+  try{ localStorage.removeItem(AUTH_KEY); }catch(_){}
+  location.reload();
+});
+document.getElementById('resetAll').addEventListener('click', () => {
+  if(!confirm('Clear all checked items and reset the revenue sliders?')) return;
+  state.checks = {};
+  state.rev = {};
+  state.scrub = null;
+  saveState();
+  renderAll();
+});
+
+// ══════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════
+(function init(){
+  let alreadyAuthed = false;
+  try{ alreadyAuthed = localStorage.getItem(AUTH_KEY) === '1'; }catch(_){}
+  if(alreadyAuthed){
+    document.getElementById('signin').style.display = 'none';
+    document.getElementById('dash').hidden = false;
+    requestAnimationFrame(() => document.getElementById('dash').classList.add('visible'));
+    renderAll();
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
