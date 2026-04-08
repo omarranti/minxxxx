@@ -244,6 +244,37 @@
   .os-chip.amber{background:var(--hud-amber)}
   .os-chip.live{background:var(--rec-red);color:var(--os-cream)}
 
+  /* clickable private-dashboard chip — discreet easter egg */
+  a.os-chip.priv{
+    background:#d8ffd9;
+    color:var(--os-ink);
+    text-decoration:none;
+    position:relative;
+    cursor:pointer;
+    transition:background .12s ease, transform .12s ease, box-shadow .12s ease;
+  }
+  a.os-chip.priv:hover{
+    background:#bcffbf;
+    transform:translate(-1px,-1px);
+    box-shadow:2.5px 2.5px 0 var(--os-shadow);
+  }
+  a.os-chip.priv:focus-visible{
+    outline:2px solid var(--phosphor);
+    outline-offset:3px;
+  }
+  a.os-chip.priv::before{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:max(100%,44px);
+    height:max(100%,44px);
+    transform:translate(-50%,-50%);
+  }
+  @media (prefers-reduced-motion: reduce){
+    a.os-chip.priv{transition:none}
+    a.os-chip.priv:hover{transform:none}
+  }
+
   /* bottom status bar */
   .os-status-left{
     display:flex;
@@ -1936,6 +1967,7 @@
     <span>DRIVE</span>
     <span class="os-chip">CAP</span>
     <span class="os-chip">NUM</span>
+    <a href="dashboard/" class="os-chip priv" aria-label="Open private career dashboard (sign-in required)">PRIV</a>
   </div>
 </div>
 
