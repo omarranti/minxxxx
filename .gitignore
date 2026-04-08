@@ -4,3 +4,6 @@ __pycache__/
 
 # Local batch scrape output (third-party pages; can be large)
 batch_results.json
+
+# Claude Code internal state
+.claude/
