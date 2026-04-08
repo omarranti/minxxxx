@@ -1745,6 +1745,219 @@
     color:var(--launch-accent);
   }
 
+  /* ──── marketing cards (attached to ebook launch only) ──── */
+  .marketing-head,
+  .marketing-guardrails,
+  .marketing-psych,
+  .marketing-ideas,
+  .marketing-seq,
+  .marketing-kpis{
+    margin-top:24px;
+  }
+  .mk-block{margin-bottom:14px}
+  .mk-block:last-child{margin-bottom:0}
+  .mk-lbl{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    margin-bottom:6px;
+  }
+  .mk-body{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.92rem;
+    line-height:1.55;
+    color:var(--text);
+  }
+  .mk-note{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.82rem;
+    font-style:italic;
+    line-height:1.55;
+    color:var(--text-med);
+    margin:6px 0 16px;
+    padding-left:12px;
+    border-left:2px solid var(--terracotta-light);
+  }
+
+  /* guardrails — the conscience card */
+  .marketing-guardrails{
+    background:linear-gradient(0deg, var(--cream) 0%, var(--white) 100%);
+    border-left:3px solid var(--terracotta);
+  }
+  .mk-guard-list{
+    list-style:none;
+    padding:0;margin:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 22px;
+  }
+  .mk-guard-list li{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.85rem;
+    line-height:1.5;
+    color:var(--text);
+    padding-left:22px;
+    position:relative;
+  }
+  .mk-guard-list li::before{
+    content:"✓";
+    position:absolute;
+    left:0;top:0;
+    width:16px;height:16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.72rem;
+    font-weight:700;
+    color:var(--terracotta);
+    background:var(--terracotta-light);
+    border-radius:3px;
+    line-height:1;
+  }
+
+  /* psychology principles grid */
+  .mk-psych-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+  }
+  .mk-psych-cell{
+    background:var(--cream);
+    border:1px solid var(--border-light);
+    border-left:3px solid var(--terracotta);
+    border-radius:4px;
+    padding:14px 16px 16px 18px;
+    position:relative;
+  }
+  .mk-psych-num{
+    position:absolute;
+    top:10px;right:12px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.58rem;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--terracotta);
+    background:var(--terracotta-light);
+    padding:3px 6px;
+    border-radius:3px;
+  }
+  .mk-psych-title{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.82rem;
+    font-weight:700;
+    letter-spacing:0.01em;
+    color:var(--text);
+    margin-bottom:6px;
+    padding-right:36px;
+  }
+  .mk-psych-body{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.85rem;
+    line-height:1.5;
+    color:var(--text-med);
+  }
+
+  /* creative ideas grid */
+  .mk-ideas-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+  }
+  .mk-idea-cell{
+    background:var(--white);
+    border:1px solid var(--border-light);
+    border-radius:4px;
+    padding:14px 16px 16px 16px;
+    position:relative;
+    transition:border-color 0.18s, transform 0.18s;
+  }
+  .mk-idea-cell:hover{
+    border-color:var(--terracotta);
+    transform:translateY(-1px);
+  }
+  .mk-idea-num{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.58rem;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--text-muted);
+    margin-bottom:4px;
+  }
+  .mk-idea-title{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:6px;
+  }
+  .mk-idea-body{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.84rem;
+    line-height:1.5;
+    color:var(--text-med);
+  }
+
+  /* launch sequence */
+  .mk-seq-list{
+    list-style:none;
+    padding:0;margin:0;
+    counter-reset:none;
+  }
+  .mk-seq-item{
+    display:grid;
+    grid-template-columns:88px 1fr;
+    gap:16px;
+    align-items:baseline;
+    padding:12px 0;
+    border-bottom:1px solid var(--border-light);
+  }
+  .mk-seq-item:last-child{border-bottom:none}
+  .mk-seq-label{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.68rem;
+    font-weight:700;
+    letter-spacing:0.06em;
+    color:var(--terracotta);
+    background:var(--terracotta-light);
+    padding:5px 9px;
+    border-radius:3px;
+    text-align:center;
+    white-space:nowrap;
+  }
+  .mk-seq-step{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.9rem;
+    line-height:1.5;
+    color:var(--text);
+  }
+
+  /* KPIs */
+  .mk-kpi-list{
+    list-style:none;
+    padding:0;margin:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px 22px;
+  }
+  .mk-kpi-list li{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.86rem;
+    line-height:1.5;
+    color:var(--text);
+    padding-left:18px;
+    position:relative;
+  }
+  .mk-kpi-list li::before{
+    content:"▸";
+    position:absolute;
+    left:0;top:0;
+    color:var(--terracotta);
+  }
+
   .launch-principles{
     margin-top:24px;
   }
@@ -2062,6 +2275,8 @@
     .newsletter-board{padding:16px 14px}
     .first-steps summary{padding:10px 14px}
     .first-steps .fs-body{padding:4px 14px 14px}
+    .mk-psych-grid,.mk-ideas-grid,.mk-guard-list,.mk-kpi-list{grid-template-columns:1fr}
+    .mk-seq-item{grid-template-columns:72px 1fr;gap:12px}
   }
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{
@@ -3117,6 +3332,69 @@ const PILLARS = [
           'post-2':"Wave 2 = signed paperback drop at day +14. Gives u a second launch moment off the same asset.",
           'post-3':"Amazon reviews matter for ranking. Ask every buyer. Goodreads reviews = credibility. Ask readers who finished.",
           'post-4':"Screenshot KDP dashboard, sales chart, every press mention. File in /visa-evidence/ebook-launch/ as u go."
+        },
+        marketing:{
+          positioning:"Not self-help. Not memoir. A field journal / zine / unsent letter. Shelve next to Women Who Run With The Wolves, Crying In H Mart, a tattoo flash sheet. The exclusion IS the positioning.",
+          audience:"Warrior princesses. Slightly crazy girls. The curious, sensitive, risk-addicted ones who crave real. She does not want to be saved — she wants to be witnessed, believed, and dared into her own rescue.",
+          guardrails:[
+            "Reader safety: quick-exit button on every public page, no retargeting to abuser devices, no geolocated ads, no cold DMs to girls posting crisis content",
+            "Honesty: no fake urgency, no fake scarcity, no fake testimonials, no dark patterns on checkout",
+            "Agency: treat the reader as a capable adult, not a victim to rescue",
+            "Crisis safety: every public surface includes a hotline (988 / local) and a line saying 'if you're in danger this book can wait — call someone first'",
+            "Voice integrity: if a growth marketer rewrote it in clean sentence case, ship the next version",
+            "Sister test: would Phoebe send this to her little sister? If no, kill it"
+          ],
+          psychology:[
+            { principle:"Identity > benefit", application:"Sell 'be the warrior princess', not 'heal from abuse'. The book is the ritual object of becoming. Every headline, caption, CTA addresses her as who she is becoming." },
+            { principle:"Narrative transportation", application:"Every hook opens with a scene, a confession, a line from the book — never a feature list. A 15s TikTok reading Rule 1 out-converts any sales page." },
+            { principle:"Reciprocity — full-value gift", application:"Free chapter PDF (Rules + page 8 prompts) with full standalone value. Companion playlist on SoundCloud. No teaser cutoffs." },
+            { principle:"Anonymous social proof", application:"Redacted screenshots, pitch-shifted voice notes, typewriter-on-paper quotes. Never names or faces. Anonymity itself IS the trust signal on this audience." },
+            { principle:"Loss aversion (ethical reframe)", application:"Never threaten 'you'll stay stuck'. Reframe as the self she's losing by not naming what happened: 'you are still allowed to be the person you were before him.' Loss aimed inward, not at the wallet." },
+            { principle:"Commitment & consistency", application:"Every touchpoint asks a micro-commitment a traumatised reader can keep: 'text this to the friend who knew before you did', 'read rule 3 out loud'. Readers who act, bond." },
+            { principle:"In-group signalling", application:"Wearable artefacts — lock-screen wallpapers, temporary tattoos, sticker sheets, a custom emoji set. Readers become billboards in public just by existing." },
+            { principle:"Contrast (anti-marketing)", application:"Landing page opens with Rule 2's warning: 'if you need a gentler approach, do not read this'. The disclaimer anchors everything after it as the forbidden real thing." },
+            { principle:"Peak-end rule", application:"Every funnel ends with a blessing, never an upsell. The last email closes with 'stay bad, stay safe' — mirrors the book. Last impression defines the memory." },
+            { principle:"Genuine scarcity only", application:"111 numbered, red thread-bound, hand-stamped copies. Real scarcity is honest. Fake countdowns on this audience are a tell and kill the trust." },
+            { principle:"Fluency as trust", application:"Lowercase, run-on, typos, 'u', 'prolly', '&'. The voice IS the persuasion — never clean it up for marketing. Grammar is the credential." },
+            { principle:"Authority via specificity", application:"'The adrenaline and the calm after bonds you like animals' beats any citation. Specificity is the only credential this audience accepts." }
+          ],
+          ideas:[
+            { name:"Bathroom QR stickers", desc:"Sticker drops in women's bathrooms at dive bars, tattoo shops, 24hr diners, hostel dorms. 'For the girl reading this on the floor at 2am — you can leave. here's a book.' Pure intent targeting at near-zero cost." },
+            { name:"Zine drops at physical nodes", desc:"Hand-stapled free-chapter zines at tattoo studios, record stores, witchy shops, DIY venues, laundromats near universities. Only the free chapter. Only with permission at shelter receptions." },
+            { name:"111 red-thread print run", desc:"Hand-bound with red thread, numbered, hand-stamped. Ships with temporary tattoo of the cover heart + folded handwritten note. Sells out on announcement, becomes the book's proof-of-cult." },
+            { name:"Bandcamp audio release", desc:"Release audiobook as an album on Bandcamp (not Audible). Tracks numbered as pages. One page per day in pre-launch. Phoebe's voice cracking on Rule 3 out-converts any text sales copy." },
+            { name:"Moon-cycle drops", desc:"Chapters and print runs launch on new and full moons. Not woo — a recurring free cadence the audience already tracks, giving the brand a built-in beat." },
+            { name:"Discord group reads", desc:"Closed server. One chapter per week. Phoebe shows up in voice chat once a month. No men, no coaches. Becomes the graduate community and the strongest word-of-mouth engine." },
+            { name:"Voice-note testimonial track", desc:"Collect reader responses as pitch-shifted voice notes. Release a single 8-minute track of 30 voices saying 'this happened to me too'. That track IS the ad." },
+            { name:"Lock-screen ministry", desc:"Monthly free set of lock-screen wallpapers with single lines from the book in the ornate-border style. Girls wear them. Phones become billboards." },
+            { name:"Quick-exit button", desc:"Game-controller-styled exit button on every public page that redirects to weather.com. It's both a safety feature AND a signal to the reader: 'she knows what your situation looks like.' That signal closes the sale." },
+            { name:"Anti-mailing-list SMS", desc:"'Drop your number, I'll text you one line from the book on a random Tuesday, forever, and you can reply.' SMS, no automation. Ten girls on this list move more books than ten thousand on Mailchimp." },
+            { name:"MINX tatu flash-sheet collab", desc:"Warrior princess flash sheet where every tattoo ships with the book, and every signed paperback ships with a flash voucher. Sister brand cross-pollination." },
+            { name:"Song-per-page mixtape", desc:"11 indie-artist friends, one 1-minute track per chapter, free SoundCloud drop. Each track description links to the book. The music community distributes it for free." },
+            { name:"The unfindable version", desc:"Host one copy at /404 on the domain. 'If you know you know.' Leans into the book's actual history — the original lived at a since-deleted Canva link." },
+            { name:"Gift-economy at launch", desc:"Every £17 buyer gets a credit to anonymously gift the digital version to another woman with a 1-sentence note: 'a girl who doesn't know you paid for this book for you.' Reciprocity × social proof × narrative in one mechanic." },
+            { name:"Marginalia edition", desc:"Second print run with Phoebe's handwritten margin notes photocopied from her working copy. Each one slightly different. A reason the already-owned buyer buys again." },
+            { name:"PRESS_PLAY cassettes", desc:"50 audiobook cassettes through one record store. The cover folio already reads PRESS_PLAY. Aesthetic play — cassettes print like merch, not like self-help." },
+            { name:"The confession wall", desc:"One static page at /wall. Any reader submits one anonymous line. It goes up. Over time it becomes a monument, and monuments are viral." }
+          ],
+          launchSequence:[
+            { label:"T−28d", step:"Whisper phase — one page image on TikTok, no context, no link. Let the curiosity build in comments." },
+            { label:"T−21d", step:"Name it — announce title + landing page. Free chapter goes live. Email list opens." },
+            { label:"T−14d", step:"Voice drop — release page 1 audio on Bandcamp, free." },
+            { label:"T−7d",  step:"Social proof week — release the voice-note testimonial track. Substack essay: 'why i wrote rule 3'." },
+            { label:"T−1d",  step:"Preorder opens for the 111 print run." },
+            { label:"T = 0", step:"Launch day — digital PWYW live, Bandcamp audio live, gift-economy mechanic live, one Substack essay, one TikTok of Phoebe reading the last page." },
+            { label:"T+7d",  step:"The confession wall goes live for first finishers." },
+            { label:"T+30d", step:"The graduate Substack opens — converts readers into the ongoing voice." }
+          ],
+          kpis:[
+            "Reply rate on the welcome email — a girl who writes back is a girl you helped",
+            "Depth of read on the free chapter (respectful scroll tracking)",
+            "Organic word-of-mouth lift — 'a friend sent me this' signups",
+            "Voice-note submissions to the confession wall / testimonial track",
+            "Graduate tier month-over-month retention",
+            "Count of longform DMs from readers — the real KPI"
+          ]
         }
       },
       {
@@ -4806,6 +5084,111 @@ function renderLaunchView(){
 
   card.appendChild(detail);
   $v.appendChild(card);
+
+  // ──────────────────────────────────────
+  // Marketing intelligence — only for launches that define it (ebook)
+  // Maps to /marketing-ideas + /marketing-psychology
+  // ──────────────────────────────────────
+  if(L.marketing){
+    const M = L.marketing;
+
+    // Positioning + audience header
+    if(M.positioning || M.audience){
+      const posCard = el('div', { class:'card marketing-head' },
+        el('div', { class:'card-label' }, 'Marketing — positioning & audience'),
+        M.positioning ? el('div', { class:'mk-block' },
+          el('div', { class:'mk-lbl' }, 'Positioning'),
+          el('p', { class:'mk-body' }, M.positioning)
+        ) : null,
+        M.audience ? el('div', { class:'mk-block' },
+          el('div', { class:'mk-lbl' }, 'Audience insight'),
+          el('p', { class:'mk-body' }, M.audience)
+        ) : null
+      );
+      $v.appendChild(posCard);
+    }
+
+    // Ethics guardrails — lead with this on a sensitive book
+    if(M.guardrails && M.guardrails.length){
+      const gCard = el('div', { class:'card marketing-guardrails' });
+      gCard.appendChild(el('div', { class:'card-label' }, 'Ethics guardrails — every asset must pass'));
+      gCard.appendChild(el('p', { class:'mk-note' },
+        'This book speaks to women in or just out of abusive relationships. Every tactic is filtered through one question: would Phoebe feel dirty if a girl she cared about got hit by it?'
+      ));
+      const gUl = el('ul', { class:'mk-guard-list' });
+      M.guardrails.forEach(g => gUl.appendChild(el('li', null, g)));
+      gCard.appendChild(gUl);
+      $v.appendChild(gCard);
+    }
+
+    // Marketing psychology principles
+    if(M.psychology && M.psychology.length){
+      const pCard = el('div', { class:'card marketing-psych' });
+      pCard.appendChild(el('div', { class:'card-label' }, 'Marketing psychology — principles applied ethically'));
+      pCard.appendChild(el('p', { class:'mk-note' },
+        'Standard persuasion tools (Cialdini, Kahneman, Berger, Sutherland). On a vulnerable audience they are also weapons — apply with conscience.'
+      ));
+      const pGrid = el('div', { class:'mk-psych-grid' });
+      M.psychology.forEach((item, i) => {
+        const cell = el('div', { class:'mk-psych-cell' },
+          el('div', { class:'mk-psych-num' }, String(i + 1).padStart(2, '0')),
+          el('div', { class:'mk-psych-title' }, item.principle),
+          el('div', { class:'mk-psych-body' }, item.application)
+        );
+        pGrid.appendChild(cell);
+      });
+      pCard.appendChild(pGrid);
+      $v.appendChild(pCard);
+    }
+
+    // Creative / unconventional ideas
+    if(M.ideas && M.ideas.length){
+      const iCard = el('div', { class:'card marketing-ideas' });
+      iCard.appendChild(el('div', { class:'card-label' }, 'Marketing ideas — creative & unconventional'));
+      iCard.appendChild(el('p', { class:'mk-note' },
+        'Table-stakes tactics work. These are the ones that make the book a cult object. Each is brand-aligned and ethics-checked.'
+      ));
+      const iGrid = el('div', { class:'mk-ideas-grid' });
+      M.ideas.forEach((item, i) => {
+        const cell = el('div', { class:'mk-idea-cell' },
+          el('div', { class:'mk-idea-num' }, String(i + 1).padStart(2, '0')),
+          el('div', { class:'mk-idea-title' }, item.name),
+          el('div', { class:'mk-idea-body' }, item.desc)
+        );
+        iGrid.appendChild(cell);
+      });
+      iCard.appendChild(iGrid);
+      $v.appendChild(iCard);
+    }
+
+    // 4-week launch sequence
+    if(M.launchSequence && M.launchSequence.length){
+      const sCard = el('div', { class:'card marketing-seq' });
+      sCard.appendChild(el('div', { class:'card-label' }, 'Launch sequence — 4-week sprint'));
+      const sList = el('ol', { class:'mk-seq-list' });
+      M.launchSequence.forEach(s => {
+        sList.appendChild(el('li', { class:'mk-seq-item' },
+          el('span', { class:'mk-seq-label' }, s.label),
+          el('span', { class:'mk-seq-step' }, s.step)
+        ));
+      });
+      sCard.appendChild(sList);
+      $v.appendChild(sCard);
+    }
+
+    // KPIs
+    if(M.kpis && M.kpis.length){
+      const kCard = el('div', { class:'card marketing-kpis' });
+      kCard.appendChild(el('div', { class:'card-label' }, 'Marketing KPIs — what to actually measure'));
+      kCard.appendChild(el('p', { class:'mk-note' },
+        "Not downloads. Not impressions. Downloads are a lagging indicator — the leading indicator is whether the girls are writing back."
+      ));
+      const kUl = el('ul', { class:'mk-kpi-list' });
+      M.kpis.forEach(k => kUl.appendChild(el('li', null, k)));
+      kCard.appendChild(kUl);
+      $v.appendChild(kCard);
+    }
+  }
 
   // pricing principles card
   const pricingCard = el('div', { class:'card launch-principles' });
