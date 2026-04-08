@@ -2613,6 +2613,88 @@
   }
 
   /* ──── identity questionnaire ──── */
+  .qna-export-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin:-6px 0 18px;
+    padding:8px 14px;
+    background:var(--white);
+    border:1px solid var(--rose);
+    border-radius:6px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.66rem;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--rose);
+    cursor:pointer;
+    transition:all 0.18s;
+  }
+  .qna-export-btn:hover{
+    background:var(--rose);
+    color:var(--white);
+  }
+  .qna-export-btn:focus-visible{
+    outline:2px solid var(--rose);
+    outline-offset:2px;
+  }
+
+  .qna-subsection{
+    margin-bottom:32px;
+  }
+  .qna-subsection:last-child{margin-bottom:0}
+  .qna-sub-head{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:14px;
+    align-items:center;
+    padding:14px 18px;
+    background:var(--rose-light);
+    border-left:4px solid var(--rose);
+    border-radius:6px;
+    margin-bottom:14px;
+  }
+  .qna-sub-num{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.62rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    color:var(--white);
+    background:var(--rose);
+    padding:6px 9px;
+    border-radius:4px;
+    line-height:1;
+  }
+  .qna-sub-title-block{min-width:0}
+  .qna-sub-title{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:var(--text);
+    line-height:1.2;
+  }
+  .qna-sub-sub{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.74rem;
+    font-style:italic;
+    color:var(--text-med);
+    line-height:1.5;
+    margin-top:3px;
+  }
+  .qna-sub-prog{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.66rem;
+    font-weight:700;
+    letter-spacing:0.06em;
+    color:var(--rose);
+    background:var(--white);
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid var(--rose);
+    white-space:nowrap;
+  }
+
   .qna-list{
     display:grid;
     gap:14px;
@@ -2853,6 +2935,8 @@
     .first-steps .fs-body{padding:4px 14px 14px}
     .mk-psych-grid,.mk-ideas-grid,.mk-guard-list,.mk-kpi-list{grid-template-columns:1fr}
     .mk-seq-item{grid-template-columns:72px 1fr;gap:12px}
+    .qna-sub-head{grid-template-columns:auto 1fr;gap:10px;padding:12px 14px}
+    .qna-sub-prog{grid-column:1 / -1;justify-self:start;margin-top:4px}
     .name-board{grid-template-columns:1fr}
     .stream-row{
       grid-template-columns:1fr 1fr;
@@ -4760,19 +4844,61 @@ let writingActivePhase = 0;
 // FEATURE 6 — BRAND DISCOVERY (start here)
 // ══════════════════════════════════════
 // Identity prompts in Warrior Princess voice — 12 questions, lowercase, raw.
+// Sections group the questionnaire — each maps to a different framework
+const DISCOVER_SECTIONS = [
+  {
+    id:'voice',
+    title:'Voice & instinct',
+    sub:"first thoughts, ur unfiltered voice. answer fast. don't edit."
+  },
+  {
+    id:'product',
+    title:'Product brainstorming',
+    sub:"the work itself: problem, audience, jobs-to-be-done, what u're really selling. /product-brainstorming framework."
+  },
+  {
+    id:'voice-guidelines',
+    title:'Brand voice guidelines',
+    sub:"the rules of how u sound. once these r answered, every future piece of copy has a reference paragraph to compare itself to. /brand-voice:generate-guidelines framework."
+  }
+];
+
 const DISCOVER_QUESTIONS = [
-  { id:'q1',  q:"when ppl describe u in 3 words, what do u WANT them to say — and what do they actually say rn?", hint:"the gap between these = ur brand work" },
-  { id:'q2',  q:"what's the one thing u've survived that became ur whole personality?", hint:"the wound is the work. don't sanitize it." },
-  { id:'q3',  q:"what artist, writer or character do u feel most spiritually downloaded by?", hint:"name 1-3. be specific. these are ur lineage." },
-  { id:'q4',  q:"in 2 years, what r u doing every day that u're NOT doing rn?", hint:"a normal Tuesday, not a fantasy." },
-  { id:'q5',  q:"what's the work u'd still make if no one ever paid u for it?", hint:"that's the unkillable thing. price the rest around it." },
-  { id:'q6',  q:"who is the one person ur work is secretly for? name them if u can.", hint:"every brand has 1 reader. find hers." },
-  { id:'q7',  q:"what topics do u catch urself ranting abt at 2am?", hint:"that's ur substack. the rant IS the content." },
-  { id:'q8',  q:"what aesthetic / era / vibe r u stealing from? be honest.", hint:"camcorder + warrior princess + ??? — the stack is the look." },
-  { id:'q9',  q:"what would feel like SELLING OUT to u? the line u won't cross.", hint:"name it now so u can build a business that doesn't ask u to." },
-  { id:'q10', q:"if 'minxx' isn't the final name, what FEELING does the right name have to give off?", hint:"3 adjectives. then we hunt for the word." },
-  { id:'q11', q:"what's the headline u want written about u in 5 years?", hint:"write the press u haven't earned yet." },
-  { id:'q12', q:"how much $ does ur actual dream life cost per month? (real number)", hint:"price the streams to hit it. not vibes — math." }
+  // ── voice & instinct (existing 12 — unchanged) ─────────────
+  { id:'q1',  section:'voice', q:"when ppl describe u in 3 words, what do u WANT them to say — and what do they actually say rn?", hint:"the gap between these = ur brand work" },
+  { id:'q2',  section:'voice', q:"what's the one thing u've survived that became ur whole personality?", hint:"the wound is the work. don't sanitize it." },
+  { id:'q3',  section:'voice', q:"what artist, writer or character do u feel most spiritually downloaded by?", hint:"name 1-3. be specific. these are ur lineage." },
+  { id:'q4',  section:'voice', q:"in 2 years, what r u doing every day that u're NOT doing rn?", hint:"a normal Tuesday, not a fantasy." },
+  { id:'q5',  section:'voice', q:"what's the work u'd still make if no one ever paid u for it?", hint:"that's the unkillable thing. price the rest around it." },
+  { id:'q6',  section:'voice', q:"who is the one person ur work is secretly for? name them if u can.", hint:"every brand has 1 reader. find hers." },
+  { id:'q7',  section:'voice', q:"what topics do u catch urself ranting abt at 2am?", hint:"that's ur substack. the rant IS the content." },
+  { id:'q8',  section:'voice', q:"what aesthetic / era / vibe r u stealing from? be honest.", hint:"camcorder + warrior princess + ??? — the stack is the look." },
+  { id:'q9',  section:'voice', q:"what would feel like SELLING OUT to u? the line u won't cross.", hint:"name it now so u can build a business that doesn't ask u to." },
+  { id:'q10', section:'voice', q:"if 'minxx' isn't the final name, what FEELING does the right name have to give off?", hint:"3 adjectives. then we hunt for the word." },
+  { id:'q11', section:'voice', q:"what's the headline u want written about u in 5 years?", hint:"write the press u haven't earned yet." },
+  { id:'q12', section:'voice', q:"how much $ does ur actual dream life cost per month? (real number)", hint:"price the streams to hit it. not vibes — math." },
+
+  // ── product brainstorming (new — /product-brainstorming framework) ──
+  { id:'pb1', section:'product', q:"what problem does ur work solve in the world? whose pain are u addressing that no one else is?", hint:"not 'i help ppl heal' — be specific. the warrior princess who just left him & doesn't know who she is anymore. that's a problem." },
+  { id:'pb2', section:'product', q:"jobs-to-be-done: when ur reader picks up the ebook, what JOB are they hiring it to do?", hint:"it's never 'to read'. it's always 'to feel x' or 'to become y' or 'to remember she's not crazy'." },
+  { id:'pb3', section:'product', q:"name 3 ppl/brands ur reader currently uses for this same job. why do they fall short for her?", hint:"could be self-help authors, podcasters, IG accounts, therapists, friends. who's eating ur audience's attention rn?" },
+  { id:'pb4', section:'product', q:"what's ur unfair advantage — the thing competitors literally can't replicate?", hint:"lived experience? voice? proximity? speed? aesthetic? being 26 not 56? name it." },
+  { id:'pb5', section:'product', q:"what's the smallest, sharpest version of ur work that proves the whole thing?", hint:"the ebook is one wedge. what's the next wedge? a single substack post? a single reel? smaller = easier to ship." },
+  { id:'pb6', section:'product', q:"north-star metric — what ONE number, going up, means everything is working?", hint:"followers ≠ this. think harder. reply rate? longform DMs? books shipped to ppl u don't know? books gifted forward?" },
+  { id:'pb7', section:'product', q:"kill criteria — what would make u shut this down? what's the line where u say 'pivot'?", hint:"if u can't articulate the kill criteria, u can't articulate success. name the line." },
+  { id:'pb8', section:'product', q:"3-year vision — april 2029. one normal Tuesday. walk thru ur day from wake-up to sleep.", hint:"where do u live? what r u working on? who do u see? what's in ur calendar? specifics over fantasy." },
+
+  // ── brand voice guidelines (new — /brand-voice:generate-guidelines framework) ──
+  { id:'bv1', section:'voice-guidelines', q:"5 adjectives — if ur brand was a person at a party, what 5 adjectives describe her?", hint:"push past the obvious. 'authentic' is not an adjective, it's a cope. 'feral'. 'reverent'. 'dangerous'. those r adjectives." },
+  { id:'bv2', section:'voice-guidelines', q:"5 anti-adjectives — 5 things ur brand is NOT. (often more useful than the positives.)", hint:"what would feel like betrayal in a caption? polished. corporate. clean girl. healing era™. cute. quirky." },
+  { id:'bv3', section:'voice-guidelines', q:"voice mode A — how does she sound comforting a friend at 3am who just got dumped?", hint:"write 1-2 sentences AS the brand voice. this is the tender mode." },
+  { id:'bv4', section:'voice-guidelines', q:"voice mode B — how does she sound calling out fake ppl or industry bullshit?", hint:"write 1-2 sentences in the voice. this is the sharp mode." },
+  { id:'bv5', section:'voice-guidelines', q:"voice mode C — how does she sound on her best day, celebrating a win publicly?", hint:"write 1-2 sentences. this is the joyful mode. all 3 modes have to feel like the same person." },
+  { id:'bv6', section:'voice-guidelines', q:"sacred words — words that ALWAYS feel right in the voice. list 8-12.", hint:"warrior. princess. real. slightly crazy. wild. feral. honest. body. animal. rewild. ride or die. … u get it." },
+  { id:'bv7', section:'voice-guidelines', q:"forbidden words — words that NEVER appear. list 8-12.", hint:"journey. empower. content. let's dive in. authentic. wellness. self-care. era. vibes-only. boss babe. literally never." },
+  { id:'bv8', section:'voice-guidelines', q:"grammar rules — what's the rule? lowercase or sentence case? typos OK? 'u' or 'you'? em dashes? slang?", hint:"name the rules so anyone (or any AI) writing in ur voice knows the grammar of u." },
+  { id:'bv9', section:'voice-guidelines', q:"punctuation tells — semicolons or never? oxford comma? '...' or '—'? exclamation marks? caps for emphasis?", hint:"these tiny choices r the fingerprint. they tell readers u wrote it before they even register the words." },
+  { id:'bv10', section:'voice-guidelines', q:"VOICE SAMPLE — write ONE paragraph as if texting a close friend at 2am about something hard. no editing.", hint:"this is ur reference paragraph forever. every future caption, email, sales page gets compared to this. don't perform. just write." }
 ];
 
 // Pre-loaded brand name candidates (8 slots, first 3 seeded with current options)
@@ -4952,55 +5078,120 @@ function renderNameCard(i){
   return card;
 }
 
-// ── section 02: identity questionnaire ──────────────────────
+// ── section 02: identity & brand questionnaire ──────────────
+// Sectioned by framework: voice & instinct, product brainstorming, brand voice guidelines.
+// All answers persist to state.brand.qs[id], so existing voice answers survive.
 function renderQuestionnaire(){
   const wrap = el('div', { class:'discover-section' });
   wrap.appendChild(el('div', { class:'ds-head' },
     el('div', { class:'ds-num' }, '02'),
-    el('h3', null, 'Identity questionnaire')
+    el('h3', null, 'Identity & brand questionnaire')
   ));
   wrap.appendChild(el('div', { class:'ds-sub' },
-    "12 questions in ur voice. answer fast — first thought is usually the truest. these answers shape every launch that comes after."
+    `${DISCOVER_QUESTIONS.length} questions across 3 frameworks: ur unfiltered voice, /product-brainstorming, and /brand-voice:generate-guidelines. answer fast — first thought is usually the truest. don't try to do all of them in one sitting. everything saves automatically.`
   ));
 
-  // progress count
-  const answered = DISCOVER_QUESTIONS.filter(q => (state.brand.qs[q.id] || '').trim().length > 4).length;
+  // overall progress count
+  const isAnswered = q => (state.brand.qs[q.id] || '').trim().length > 4;
+  const totalAnswered = DISCOVER_QUESTIONS.filter(isAnswered).length;
   const prog = el('div', {
     class:'ds-sub',
     style:'margin-top:-12px;font-style:normal;font-family:DM Sans,sans-serif;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--rose);font-weight:700'
-  }, `${answered} of ${DISCOVER_QUESTIONS.length} answered`);
+  }, `${totalAnswered} of ${DISCOVER_QUESTIONS.length} answered`);
   wrap.appendChild(prog);
 
-  const list = el('div', { class:'qna-list' });
-  DISCOVER_QUESTIONS.forEach((q, idx) => {
-    const cur = state.brand.qs[q.id] || '';
-    const item = el('div', {
-      class:'qna-item' + (cur.trim().length > 4 ? ' answered' : '')
-    });
-    item.appendChild(el('div', { class:'qna-q' },
-      el('span', { class:'qnum' }, String(idx + 1).padStart(2, '0')),
-      el('span', null, q.q)
-    ));
-    if(q.hint){
-      item.appendChild(el('div', {
-        style:'font-family:Source Serif 4,Georgia,serif;font-size:0.72rem;font-style:italic;color:var(--text-muted);margin-bottom:6px;line-height:1.5'
-      }, '↳ ' + q.hint));
-    }
-    item.appendChild(el('textarea', {
-      class:'qna-input',
-      placeholder:'type ur answer in lowercase. no editing. first thought.',
-      'aria-label':'answer to ' + q.q,
-      oninput:(e) => {
-        state.brand.qs[q.id] = e.target.value;
-        saveState();
-        item.classList.toggle('answered', e.target.value.trim().length > 4);
-        const newCount = DISCOVER_QUESTIONS.filter(x => (state.brand.qs[x.id] || '').trim().length > 4).length;
-        prog.textContent = `${newCount} of ${DISCOVER_QUESTIONS.length} answered`;
+  // export button — copy all answers to clipboard
+  const exportBtn = el('button', {
+    type:'button',
+    class:'qna-export-btn',
+    title:'copy all answers to clipboard as plain text',
+    onclick:async () => {
+      const lines = [];
+      lines.push('# Brand Discovery — Phoebe');
+      lines.push('# Generated: ' + new Date().toISOString().slice(0, 10));
+      lines.push('');
+      DISCOVER_SECTIONS.forEach(sec => {
+        const qs = DISCOVER_QUESTIONS.filter(q => q.section === sec.id);
+        lines.push('## ' + sec.title.toUpperCase());
+        lines.push('# ' + sec.sub);
+        lines.push('');
+        qs.forEach((q, i) => {
+          const a = (state.brand.qs[q.id] || '').trim();
+          lines.push(`Q${String(i + 1).padStart(2, '0')}. ${q.q}`);
+          lines.push(a ? a : '(no answer yet)');
+          lines.push('');
+        });
+        lines.push('');
+      });
+      const text = lines.join('\n');
+      try {
+        await navigator.clipboard.writeText(text);
+        exportBtn.textContent = '✓ copied';
+        setTimeout(() => { exportBtn.textContent = '⎘ export answers'; }, 1800);
+      } catch(_) {
+        exportBtn.textContent = 'copy failed';
+        setTimeout(() => { exportBtn.textContent = '⎘ export answers'; }, 1800);
       }
-    }, cur));
-    list.appendChild(item);
+    }
+  }, '⎘ export answers');
+  wrap.appendChild(exportBtn);
+
+  // render each section as a sub-block
+  let runningIdx = 0;
+  DISCOVER_SECTIONS.forEach((sec, secIdx) => {
+    const sectionQs = DISCOVER_QUESTIONS.filter(q => q.section === sec.id);
+    if(!sectionQs.length) return;
+
+    const secAnswered = sectionQs.filter(isAnswered).length;
+    const secWrap = el('div', { class:'qna-subsection' });
+
+    // sub-section divider/header
+    secWrap.appendChild(el('div', { class:'qna-sub-head' },
+      el('div', { class:'qna-sub-num' }, '0' + (secIdx + 1)),
+      el('div', { class:'qna-sub-title-block' },
+        el('div', { class:'qna-sub-title' }, sec.title),
+        el('div', { class:'qna-sub-sub' }, sec.sub)
+      ),
+      el('div', { class:'qna-sub-prog' }, `${secAnswered} / ${sectionQs.length}`)
+    ));
+
+    const list = el('div', { class:'qna-list' });
+    sectionQs.forEach(q => {
+      runningIdx++;
+      const cur = state.brand.qs[q.id] || '';
+      const item = el('div', {
+        class:'qna-item' + (cur.trim().length > 4 ? ' answered' : '')
+      });
+      item.appendChild(el('div', { class:'qna-q' },
+        el('span', { class:'qnum' }, String(runningIdx).padStart(2, '0')),
+        el('span', null, q.q)
+      ));
+      if(q.hint){
+        item.appendChild(el('div', {
+          style:'font-family:Source Serif 4,Georgia,serif;font-size:0.72rem;font-style:italic;color:var(--text-muted);margin-bottom:6px;line-height:1.5'
+        }, '↳ ' + q.hint));
+      }
+      item.appendChild(el('textarea', {
+        class:'qna-input',
+        placeholder:'type ur answer in lowercase. no editing. first thought.',
+        'aria-label':'answer to ' + q.q,
+        oninput:(e) => {
+          state.brand.qs[q.id] = e.target.value;
+          saveState();
+          item.classList.toggle('answered', e.target.value.trim().length > 4);
+          // recompute total + section progress live
+          const newTotal = DISCOVER_QUESTIONS.filter(isAnswered).length;
+          prog.textContent = `${newTotal} of ${DISCOVER_QUESTIONS.length} answered`;
+          const newSecCount = sectionQs.filter(isAnswered).length;
+          secWrap.querySelector('.qna-sub-prog').textContent = `${newSecCount} / ${sectionQs.length}`;
+        }
+      }, cur));
+      list.appendChild(item);
+    });
+    secWrap.appendChild(list);
+    wrap.appendChild(secWrap);
   });
-  wrap.appendChild(list);
+
   return wrap;
 }
 
