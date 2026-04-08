@@ -429,15 +429,16 @@
   /* ──── action items (checkable) — Feature 2 ──── */
   .action-list{list-style:none}
   .action-item{
-    display:flex;gap:14px;align-items:flex-start;
+    display:flex;flex-wrap:wrap;
+    gap:14px;align-items:flex-start;
     padding:14px 2px;
     border-bottom:1px solid var(--border-light);
-    cursor:pointer;
     transition:background 0.15s;
     border-radius:4px;
   }
+  .action-item.has-detail{cursor:pointer}
   .action-item:last-child{border-bottom:none}
-  .action-item:hover{background:var(--warm50)}
+  .action-item.has-detail:hover{background:var(--warm50)}
 
   .check{
     flex-shrink:0;
@@ -489,6 +490,194 @@
   .action-item[data-done="1"] .action-num{
     background:var(--pillar-accent);
     color:var(--white);
+  }
+
+  /* ──── expandable action items: chevron + roadmap + resources ──── */
+  .action-item .text{flex:1;min-width:0}
+  .action-item .chevron{
+    flex-shrink:0;
+    width:24px;height:24px;
+    margin-left:auto;margin-top:0;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text-muted);
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    transition:transform 0.25s cubic-bezier(.4,.2,.2,1), color 0.2s, background 0.2s;
+  }
+  .action-item.has-detail:hover .chevron{
+    color:var(--pillar-accent);
+    background:var(--pillar-accent-light);
+  }
+  .action-item.is-open .chevron{
+    transform:rotate(180deg);
+    color:var(--pillar-accent);
+  }
+  .action-item .chevron svg{width:12px;height:12px}
+
+  .action-detail{
+    flex-basis:100%;
+    overflow:hidden;
+    max-height:0;
+    opacity:0;
+    transition:max-height 0.4s cubic-bezier(.4,.2,.2,1), opacity 0.25s ease, padding 0.3s ease;
+    padding:0 0 0 34px;
+    margin-top:0;
+  }
+  .action-item.is-open .action-detail{
+    max-height:1600px;
+    opacity:1;
+    padding:14px 0 6px 34px;
+    margin-top:8px;
+  }
+
+  .roadmap-block,
+  .resources-block{margin-top:14px}
+  .roadmap-block:first-child,
+  .resources-block:first-child{margin-top:0}
+
+  .detail-label{
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.6rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--pillar-accent);
+    margin-bottom:10px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .detail-label::before{
+    content:"";
+    width:14px;height:1px;
+    background:var(--pillar-accent);
+    display:inline-block;
+  }
+
+  .roadmap-list{
+    list-style:none;
+    counter-reset:rstep;
+    padding:0;margin:0;
+  }
+  .roadmap-list li{
+    counter-increment:rstep;
+    position:relative;
+    padding:8px 0 8px 36px;
+    font-family:'Source Serif 4',serif;
+    font-size:0.86rem;
+    color:var(--text-med);
+    line-height:1.6;
+    border-bottom:1px dashed var(--border-light);
+  }
+  .roadmap-list li:last-child{border-bottom:none}
+  .roadmap-list li::before{
+    content:counter(rstep,decimal-leading-zero);
+    position:absolute;
+    left:0;top:8px;
+    width:26px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.66rem;
+    font-weight:600;
+    color:var(--pillar-accent);
+    letter-spacing:0.04em;
+  }
+  .roadmap-list li::after{
+    content:"";
+    position:absolute;
+    left:8px;top:24px;bottom:-2px;
+    width:1px;
+    background:var(--border-light);
+  }
+  .roadmap-list li:last-child::after{display:none}
+
+  .resources-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:8px;
+  }
+  .resource-chip{
+    display:flex;flex-direction:column;gap:3px;
+    padding:10px 13px;
+    border-radius:6px;
+    background:var(--white);
+    border:1px solid var(--border);
+    text-decoration:none;
+    transition:all 0.2s;
+  }
+  .resource-chip:hover{
+    background:var(--pillar-accent-light);
+    border-color:var(--pillar-accent);
+    transform:translateY(-1px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.04);
+  }
+  .resource-chip.no-link{
+    cursor:default;
+  }
+  .resource-chip.no-link:hover{
+    transform:none;
+    box-shadow:none;
+  }
+  .resource-chip .rname{
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.78rem;
+    color:var(--text);
+    display:flex;align-items:center;gap:6px;
+  }
+  .resource-chip .rname .ext{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.6rem;
+    color:var(--text-muted);
+    font-weight:500;
+    transition:color 0.2s;
+  }
+  .resource-chip:hover .rname .ext{color:var(--pillar-accent)}
+  .resource-chip .rnote{
+    font-family:'Source Serif 4',serif;
+    font-size:0.74rem;
+    color:var(--text-light);
+    line-height:1.5;
+    font-style:italic;
+  }
+
+  /* urgent variant — match the visa view styling */
+  .urgent-item{flex-wrap:wrap}
+  .urgent-item.has-detail{cursor:pointer}
+  .urgent-item.has-detail:hover{background:var(--warm50)}
+  .urgent-item .text{flex:1;min-width:0}
+  .urgent-item .chevron{
+    margin-left:auto;
+    flex-shrink:0;
+    width:24px;height:24px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text-muted);
+    background:transparent;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    transition:transform 0.25s cubic-bezier(.4,.2,.2,1), color 0.2s, background 0.2s;
+  }
+  .urgent-item.has-detail:hover .chevron{
+    color:var(--pillar-accent);
+    background:var(--pillar-accent-light);
+  }
+  .urgent-item.is-open .chevron{
+    transform:rotate(180deg);
+    color:var(--pillar-accent);
+  }
+  .urgent-item .chevron svg{width:12px;height:12px}
+  .urgent-item .action-detail{
+    flex-basis:100%;
+    overflow:hidden;
+    max-height:0;
+    opacity:0;
+    transition:max-height 0.4s cubic-bezier(.4,.2,.2,1), opacity 0.25s ease, padding 0.3s ease;
+    padding:0 0 0 24px;
+    margin-top:0;
+  }
+  .urgent-item.is-open .action-detail{
+    max-height:1600px;
+    opacity:1;
+    padding:12px 0 6px 24px;
+    margin-top:8px;
   }
 
   /* ──── revenue calculator — Feature 1 ──── */
@@ -1211,6 +1400,72 @@
     border-color:var(--text-muted);
   }
 
+  /* ──── book marketing section ──── */
+  .mkt-divider{
+    display:flex;align-items:center;gap:18px;
+    margin:48px 0 24px;
+    color:var(--text-muted);
+  }
+  .mkt-divider::before,
+  .mkt-divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+  }
+  .mkt-divider-label{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.1rem;
+    color:var(--terracotta);
+    letter-spacing:0.02em;
+    white-space:nowrap;
+  }
+  .mkt-intro{
+    font-family:'Source Serif 4',serif;
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-light);
+    line-height:1.65;
+    margin:-4px 0 18px;
+    max-width:640px;
+  }
+
+  /* trigger grid (cognitive shortcuts) */
+  .trigger-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:12px;
+  }
+  .trigger-card{
+    padding:16px 18px;
+    border-radius:6px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-left:3px solid var(--terracotta);
+    transition:all 0.2s;
+  }
+  .trigger-card:hover{
+    background:var(--terracotta-light);
+    transform:translateY(-1px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.04);
+  }
+  .trigger-card .tname{
+    font-family:'DM Sans',sans-serif;
+    font-weight:700;font-size:0.78rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    margin-bottom:6px;
+  }
+  .trigger-card .tdesc{
+    font-family:'Source Serif 4',serif;
+    font-size:0.84rem;
+    color:var(--text-med);
+    line-height:1.6;
+  }
+
   /* ════════════════════════════════════════
      LAUNCH VIEW — pricing & launch playbooks
      ════════════════════════════════════════ */
@@ -1911,24 +2166,229 @@ const PILLARS = [
     blurb:"Publishing is the most immediately monetizable pillar with the fewest legal restrictions. Book royalties from self-publishing are classified as passive income from creative works — making this the priority revenue stream.",
     phases:[
       { name:'Establish Catalog', time:'Now – June 2026', items:[
-        'Finalize first book manuscript — prioritize completion over perfection',
-        'Self-publish via Amazon KDP for speed to market and global reach',
-        'Design cover art matching the Minxx brand aesthetic',
-        'Set up author profiles on Amazon, Goodreads, and website',
-        'Price accessibly: $9.99–14.99 paperback, $4.99–6.99 digital'
+        {
+          text:'Finalize first book manuscript — prioritize completion over perfection',
+          roadmap:[
+            'Read the current draft end-to-end without editing — just take chapter-level notes',
+            'Set a daily word count goal (500–1,000) and lock in two-hour morning sessions',
+            'Flag every chapter that drags, repeats, or stalls — these are cut candidates',
+            'Send to a developmental editor for one structural pass',
+            'Send to a copy editor for one line-level pass',
+            'Read aloud (or use text-to-speech) for the final polish'
+          ],
+          resources:[
+            { name:'Scrivener', url:'https://www.literatureandlatte.com/scrivener', note:'Long-form writing app with corkboard structure' },
+            { name:'Reedsy Editors', url:'https://reedsy.com/editing', note:'Vetted developmental + copy editors' },
+            { name:'ProWritingAid', url:'https://prowritingaid.com', note:'Self-edit pass before paying for editing' },
+            { name:'Story Genius (book)', note:'Lisa Cron — best structural-edit reference' }
+          ]
+        },
+        {
+          text:'Self-publish via Amazon KDP for speed to market and global reach',
+          roadmap:[
+            'Create a KDP account using the UK Ltd company address',
+            'Format the manuscript as a 6×9 paperback (Vellum is the fastest path)',
+            'Generate ISBNs through KDP (free) or Nielsen UK (more portable)',
+            'Set up Author Central profile in both US and UK stores',
+            'Upload interior PDF, cover wrap, metadata, BISAC categories',
+            'Order a print proof — never publish without holding the book first'
+          ],
+          resources:[
+            { name:'Amazon KDP', url:'https://kdp.amazon.com', note:'The platform itself' },
+            { name:'Vellum', url:'https://vellum.pub', note:'Mac-only book formatter — gold standard' },
+            { name:'Reedsy Book Editor', url:'https://reedsy.com/write-a-book', note:'Free browser-based formatter' },
+            { name:'Nielsen ISBN UK', url:'https://www.nielsenisbnstore.com', note:'UK ISBN registration' }
+          ]
+        },
+        {
+          text:'Design cover art matching the Minxx brand aesthetic',
+          roadmap:[
+            'Pull 8–12 reference covers that feel warm, analog, intimate',
+            'Write a one-paragraph brief: mood, palette, type direction, no-go list',
+            'Hire a cover designer (Reedsy or Damonza) — budget £400–1,500',
+            'Request 2–3 concepts, pick a direction, iterate twice',
+            'Verify it reads at thumbnail size (Amazon\u2019s primary view)',
+            'Receive both 1600×2560 eBook + print-ready PDF wrap'
+          ],
+          resources:[
+            { name:'Reedsy Designers', url:'https://reedsy.com/design', note:'Vetted cover designers' },
+            { name:'Damonza', url:'https://damonza.com', note:'Premium covers for literary fiction' },
+            { name:'99designs', url:'https://99designs.com', note:'Cover design contests' },
+            { name:'The Book Designer', url:'https://www.thebookdesigner.com', note:'Monthly cover award gallery — inspiration' }
+          ]
+        },
+        {
+          text:'Set up author profiles on Amazon, Goodreads, and website',
+          roadmap:[
+            'Claim Amazon Author Central in both US and UK (separate accounts)',
+            'Create Goodreads author profile and link the book once published',
+            'Apply to the Goodreads Author Program — unlocks Q&A and giveaways',
+            'Add an author page to minxx-tatu.com with bio, books, newsletter signup',
+            'Cross-link every profile so they all point to each other'
+          ],
+          resources:[
+            { name:'Amazon Author Central', url:'https://authorcentral.amazon.com', note:'US store author profile' },
+            { name:'Author Central UK', url:'https://authorcentral.amazon.co.uk', note:'UK store profile (separate)' },
+            { name:'Goodreads Author Program', url:'https://www.goodreads.com/author/program', note:'Verified author tools' },
+            { name:'StoryGraph', url:'https://www.thestorygraph.com', note:'Goodreads alternative — growing fast' }
+          ]
+        },
+        {
+          text:'Price accessibly: $9.99–14.99 paperback, $4.99–6.99 digital',
+          roadmap:[
+            'Survey 10 comparable titles in the same sub-genre — match or undercut by ~10%',
+            'Calculate KDP royalty: 70% on eBooks $2.99–9.99, 60% on paperback minus print cost',
+            'Plan a $0.99 launch-week price, then settle to baseline after week one',
+            'Enroll the first 90 days in KDP Select for Kindle Unlimited bonus reads',
+            'Set higher prices in UK/EU stores — UK readers expect £8–12 paperback'
+          ],
+          resources:[
+            { name:'KDP Pricing Help', url:'https://kdp.amazon.com/help', note:'Royalty calculator + price band rules' },
+            { name:'Publisher Rocket', url:'https://publisherrocket.com', note:'Keyword + category research' },
+            { name:'K-lytics', url:'https://k-lytics.com', note:'Genre-specific market reports' }
+          ]
+        }
       ]},
       { name:'Build Ecosystem', time:'June – December 2026', items:[
-        'Launch Substack or email newsletter with excerpts and essays',
-        'Release second book to establish catalog credibility',
-        'Pursue independent bookstore placement, especially LA shops',
-        'Pitch literary podcasts and book review outlets',
-        'Create limited signed editions for direct website sales'
+        {
+          text:'Launch Substack or email newsletter with excerpts and essays',
+          roadmap:[
+            'Pick a name + URL handle that works as both newsletter and brand extension',
+            'Write 4 essays in advance — never launch with an empty archive',
+            'Set up free + paid tiers ($6/month is the sweet spot)',
+            'Import any existing email list via CSV',
+            'Publish weekly for the first 8 weeks — proves cadence to subscribers'
+          ],
+          resources:[
+            { name:'Substack', url:'https://substack.com', note:'Default home for paid newsletters' },
+            { name:'Beehiiv', url:'https://beehiiv.com', note:'Substack alternative with better growth tools' },
+            { name:'Ghost', url:'https://ghost.org', note:'Self-hosted, owns the audience' },
+            { name:'Kit (formerly ConvertKit)', url:'https://kit.com', note:'Pure email tool — no public archive' }
+          ]
+        },
+        {
+          text:'Release second book to establish catalog credibility',
+          roadmap:[
+            'Outline the second book before Book 1 launches — momentum matters',
+            'Aim for 6–9 months from launch to launch',
+            'Use KDP Select cross-promo features to push readers between titles',
+            'Consider a Book 1 free promo when Book 2 drops'
+          ],
+          resources:[
+            { name:'KDP Select', url:'https://kdp.amazon.com/select', note:'Cross-promo tools for catalog authors' },
+            { name:'BookBub', url:'https://www.bookbub.com', note:'Best paid promo platform once you have 2+ books' },
+            { name:'Reedsy Discovery', url:'https://reedsy.com/discovery', note:'Reader matching for indie titles' }
+          ]
+        },
+        {
+          text:'Pursue independent bookstore placement, especially LA shops',
+          roadmap:[
+            'Print 5–10 advance copies to walk into shops in person',
+            'Target: Skylight, The Last Bookstore, Stories, Diesel, Chevalier\u2019s, Vroman\u2019s',
+            'Use IngramSpark for distribution — bookstores will not order from KDP',
+            'Offer a 40% trade discount with returns — the standard',
+            'Follow up in 2 weeks if you don\u2019t hear back'
+          ],
+          resources:[
+            { name:'IngramSpark', url:'https://www.ingramspark.com', note:'Wholesale distribution to bookstores' },
+            { name:'Skylight Books', url:'https://www.skylightbooks.com', note:'Los Feliz indie staple' },
+            { name:'The Last Bookstore', url:'https://lastbookstoredtla.com', note:'DTLA flagship indie' },
+            { name:'Edelweiss', url:'https://www.edelweiss.plus', note:'Where booksellers discover new titles' }
+          ]
+        },
+        {
+          text:'Pitch literary podcasts and book review outlets',
+          roadmap:[
+            'Build a list of 30 target shows — small to mid-sized, focus on brand overlap',
+            'Write a 150-word pitch: who you are, what the book is, why their audience cares',
+            'Personalize each pitch with a sentence about a recent episode',
+            'Send 5/week, track responses in a sheet',
+            'Have an EPK ready (cover, headshot, bio, sample chapter PDF)'
+          ],
+          resources:[
+            { name:'Podchaser', url:'https://www.podchaser.com', note:'Podcast database with contact info' },
+            { name:'Listen Notes', url:'https://www.listennotes.com', note:'Search shows by topic' },
+            { name:'NetGalley', url:'https://www.netgalley.com', note:'Reviewer/blogger platform' },
+            { name:'Booklist Online', url:'https://www.booklistonline.com', note:'Library trade reviews' }
+          ]
+        },
+        {
+          text:'Create limited signed editions for direct website sales',
+          roadmap:[
+            'Order 100–250 copies through IngramSpark or KDP at author cost',
+            'Sign + number them by hand (1/250, 2/250, ...)',
+            'Set up Shopify or Squarespace store, integrate Stripe for payments',
+            'Price at $25–35 — the premium is the signature, not the book',
+            'Ship via Pirate Ship or Sendle to keep margins healthy'
+          ],
+          resources:[
+            { name:'Shopify', url:'https://www.shopify.com', note:'Most flexible storefront' },
+            { name:'Squarespace Commerce', url:'https://www.squarespace.com', note:'Better if minxx-tatu.com is on it' },
+            { name:'Stripe', url:'https://stripe.com', note:'Payments — works with both' },
+            { name:'Pirate Ship', url:'https://www.pirateship.com', note:'Cheapest US shipping rates' }
+          ]
+        }
       ]},
       { name:'Expand the IP', time:'2027 and beyond', items:[
-        'Audiobook versions narrated by Phoebe (voice is part of the brand)',
-        'Investigate rights licensing for international markets',
-        'Develop a writing workshop or course leveraging her unique style',
-        'Consider chapbook series or zine collection as entry points'
+        {
+          text:'Audiobook versions narrated by Phoebe (voice is part of the brand)',
+          roadmap:[
+            'Record a 5-minute sample to test mic + room treatment',
+            'Book a session at a pro studio for one chapter — see if the voice carries',
+            'If yes: record full book over 4–6 weeks',
+            'Hire a sound engineer for editing + mastering (per ACX standards)',
+            'Distribute via ACX (Audible/Amazon) — exclusive 40%, non-exclusive 25%',
+            'Also list on Findaway Voices for non-Audible reach'
+          ],
+          resources:[
+            { name:'ACX', url:'https://www.acx.com', note:'Audible production marketplace' },
+            { name:'Findaway Voices', url:'https://findawayvoices.com', note:'Non-Audible distribution' },
+            { name:'Reaper', url:'https://www.reaper.fm', note:'Cheap pro audio editor' },
+            { name:'Studiobricks', url:'https://www.studiobricks.com', note:'Modular vocal booths for the long haul' }
+          ]
+        },
+        {
+          text:'Investigate rights licensing for international markets',
+          roadmap:[
+            'Identify your top 3 target territories (UK is automatic, then maybe German or French)',
+            'Research literary agents who handle subrights (Frankfurt + London Book Fair attendees)',
+            'Build a submission package: synopsis, sample chapters, rights catalog',
+            'Reserve world rights when self-publishing — you can sell them later'
+          ],
+          resources:[
+            { name:'Publishers Marketplace', url:'https://www.publishersmarketplace.com', note:'Industry deal database' },
+            { name:'Frankfurt Book Fair', url:'https://www.buchmesse.de', note:'Global rights hub' },
+            { name:'The London Book Fair', url:'https://www.londonbookfair.co.uk', note:'Key European rights event' }
+          ]
+        },
+        {
+          text:'Develop a writing workshop or course leveraging her unique style',
+          roadmap:[
+            'Pick one specific thing only you can teach (not generic write-a-book)',
+            'Pilot it as a free 2-hour Zoom workshop — 15 attendees max',
+            'Collect feedback ruthlessly, iterate, then sell v2 for £75–150',
+            'Build a flagship course later (4–6 weeks, £400–800)'
+          ],
+          resources:[
+            { name:'Teachable', url:'https://teachable.com', note:'Course platform with student management' },
+            { name:'Maven', url:'https://maven.com', note:'Cohort-based courses, premium positioning' },
+            { name:'Podia', url:'https://www.podia.com', note:'Simpler alternative to Teachable' }
+          ]
+        },
+        {
+          text:'Consider chapbook series or zine collection as entry points',
+          roadmap:[
+            'Write or compile a 24–48 page chapbook on a single theme',
+            'Print short runs (50–100) via Mixam or Newspaper Club',
+            'Number and sign them — sell at events or on the site for £8–15',
+            'Use as low-friction giveaways at meet-and-greets'
+          ],
+          resources:[
+            { name:'Mixam', url:'https://mixam.com', note:'High-quality short-run print, US + UK' },
+            { name:'Newspaper Club', url:'https://www.newspaperclub.com', note:'Newsprint zines — UK based' },
+            { name:'Risograph search', note:'Search local risograph print shops for true zine texture' }
+          ]
+        }
       ]}
     ],
     // Revenue calculator config — Feature 1
@@ -1938,7 +2398,277 @@ const PILLARS = [
       { id:'direct',    name:'Direct Sales (signed)',perUnit:17.50, unitLabel:'margin/unit',  volumeLabel:'units sold', min:0, max:1000,  default:200,  step:10 },
       { id:'substack',  name:'Substack (paid tier)',perUnit:72.00, unitLabel:'$/year ($6/mo)',volumeLabel:'subscribers',min:0, max:2000,  default:500,  step:10 },
       { id:'speaking',  name:'Speaking & Workshops',perUnit:1250,  unitLabel:'avg fee/event', volumeLabel:'events/year',min:0, max:30,    default:9,    step:1  }
-    ]
+    ],
+
+    // Book marketing — psychology, plays, creative ideas, triggers
+    marketing:{
+      foundations:[
+        { name:'The Vulnerability Premium', desc:'Readers pay for what was hard to write. Don\u2019t soften the truth in marketing — the rawness is the product.' },
+        { name:'Tribal Identity > Demographics', desc:'Target a worldview ("warrior princesses healing from harm"), not an age range. Tribes buy. Demographics scroll past.' },
+        { name:'1,000 True Fans', desc:'1,000 readers paying £30/year is a career. 100,000 readers paying nothing is noise. Build for depth, not reach.' },
+        { name:'Anti-Marketing Marketing', desc:'Talking like a marketer kills indie credibility. Show the work, the doubts, the revisions. Never pitch in the voice of a brand.' },
+        { name:'Storytelling > Selling', desc:'Every promotional touch should narrate something — a chapter, a memory, a moment. People remember stories 22× better than facts.' },
+        { name:'Reciprocity Loops', desc:'Give the first chapter, the workshop, the personal reply. Money follows generosity, not the other way around.' }
+      ],
+      plays:[
+        {
+          text:'Build a launch team of 50–100 readers (60 days out)',
+          roadmap:[
+            'Open applications via Google Form 60 days before launch',
+            'Pick the most engaged from your existing audience — quality over quantity',
+            'Send digital ARCs (advance reader copies) on day 45',
+            'Brief them: review on day 1, share a quote on day 2, IG post on day 3',
+            'Run a private Discord or Substack chat for them — keep it intimate',
+            'Reward each one with a signed copy + a personal thank-you DM'
+          ],
+          resources:[
+            { name:'BookFunnel', url:'https://bookfunnel.com', note:'Industry standard for ARC delivery' },
+            { name:'StoryOrigin', url:'https://storyoriginapp.com', note:'BookFunnel alternative + author cross-promo' },
+            { name:'Discord', url:'https://discord.com', note:'Free private community for the launch team' },
+            { name:'Google Forms', url:'https://forms.google.com', note:'Application + screening' }
+          ]
+        },
+        {
+          text:'Set up a pre-order page that converts',
+          roadmap:[
+            'Lock in a launch date 60 days out — never sooner, the runway is the lever',
+            'Build a one-page site (Carrd or Squarespace) with cover, blurb, pre-order',
+            'Make email signup the primary CTA, pre-order the secondary',
+            'Add 3 testimonial slots (use beta reader quotes if needed)',
+            'Add a countdown timer — psychological urgency moves the needle',
+            'A/B test the headline if you have the traffic'
+          ],
+          resources:[
+            { name:'Carrd', url:'https://carrd.co', note:'$19/yr one-page sites — perfect for book launches' },
+            { name:'Squarespace', url:'https://www.squarespace.com', note:'Better if you already have a site' },
+            { name:'Beehiiv', url:'https://beehiiv.com', note:'Email + landing pages in one tool' },
+            { name:'TimerHooks', note:'Search for embeddable countdown timers' }
+          ]
+        },
+        {
+          text:'Publish a 4-part "behind the book" essay series',
+          roadmap:[
+            'Write 4 essays, one per week, leading up to launch',
+            'Each one tells a story from the writing process — never sells',
+            'Themes: vulnerability, craft, the chapter you almost cut, what changed you',
+            'Publish on Substack, cross-post a carousel version to Instagram',
+            'End each essay with one line: "Book launches [date]. Pre-order [link]"'
+          ],
+          resources:[
+            { name:'Substack', url:'https://substack.com', note:'Native long-form home with built-in subscribers' },
+            { name:'Beehiiv', url:'https://beehiiv.com', note:'Substack alternative with referral programs' },
+            { name:'Notion', url:'https://www.notion.so', note:'Drafting + editorial calendar' }
+          ]
+        },
+        {
+          text:'Secure 5+ podcast bookings before launch',
+          roadmap:[
+            'List 30 target podcasts in healing, memoir, indie publishing, women\u2019s voices',
+            'Pitch 8 weeks out — most schedules book 4–6 weeks ahead',
+            'Send a 150-word email with one personalized line + your hook',
+            'Include a media kit: cover, headshot, bio, 3 talking points, sample questions',
+            'Aim to record before launch so episodes drop launch week'
+          ],
+          resources:[
+            { name:'Podchaser', url:'https://www.podchaser.com', note:'Podcast database + contact info' },
+            { name:'Listen Notes', url:'https://www.listennotes.com', note:'Search shows by topic/keyword' },
+            { name:'PodMatch', url:'https://podmatch.com', note:'Tinder for guests + podcasters' },
+            { name:'Riverside', url:'https://riverside.fm', note:'Studio-quality remote recording' }
+          ]
+        },
+        {
+          text:'Lock in 3 bookstore launch events',
+          roadmap:[
+            'Email indie bookstores 8 weeks out — events calendars fill fast',
+            'Pitch a launch reading + Q&A, not just a signing — give people a reason',
+            'Offer to bring a co-host or friend (more bodies = more buzz)',
+            'Promote the event in their newsletter AND yours',
+            'Print posters for the storefront window'
+          ],
+          resources:[
+            { name:'IngramSpark', url:'https://www.ingramspark.com', note:'Stock the store first — bookstores need wholesale access' },
+            { name:'Indie Bookstore Finder', url:'https://www.indiebound.org/indie-bookstore-finder', note:'Map of every US indie bookstore' },
+            { name:'Eventbrite', url:'https://www.eventbrite.com', note:'Free RSVP page for the event' }
+          ]
+        }
+      ],
+      launchWeek:[
+        {
+          text:'Launch day Instagram takeover (single-day blitz)',
+          roadmap:[
+            '8am: cover + launch announcement carousel (the "it\u2019s here" post)',
+            '11am: stories with behind-the-scenes of pressing publish',
+            '2pm: feed post — quote from the book + reaction from a friend',
+            '5pm: stories with the first reader unboxing (lined up in advance)',
+            '8pm: 20-minute Instagram live Q&A — read one passage aloud',
+            'Save the highlights to a permanent story album: "Launch Day"'
+          ],
+          resources:[
+            { name:'Instagram', url:'https://instagram.com', note:'Primary launch surface' },
+            { name:'Notion', url:'https://www.notion.so', note:'Time-blocked content schedule template' },
+            { name:'Buffer', url:'https://buffer.com', note:'Pre-schedule the carousels and feed posts' }
+          ]
+        },
+        {
+          text:'Run a 48-hour stacked promo on launch day',
+          roadmap:[
+            'Apply to BookBub Featured Deal 30 days before launch',
+            'If accepted: drop eBook to $0.99 for 48 hours on launch day',
+            'Stack 5–10 other newsletter promos same window for compound reach',
+            'Goal: hit category bestseller list + lock in social proof',
+            'Return to full price after 48h — don\u2019t train readers to wait'
+          ],
+          resources:[
+            { name:'BookBub', url:'https://www.bookbub.com', note:'Most powerful single promo platform — hard to get accepted' },
+            { name:'FreeBooksy', url:'https://freebooksy.com', note:'For free promos' },
+            { name:'BargainBooksy', url:'https://www.bargainbooksy.com', note:'$0.99–2.99 deal newsletter' },
+            { name:'Robin Reads', url:'https://www.robinreads.com', note:'Curated reader newsletter, accepts indie' }
+          ]
+        },
+        {
+          text:'Run a launch giveaway with a real-world artifact',
+          roadmap:[
+            'Don\u2019t give away the book — give away a real-world object',
+            'Examples: pressed flower from your writing desk, polaroid, handwritten letter',
+            'One winner picked from anyone who pre-orders + shows proof',
+            'Promotes pre-orders WITHOUT discounting them',
+            'Photograph the artifact — that becomes the launch hero image'
+          ],
+          resources:[
+            { name:'Gleam.io', url:'https://gleam.io', note:'Contest engine that handles entries fairly' },
+            { name:'KingSumo', url:'https://kingsumo.com', note:'Viral giveaway tool — share-to-win mechanics' }
+          ]
+        },
+        {
+          text:'Send a launch-week email sequence to your list',
+          roadmap:[
+            'Day 0 (launch): "It\u2019s here." Just the cover, the link, one paragraph',
+            'Day 2: A passage from the book — no CTA, just the words',
+            'Day 4: A reader\u2019s reaction (forwarded with permission)',
+            'Day 6: Your own reflection on the week — vulnerable, honest',
+            'Day 7: One soft CTA — "if it moved you, please leave a review"'
+          ],
+          resources:[
+            { name:'Kit (ConvertKit)', url:'https://kit.com', note:'Indie author go-to email tool' },
+            { name:'Substack', url:'https://substack.com', note:'If your list lives there already' },
+            { name:'Beehiiv', url:'https://beehiiv.com', note:'Better automation than Substack' }
+          ]
+        }
+      ],
+      creative:[
+        {
+          text:'The Unboxing Letter — handwritten note in every signed copy',
+          roadmap:[
+            'Order custom bookplates (or use plain index cards)',
+            'Set aside 1 hour/day for hand-writing 10 letters',
+            'Each one is different — three sentences max, addressed to "you"',
+            'Photograph a few — those become the launch UGC',
+            'Buyers post the letter, not just the book — your marketing free'
+          ],
+          resources:[
+            { name:'Moo', url:'https://www.moo.com', note:'Custom bookplates + cards' },
+            { name:'Vistaprint', url:'https://www.vistaprint.com', note:'Cheaper alternative for bulk' }
+          ]
+        },
+        {
+          text:'Camcorder book trailer series — leverage the existing brand',
+          roadmap:[
+            'Pick 5 lines from the book that hit hardest in isolation',
+            'Storyboard each as a 30-second camcorder vignette in Notion',
+            'Batch-shoot them in a single afternoon',
+            'Drop one per week starting 5 weeks before launch',
+            'Cross-post to TikTok, Reels, Shorts — same edit, three platforms'
+          ],
+          resources:[
+            { name:'DaVinci Resolve', url:'https://www.blackmagicdesign.com/products/davinciresolve', note:'Free pro editor' },
+            { name:'CapCut', url:'https://www.capcut.com', note:'Mobile editor for native vertical edits' },
+            { name:'Notion', url:'https://www.notion.so', note:'Storyboard + shot list' }
+          ]
+        },
+        {
+          text:'First Reader interviews — film 3 friends reading page one on camcorder',
+          roadmap:[
+            'Pick 3 close friends who haven\u2019t read the book yet',
+            'Sit them down with a fresh copy and roll camera',
+            'Capture their unfiltered first reaction — no script, no retake',
+            'Edit each into a 60-second clip',
+            'Drop on launch day — instant social proof from real humans'
+          ],
+          resources:[
+            { name:'CapCut', url:'https://www.capcut.com', note:'Quick mobile cuts' },
+            { name:'DaVinci Resolve', url:'https://www.blackmagicdesign.com/products/davinciresolve', note:'For longer-form edits' }
+          ]
+        },
+        {
+          text:'A "Healing Letter" inbox — anonymous reader stories',
+          roadmap:[
+            'Set up an anonymous Tumblr or dedicated Gmail for reader stories',
+            'Mention it in the back of the book + on the launch page',
+            'Reply privately to every one — never publish without explicit consent',
+            'Compile (anonymized) responses into a future essay',
+            'Builds the community, not just the metrics'
+          ],
+          resources:[
+            { name:'Tumblr', url:'https://www.tumblr.com', note:'Anonymous ask box, free' },
+            { name:'Substack Chat', url:'https://substack.com', note:'Private subscriber-only space' }
+          ]
+        },
+        {
+          text:'Bookstore "ghost copies" — leave signed copies in indie shops',
+          roadmap:[
+            'Pick 3 LA bookstores you love',
+            'Slip a signed copy into the front display in person',
+            'Tuck a card inside: "I left this here for you. — P"',
+            'Don\u2019t announce it. Let it be discovered.',
+            'Pure intrigue play — works because it shouldn\u2019t'
+          ],
+          resources:[
+            { name:'Skylight Books', url:'https://www.skylightbooks.com', note:'Los Feliz indie' },
+            { name:'The Last Bookstore', url:'https://lastbookstoredtla.com', note:'DTLA flagship' },
+            { name:'Stories Books', url:'https://www.storiesla.com', note:'Echo Park indie' }
+          ]
+        },
+        {
+          text:'The Reverse Press Release — pre-written Q&A for journalists',
+          roadmap:[
+            'Don\u2019t pitch a press release. Pitch a long-form Q&A.',
+            'Format: "Phoebe in conversation with [a friend / interviewer name]"',
+            'Pre-write the questions AND answers — make it copy-paste ready',
+            'Send to outlets that don\u2019t run press releases but DO run interviews',
+            'Mid-tier blogs and Substacks have low friction and high reach'
+          ],
+          resources:[
+            { name:'Notion', url:'https://www.notion.so', note:'Format the Q&A so it\u2019s easy to share' },
+            { name:'Google Docs', url:'https://docs.google.com', note:'Easier for journalists to clip + edit' }
+          ]
+        },
+        {
+          text:'Sell a physical zine companion to the main book',
+          roadmap:[
+            'Compile 16 pages: outtakes, photos, marginalia, the cut chapter',
+            'Print 200 short-run copies via Mixam or Newspaper Club',
+            'Numbered and signed — sell direct only at £8 each',
+            'Costs ~£100 to print, ~£1,500 margin',
+            'Builds the catalog AND the email list at the same time'
+          ],
+          resources:[
+            { name:'Mixam', url:'https://mixam.com', note:'High-quality short-run print, US + UK' },
+            { name:'Newspaper Club', url:'https://www.newspaperclub.com', note:'Newsprint zines — UK based' },
+            { name:'Shopify', url:'https://www.shopify.com', note:'Direct-sales storefront' }
+          ]
+        }
+      ],
+      triggers:[
+        { name:'Loss Aversion', desc:'Limited editions, signed first prints, "only 50 left." People feel losing twice as hard as winning.' },
+        { name:'Social Proof', desc:'Testimonials, follower screenshots, "1,200 readers have started this." Humans copy what other humans do.' },
+        { name:'Reciprocity', desc:'Free first chapter, free workshop, personal replies create a quiet sense of obligation. Give first.' },
+        { name:'Anchoring', desc:'Show the £25 signed edition next to the £12 paperback. Both feel like deals because they\u2019re each other\u2019s reference point.' },
+        { name:'Curiosity Gap', desc:'Headlines that pose a question you NEED answered. "The chapter I almost cut" outperforms "Book update."' },
+        { name:'Identity Framing', desc:'"For warrior princesses" not "for women aged 22–35." Identity buys, demographics scroll.' },
+        { name:'IKEA Effect', desc:'Readers who help (beta read, vote on the cover, suggest titles) become evangelists. Co-creation = ownership.' },
+        { name:'Endowed Progress', desc:'"You\u2019re 1 of 50 launch team members." A ladder you\u2019re already on is one you finish climbing.' }
+      ]
+    }
   },
   {
     id:'camcorder', num:'02', label:'Camcorder',
@@ -1950,6 +2680,86 @@ const PILLARS = [
       { name:'Group Moments',      desc:'The social footage. Friends together, nights out, house parties, beach days. Phoebe as the documentarian of her circle.' },
       { name:'Camcorder Confessionals', desc:'Direct-to-camera pieces where Phoebe speaks. Thoughts, observations, mini-essays delivered through the analog lens.' },
       { name:'"How We Used to Live"',    desc:'A recurring series contrasting modern habits with analog alternatives. The most brandable, most pitch-worthy content for partnerships.' }
+    ],
+    actions:[
+      {
+        text:'Source the right camcorder — Sony Handycam Hi8 or Mini DV body',
+        roadmap:[
+          'Decide between Hi8 (richer color, harder to find tapes) and Mini DV (digital out, easier transfer)',
+          'Watch eBay UK and US listings for 2 weeks — learn the price floor',
+          'Target Sony Handycam DCR-VX1000, TRV120, or TR series — these have the look',
+          'Always test before buying — ask seller for video of footage',
+          'Check the firewire port works — that\u2019s how you transfer footage to a Mac',
+          'Budget: £150–400 for a clean unit'
+        ],
+        resources:[
+          { name:'eBay UK', url:'https://www.ebay.co.uk', note:'Largest secondhand camcorder market' },
+          { name:'KEH Camera', url:'https://www.keh.com', note:'Verified used camera dealer (US)' },
+          { name:'MPB', url:'https://www.mpb.com', note:'UK-based used gear, 6-month warranty' },
+          { name:'r/Camcorders', url:'https://www.reddit.com/r/Camcorders', note:'Best community for buying advice' }
+        ]
+      },
+      {
+        text:'Set up the digitization pipeline — capture footage to a Mac',
+        roadmap:[
+          'Buy a Firewire 400 → Thunderbolt adapter (Apple no longer ships Firewire)',
+          'Install DaVinci Resolve or Final Cut Pro for capture',
+          'Test capture from one tape end-to-end before recording new footage',
+          'Always shoot to tape AND back up the digital file',
+          'Label every tape physically + in your file system'
+        ],
+        resources:[
+          { name:'DaVinci Resolve', url:'https://www.blackmagicdesign.com/products/davinciresolve', note:'Free, full-featured editor' },
+          { name:'Final Cut Pro', url:'https://www.apple.com/final-cut-pro', note:'Mac-only, paid, deepest tape capture support' },
+          { name:'Apple Store', url:'https://www.apple.com', note:'Source the Thunderbolt → Firewire adapter chain' }
+        ]
+      },
+      {
+        text:'Stockpile fresh tape stock before it gets scarcer',
+        roadmap:[
+          'Hi8 / 8mm: hunt eBay, expect £10–20/tape',
+          'Mini DV: still in production from Sony and Maxell, £5–10/tape',
+          'Buy in bulk when you find it — supply will only get worse',
+          'Store tapes upright in a cool, dry place — humidity is the enemy',
+          'Rotate stock — never keep critical footage on a single copy'
+        ],
+        resources:[
+          { name:'B&H Photo', url:'https://www.bhphotovideo.com', note:'Last big retailer still stocking Mini DV' },
+          { name:'eBay UK', url:'https://www.ebay.co.uk', note:'Best for Hi8 and 8mm — varying quality' },
+          { name:'Adorama', url:'https://www.adorama.com', note:'US backup for tape stock' }
+        ]
+      },
+      {
+        text:'Build the visual grade — the look that makes Minxx instantly recognizable',
+        roadmap:[
+          'Identify 3 reference creators whose grade is closest to your taste',
+          'Match white balance, blacks, and warm/cool bias on a test clip',
+          'Save the result as a custom LUT in DaVinci Resolve',
+          'Apply consistently across every post — consistency is the brand',
+          'Resist trends — your grade should look the same in 3 years'
+        ],
+        resources:[
+          { name:'DaVinci Resolve Color Page', url:'https://www.blackmagicdesign.com/products/davinciresolve', note:'Free, professional color grading' },
+          { name:'Frame.io', url:'https://frame.io', note:'Share grade tests with collaborators' },
+          { name:'Cullen Kelly LUTs', note:'Reference quality LUTs for film looks (search by name)' }
+        ]
+      },
+      {
+        text:'Set up upload pipeline so posting is friction-free',
+        roadmap:[
+          'Create a ready-to-post folder with weekly batches',
+          'Use Later or Buffer to schedule across IG / TikTok / YouTube Shorts',
+          'Pre-write captions in a Notion database — never write at posting time',
+          'Have a rainy-day backup batch — 5 ready-to-go posts at all times',
+          'Track posting time and engagement in a single sheet'
+        ],
+        resources:[
+          { name:'Later', url:'https://later.com', note:'Best multi-platform scheduler for visual content' },
+          { name:'Buffer', url:'https://buffer.com', note:'Cleaner UI, better analytics' },
+          { name:'Notion', url:'https://www.notion.so', note:'Caption library + content calendar' },
+          { name:'CapCut', url:'https://www.capcut.com', note:'Mobile editor for TikTok-native edits' }
+        ]
+      }
     ],
     platforms:[
       { name:'Instagram Reels', format:'30–60s edits',      cadence:'4–5× / week', goal:'Core audience & brand identity' },
@@ -1971,11 +2781,89 @@ const PILLARS = [
     tagline:'Presence is the portfolio',
     blurb:"A model who also writes books and runs a popular camcorder content brand is exponentially more valuable than someone who only models. The audience is the leverage.",
     actions:[
-      "Curate 20–30 of Phoebe's strongest existing photos into a preliminary portfolio",
-      'Identify 5–10 LA-based photographers who do TFP (time for print) shoots',
-      'Schedule 3–5 test shoots across different looks: editorial, commercial, lifestyle, beauty',
-      'Create a digital comp card (front: headshot + full body; back: stats, contact, social links)',
-      'Research agencies that align with her look and sponsor international talent'
+      {
+        text:"Curate 20–30 of Phoebe's strongest existing photos into a preliminary portfolio",
+        roadmap:[
+          'Pull every shoot you have into one folder, one subfolder per look',
+          'Cull aggressively — only frames where styling, light, and expression all hit',
+          'Categorize: editorial / commercial / lifestyle / beauty / full body',
+          'Aim for 4–6 frames per category — agencies want range, not volume',
+          'Convert all to a consistent ratio (3:4 or 4:5) at 2400px wide',
+          'Build it as a private Pixieset or Format gallery you can send by link'
+        ],
+        resources:[
+          { name:'Pixieset', url:'https://www.pixieset.com', note:'Clean private galleries — industry standard' },
+          { name:'Format', url:'https://www.format.com', note:'Portfolio site builder built for models' },
+          { name:'Adobe Lightroom', url:'https://www.adobe.com/products/photoshop-lightroom.html', note:'Cull + color match across shoots' },
+          { name:'Models.com', url:'https://models.com', note:'Reference for what booking polas look like' }
+        ]
+      },
+      {
+        text:'Identify 5–10 LA-based photographers who do TFP (time for print) shoots',
+        roadmap:[
+          'Search Instagram for #latphotographer #tfpshoot #losangelesfashion',
+          'Filter for ones with consistent editorial-style work',
+          'Save them in a TFP candidates collection',
+          'DM with a 3-line note: who you are, why their work, what you propose',
+          'Have your portfolio link ready in your bio',
+          'Offer to bring stylist + MUA — makes you 10× more attractive to shoot with'
+        ],
+        resources:[
+          { name:'Model Mayhem', url:'https://www.modelmayhem.com', note:'Original TFP marketplace' },
+          { name:'Purpleport', url:'https://www.purpleport.com', note:'Higher-quality TFP community' },
+          { name:'Instagram hashtag search', note:'Search #LAphotographer #TFP #LAmodel for local matches' }
+        ]
+      },
+      {
+        text:'Schedule 3–5 test shoots across different looks: editorial, commercial, lifestyle, beauty',
+        roadmap:[
+          'Plan one shoot per category — never repeat looks within a month',
+          'Build a moodboard in Pinterest or Milanote — share with the photographer ahead',
+          'Lock in MUA + stylist for at least 2 of them',
+          'Bring your own wardrobe: minimal, neutral, and one statement piece',
+          'Always negotiate usage rights upfront (you both get to use the images)',
+          'Get RAW files within 2 weeks of shooting'
+        ],
+        resources:[
+          { name:'Pinterest', url:'https://www.pinterest.com', note:'Best moodboard tool — collaborative boards' },
+          { name:'Milanote', url:'https://milanote.com', note:'More designer-friendly board tool' },
+          { name:'StyleSeat', url:'https://www.styleseat.com', note:'Find LA-based MUAs and hairstylists' }
+        ]
+      },
+      {
+        text:'Create a digital comp card (front: headshot + full body; back: stats, contact, social links)',
+        roadmap:[
+          'Standard sizing: 5.5" × 8.5", both vertical',
+          'Front: 1 headshot (top), 1 full body (bottom), name overlay',
+          'Back: height, bust, waist, hips, shoes, hair, eyes + contact + IG handle',
+          'Use Canva or Figma for the layout — keep it minimal',
+          'Export both print PDF (300dpi, with bleed) and web PNG',
+          'Print 50 physical copies for in-person agency drops'
+        ],
+        resources:[
+          { name:'Canva', url:'https://www.canva.com', note:'Easiest comp card templates' },
+          { name:'Figma', url:'https://www.figma.com', note:'More design control, free for personal' },
+          { name:'Mixam', url:'https://mixam.com', note:'Print short runs (50–100) at low cost' },
+          { name:'Models.com comp gallery', url:'https://models.com', note:'See what working models actually use' }
+        ]
+      },
+      {
+        text:'Research agencies that align with her look and sponsor international talent',
+        roadmap:[
+          'Build a shortlist of 8–10 — focus on ones that have placed UK talent in the US',
+          'Read each agency website carefully: scouting form vs. open call vs. closed list',
+          'Submit through the official channel — never DM scouts cold on Instagram',
+          'Include comp card, 5 best portfolio images, height + measurements',
+          'Schedule open call appearances (most LA agencies hold them weekly)',
+          'Track every submission in a spreadsheet — date, agency, who, follow-up'
+        ],
+        resources:[
+          { name:'Models.com Agency Index', url:'https://models.com/agencies', note:'Definitive list with rankings' },
+          { name:'Wilhelmina LA', url:'https://www.wilhelmina.com', note:'Diverse roster, sponsors international talent' },
+          { name:'Next Management LA', url:'https://www.nextmanagement.com', note:'Strong editorial division' },
+          { name:'The Industry Model Mgmt', url:'https://theindustrymodelmgmt.com', note:'LA boutique with high fashion focus' }
+        ]
+      }
     ],
     agencies:[
       { name:'Wilhelmina Models',         note:'Known for diverse talent and international roster' },
@@ -2017,11 +2905,91 @@ const PILLARS = [
         details:'If a modeling agency, publishing house, or media company sponsors, an H-1B or O-1 could be filed on her behalf. Less likely near-term but becomes viable as her professional profile grows.' }
     ],
     urgentActions:[
-      { text:'Consult an immigration attorney within the next 30 days', priority:'high' },
-      { text:'Begin documenting ALL professional milestones in a visa evidence folder', priority:'high' },
-      { text:'Register a UK Ltd company for receiving international income', priority:'high' },
-      { text:'Understand the exact terms of B-1/B-2 visa and extension options', priority:'medium' },
-      { text:'Do NOT overstay — this would jeopardize all future visa pathways', priority:'critical' }
+      {
+        text:'Consult an immigration attorney within the next 30 days',
+        priority:'high',
+        roadmap:[
+          'Get 3 attorney consults before committing — not all immigration lawyers know O-1B',
+          'Look for ones who specifically handle extraordinary-ability arts cases',
+          'Bring: passport, visa history, current portfolio, list of accomplishments',
+          'Ask point-blank: based on my evidence today, what are my odds?',
+          'Get a written O-1B strategy memo from the one you choose',
+          'Budget: $4,500–8,000 for full O-1B prep through filing'
+        ],
+        resources:[
+          { name:'AILA Lawyer Search', url:'https://www.ailalawyer.com', note:'American Immigration Lawyers Association directory' },
+          { name:'Avvo Immigration', url:'https://www.avvo.com', note:'Reviews + ratings of US immigration attorneys' },
+          { name:'Legalpad', url:'https://www.legalpad.io', note:'Modern firm specializing in talent visas' }
+        ]
+      },
+      {
+        text:'Begin documenting ALL professional milestones in a visa evidence folder',
+        priority:'high',
+        roadmap:[
+          'Create a single Google Drive or Notion vault — name it O-1B Evidence',
+          'Subfolders by USCIS criterion: Awards, Press, Membership, Original Contribution, Authorship, High Salary, Critical Role, Commercial Success',
+          'Save PDFs/screenshots immediately — never trust links to stay live',
+          'Log every milestone with: date, source, what it proves, which criterion',
+          'Update weekly — backfill earlier wins now while you remember them',
+          'Include translations for any non-English source material'
+        ],
+        resources:[
+          { name:'USCIS O-1 Criteria', url:'https://www.uscis.gov/working-in-the-united-states/temporary-workers/o-1-visa-individuals-with-extraordinary-ability-or-achievement', note:'Official criterion definitions' },
+          { name:'Notion', url:'https://www.notion.so', note:'Best evidence tracker — searchable, shareable with attorney' },
+          { name:'Google Drive', url:'https://drive.google.com', note:'Backup, with link sharing for attorney' }
+        ]
+      },
+      {
+        text:'Register a UK Ltd company for receiving international income',
+        priority:'high',
+        roadmap:[
+          'Choose a name and check availability via Companies House',
+          'Register online — about £50, takes 24 hours',
+          'Open a business bank account (Wise, Starling, or Tide are fastest)',
+          'Register for self-assessment with HMRC',
+          'Set up Xero or FreeAgent for bookkeeping from day one',
+          'Hire a UK accountant before your first year-end (£600–1,200/year)'
+        ],
+        resources:[
+          { name:'Companies House', url:'https://www.gov.uk/limited-company-formation', note:'Official UK company registration' },
+          { name:'Wise Business', url:'https://wise.com/business', note:'Best multi-currency business account' },
+          { name:'Starling Business', url:'https://www.starlingbank.com/business-account', note:'UK-only but very founder-friendly' },
+          { name:'FreeAgent', url:'https://www.freeagent.com', note:'UK-specific bookkeeping built for sole traders' },
+          { name:'Xero', url:'https://www.xero.com', note:'More scalable accounting software' }
+        ]
+      },
+      {
+        text:'Understand the exact terms of B-1/B-2 visa and extension options',
+        priority:'medium',
+        roadmap:[
+          'Read the official admission stamp — your I-94 has the real expiration date',
+          'Check current status at i94.cbp.dhs.gov',
+          'B-1/B-2 holders can file Form I-539 for a 6-month extension (must do BEFORE expiry)',
+          'Document a clear ties-to-home-country case — even for an extension',
+          'Never assume extension is granted — always have a fallback exit date'
+        ],
+        resources:[
+          { name:'I-94 Lookup', url:'https://i94.cbp.dhs.gov', note:'Check your actual admission expiration' },
+          { name:'USCIS Form I-539', url:'https://www.uscis.gov/i-539', note:'Extension application form + instructions' },
+          { name:'travel.state.gov B Visa', url:'https://travel.state.gov/content/travel/en/us-visas/tourism-visit/visitor.html', note:'Official B visa overview' }
+        ]
+      },
+      {
+        text:'Do NOT overstay — this would jeopardize all future visa pathways',
+        priority:'critical',
+        roadmap:[
+          'Set a phone reminder 60 days before I-94 expires',
+          'Set a second reminder 30 days before',
+          'Book outbound flight at least 7 days before expiration as a hard deadline',
+          'If you need more time, file I-539 extension at least 45 days before expiry',
+          'If denied, leave immediately — staying past denial = unlawful presence',
+          'Even 1 day of overstay can trigger a 3-year bar from re-entry'
+        ],
+        resources:[
+          { name:'USCIS', url:'https://www.uscis.gov', note:'Official rules on overstay penalties' },
+          { name:'I-94 Lookup', url:'https://i94.cbp.dhs.gov', note:'Verify your real expiration — not your visa stamp date' }
+        ]
+      }
     ]
   },
   {
@@ -2496,22 +3464,28 @@ const TIMELINE = [
 // STATE (persisted)
 // ══════════════════════════════════════
 // Shape:
-// { checks: {pillarId: {itemKey: true}},
-//   rev:    {id: volume},
-//   scrub:  monthIdx,
-//   notes:  {'substack-w1': {topic, notes, status}, ...},
+// { checks:   {pillarId: {itemKey: true}},
+//   expanded: {pillarId: {itemKey: true}},
+//   rev:      {id: volume},
+//   scrub:    monthIdx,
+//   notes:    {'substack-w1': {topic, notes, status}, ...},
 //   tipsOpen: {'ebook-pre-0': true, ...} }
 function loadState(){
   try{
     const raw = localStorage.getItem(STATE_KEY);
     if(raw){
       const s = JSON.parse(raw);
-      if(!s.notes)    s.notes    = {};
-      if(!s.tipsOpen) s.tipsOpen = {};
+      // backfill missing keys for older saves
+      if(!s.checks)       s.checks   = {};
+      if(!s.expanded)     s.expanded = {};
+      if(!s.rev)          s.rev      = {};
+      if(!s.notes)        s.notes    = {};
+      if(!s.tipsOpen)     s.tipsOpen = {};
+      if(!('scrub' in s)) s.scrub    = null;
       return s;
     }
   }catch(_){ /* ignore */ }
-  return { checks:{}, rev:{}, scrub:null, notes:{}, tipsOpen:{} };
+  return { checks:{}, expanded:{}, rev:{}, scrub:null, notes:{}, tipsOpen:{} };
 }
 function saveState(){
   try{ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }catch(_){}
@@ -2557,6 +3531,11 @@ function countPillarItems(p){
   if(p.phases)        p.phases.forEach(ph => n += ph.items.length);
   if(p.actions)       n += p.actions.length;
   if(p.urgentActions) n += p.urgentActions.length;
+  if(p.marketing){
+    if(p.marketing.plays)       n += p.marketing.plays.length;
+    if(p.marketing.launchWeek)  n += p.marketing.launchWeek.length;
+    if(p.marketing.creative)    n += p.marketing.creative.length;
+  }
   if(p.launches)      p.launches.forEach(L => { n += L.pre.length + L.day.length + L.post.length; });
   return n;
 }
@@ -2573,6 +3552,71 @@ function toggleCheck(pillarId, key){
   if(!state.checks[pillarId][key]) delete state.checks[pillarId][key];
   saveState();
   updateProgressRings();
+}
+
+// ── item shape helpers (string OR {text, roadmap?, resources?, priority?}) ──
+function itemText(it)     { return typeof it === 'string' ? it : (it && it.text) || ''; }
+function itemRoadmap(it)  { return (typeof it === 'object' && it && Array.isArray(it.roadmap))   ? it.roadmap   : []; }
+function itemResources(it){ return (typeof it === 'object' && it && Array.isArray(it.resources)) ? it.resources : []; }
+function itemHasDetail(it){ return itemRoadmap(it).length > 0 || itemResources(it).length > 0; }
+
+function isExpanded(pillarId, key){
+  return !!(state.expanded && state.expanded[pillarId] && state.expanded[pillarId][key]);
+}
+function toggleExpanded(pillarId, key){
+  state.expanded[pillarId] = state.expanded[pillarId] || {};
+  state.expanded[pillarId][key] = !state.expanded[pillarId][key];
+  if(!state.expanded[pillarId][key]) delete state.expanded[pillarId][key];
+  saveState();
+}
+
+function chevronSVG(){
+  const wrap = document.createElement('div');
+  wrap.innerHTML = '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true"><path d="M2.5 4.5 L6 6.5 L9.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return wrap.firstElementChild;
+}
+
+// Build the expandable detail panel (roadmap + resources)
+function renderItemDetail(it){
+  const detail = el('div', { class:'action-detail' });
+  const roadmap   = itemRoadmap(it);
+  const resources = itemResources(it);
+
+  if(roadmap.length){
+    const block = el('div', { class:'roadmap-block' });
+    block.appendChild(el('div', { class:'detail-label' }, 'Roadmap'));
+    const ol = el('ol', { class:'roadmap-list' });
+    roadmap.forEach(step => ol.appendChild(el('li', null, step)));
+    block.appendChild(ol);
+    detail.appendChild(block);
+  }
+
+  if(resources.length){
+    const block = el('div', { class:'resources-block' });
+    block.appendChild(el('div', { class:'detail-label' }, 'Resources'));
+    const grid = el('div', { class:'resources-grid' });
+    resources.forEach(r => {
+      const isLink = !!r.url;
+      const tag    = isLink ? 'a' : 'div';
+      const attrs  = { class:'resource-chip' + (isLink ? '' : ' no-link') };
+      if(isLink){
+        attrs.href   = r.url;
+        attrs.target = '_blank';
+        attrs.rel    = 'noopener noreferrer';
+        // prevent the row's expand-toggle from firing when the user clicks a link
+        attrs.onclick = (e) => e.stopPropagation();
+      }
+      const nameEl = el('div', { class:'rname' }, r.name || '');
+      if(isLink) nameEl.appendChild(el('span', { class:'ext' }, '↗'));
+      const chip = el(tag, attrs, nameEl);
+      if(r.note) chip.appendChild(el('div', { class:'rnote' }, r.note));
+      grid.appendChild(chip);
+    });
+    block.appendChild(grid);
+    detail.appendChild(block);
+  }
+
+  return detail;
 }
 
 // ══════════════════════════════════════
@@ -2842,42 +3886,224 @@ function renderWritingView(){
   const list = el('ul', { class:'action-list' });
   const phase = p.phases[writingActivePhase];
   phase.items.forEach((item, i) => {
-    const key  = `phase-${writingActivePhase}-${i}`;
-    const done = !!((state.checks[p.id] || {})[key]);
-    const li = el('li', {
-      class:'action-item',
-      'data-done': done ? '1' : '0',
-      tabindex:'0',
-      role:'checkbox',
-      'aria-checked': done ? 'true' : 'false',
-      onclick:() => {
-        toggleCheck(p.id, key);
-        renderWritingView();
-      },
-      onkeydown:(e) => {
-        if(e.key === ' ' || e.key === 'Enter'){
-          e.preventDefault();
-          toggleCheck(p.id, key);
-          renderWritingView();
-        }
-      }
-    },
-      el('span', { class:'check' }, checkSVG()),
-      el('span', { class:'text' }, item)
-    );
-    list.appendChild(li);
+    const key = `phase-${writingActivePhase}-${i}`;
+    list.appendChild(makeActionItem({
+      pillarId: p.id,
+      key,
+      item,
+      rerender: renderWritingView
+    }));
   });
   card.appendChild(list);
   $v.appendChild(card);
 
   // revenue calculator — Feature 1
   $v.appendChild(renderRevenueCalculator(p));
+
+  // book marketing — psychology + plays + creative ideas
+  if(p.marketing) renderMarketingSection($v, p);
+}
+
+// ══════════════════════════════════════
+// BOOK MARKETING — psychology + tactics
+// ══════════════════════════════════════
+function renderMarketingSection($v, p){
+  const m = p.marketing;
+
+  // Section divider
+  $v.appendChild(el('div', { class:'mkt-divider' },
+    el('span', { class:'mkt-divider-label' }, 'Book Marketing')
+  ));
+
+  // ── Card 1: Foundations (psychology principles, reference) ──
+  if(m.foundations && m.foundations.length){
+    const card = el('div', { class:'card' });
+    card.appendChild(el('div', { class:'card-label' }, 'Marketing Psychology — Foundations'));
+    card.appendChild(el('p', { class:'mkt-intro' },
+      'Six principles that shape every other decision. Industry standard, but tilted for indie/memoir realities — not SaaS playbooks.'
+    ));
+    const grid = el('div', { class:'pillar-grid' });
+    m.foundations.forEach(f => {
+      grid.appendChild(el('div', { class:'pillar-card' },
+        el('div', { class:'name' }, f.name),
+        el('div', { class:'desc' }, f.desc)
+      ));
+    });
+    card.appendChild(grid);
+    $v.appendChild(card);
+  }
+
+  // ── Card 2: Industry-Standard Pre-Launch Plays ──
+  if(m.plays && m.plays.length){
+    const card = el('div', { class:'card' });
+    card.appendChild(el('div', { class:'card-label' }, 'Industry-Standard Plays — Pre-Launch'));
+    card.appendChild(el('p', { class:'mkt-intro' },
+      'The five moves every successful indie launch makes. Start 60 days before publish day.'
+    ));
+    const list = el('ul', { class:'action-list' });
+    m.plays.forEach((a, i) => {
+      list.appendChild(makeActionItem({
+        pillarId: p.id,
+        key: `mkt-plays-${i}`,
+        item: a,
+        numbered: true,
+        index: i,
+        rerender: renderWritingView
+      }));
+    });
+    card.appendChild(list);
+    $v.appendChild(card);
+  }
+
+  // ── Card 3: Launch Week Tactics ──
+  if(m.launchWeek && m.launchWeek.length){
+    const card = el('div', { class:'card' });
+    card.appendChild(el('div', { class:'card-label' }, 'Launch Week Tactics — High-Leverage 7 Days'));
+    card.appendChild(el('p', { class:'mkt-intro' },
+      'The compressed window where most of the visibility happens. Pre-schedule everything.'
+    ));
+    const list = el('ul', { class:'action-list' });
+    m.launchWeek.forEach((a, i) => {
+      list.appendChild(makeActionItem({
+        pillarId: p.id,
+        key: `mkt-launch-${i}`,
+        item: a,
+        numbered: true,
+        index: i,
+        rerender: renderWritingView
+      }));
+    });
+    card.appendChild(list);
+    $v.appendChild(card);
+  }
+
+  // ── Card 4: Creative & Unconventional Ideas ──
+  if(m.creative && m.creative.length){
+    const card = el('div', { class:'card' });
+    card.appendChild(el('div', { class:'card-label' }, 'Creative & Unconventional Ideas'));
+    card.appendChild(el('p', { class:'mkt-intro' },
+      'The plays you won\u2019t find in typical book marketing playbooks. Each one leverages something only Phoebe can do.'
+    ));
+    const list = el('ul', { class:'action-list' });
+    m.creative.forEach((a, i) => {
+      list.appendChild(makeActionItem({
+        pillarId: p.id,
+        key: `mkt-creative-${i}`,
+        item: a,
+        numbered: true,
+        index: i,
+        rerender: renderWritingView
+      }));
+    });
+    card.appendChild(list);
+    $v.appendChild(card);
+  }
+
+  // ── Card 5: Cognitive Triggers (reference) ──
+  if(m.triggers && m.triggers.length){
+    const card = el('div', { class:'card' });
+    card.appendChild(el('div', { class:'card-label' }, 'Cognitive Triggers — When Stuck, Reach For One'));
+    card.appendChild(el('p', { class:'mkt-intro' },
+      'Mental shortcuts the brain runs whether you ask it to or not. Use them as a checklist when copy or campaigns feel flat.'
+    ));
+    const grid = el('div', { class:'trigger-grid' });
+    m.triggers.forEach(t => {
+      grid.appendChild(el('div', { class:'trigger-card' },
+        el('div', { class:'tname' }, t.name),
+        el('div', { class:'tdesc' }, t.desc)
+      ));
+    });
+    card.appendChild(grid);
+    $v.appendChild(card);
+  }
 }
 
 function checkSVG(){
   const wrap = document.createElement('div');
   wrap.innerHTML = '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true"><path d="M2.5 6.5 L5 9 L9.5 3.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   return wrap.firstElementChild;
+}
+
+// ── shared action-item builder ──
+// opts: { pillarId, key, item, numbered?, index?, rerender }
+function makeActionItem(opts){
+  const { pillarId, key, item, numbered, index, rerender } = opts;
+  const text      = itemText(item);
+  const hasDetail = itemHasDetail(item);
+  const done      = !!((state.checks[pillarId] || {})[key]);
+  const open      = hasDetail && isExpanded(pillarId, key);
+
+  const cls = ['action-item'];
+  if(hasDetail) cls.push('has-detail');
+  if(open)      cls.push('is-open');
+
+  const li = el('li', {
+    class: cls.join(' '),
+    'data-done': done ? '1' : '0',
+    role:'group'
+  });
+
+  // checkable badge — separate button so its click doesn't toggle expansion
+  const checkAttrs = {
+    type:'button',
+    'aria-label': done ? 'Mark as not done' : 'Mark as done',
+    'aria-pressed': done ? 'true' : 'false',
+    onclick:(e) => {
+      e.stopPropagation();
+      toggleCheck(pillarId, key);
+      rerender();
+    },
+    onkeydown:(e) => {
+      if(e.key === ' ' || e.key === 'Enter'){
+        e.preventDefault();
+        e.stopPropagation();
+        toggleCheck(pillarId, key);
+        rerender();
+      }
+    }
+  };
+  let checkEl;
+  if(numbered){
+    checkAttrs.class = 'action-num';
+    checkEl = el('button', checkAttrs);
+    checkEl.textContent = String((index || 0) + 1);
+  } else {
+    checkAttrs.class = 'check';
+    checkEl = el('button', checkAttrs);
+    checkEl.appendChild(checkSVG());
+  }
+  li.appendChild(checkEl);
+
+  li.appendChild(el('span', { class:'text' }, text));
+
+  if(hasDetail){
+    const chev = el('button', {
+      class:'chevron',
+      type:'button',
+      'aria-label': open ? 'Collapse details' : 'Expand details',
+      'aria-expanded': open ? 'true' : 'false',
+      onclick:(e) => {
+        e.stopPropagation();
+        toggleExpanded(pillarId, key);
+        rerender();
+      }
+    }, chevronSVG());
+    li.appendChild(chev);
+
+    // clicking the row body (text area) toggles expansion
+    li.addEventListener('click', (e) => {
+      if(e.target.closest('.check') ||
+         e.target.closest('.action-num') ||
+         e.target.closest('.chevron') ||
+         e.target.closest('.action-detail')) return;
+      toggleExpanded(pillarId, key);
+      rerender();
+    });
+
+    li.appendChild(renderItemDetail(item));
+  }
+
+  return li;
 }
 
 // ══════════════════════════════════════
@@ -3046,6 +4272,25 @@ function renderCamcorderView(){
   card1.appendChild(grid);
   $v.appendChild(card1);
 
+  // action items (gear, pipeline, posting setup)
+  if(p.actions && p.actions.length){
+    const cardA = el('div', { class:'card' });
+    cardA.appendChild(el('div', { class:'card-label' }, 'Get Set Up'));
+    const list = el('ul', { class:'action-list' });
+    p.actions.forEach((a, i) => {
+      list.appendChild(makeActionItem({
+        pillarId: p.id,
+        key: `act-${i}`,
+        item: a,
+        numbered: true,
+        index: i,
+        rerender: renderCamcorderView
+      }));
+    });
+    cardA.appendChild(list);
+    $v.appendChild(cardA);
+  }
+
   // platforms table
   const card2 = el('div', { class:'card' });
   card2.appendChild(el('div', { class:'card-label' }, 'Platform Strategy'));
@@ -3104,26 +4349,14 @@ function renderModelingView(){
   card1.appendChild(el('div', { class:'card-label' }, 'Immediate Action Items'));
   const list = el('ul', { class:'action-list' });
   p.actions.forEach((a, i) => {
-    const key  = `act-${i}`;
-    const done = !!((state.checks[p.id] || {})[key]);
-    list.appendChild(el('li', {
-      class:'action-item',
-      'data-done': done ? '1' : '0',
-      tabindex:'0',
-      role:'checkbox',
-      'aria-checked': done ? 'true' : 'false',
-      onclick:() => { toggleCheck(p.id, key); renderModelingView(); },
-      onkeydown:(e) => {
-        if(e.key === ' ' || e.key === 'Enter'){
-          e.preventDefault();
-          toggleCheck(p.id, key);
-          renderModelingView();
-        }
-      }
-    },
-      el('span', { class:'action-num' }, String(i + 1)),
-      el('span', { class:'text' }, a)
-    ));
+    list.appendChild(makeActionItem({
+      pillarId: p.id,
+      key: `act-${i}`,
+      item: a,
+      numbered: true,
+      index: i,
+      rerender: renderModelingView
+    }));
   });
   card1.appendChild(list);
   $v.appendChild(card1);
@@ -3206,32 +4439,66 @@ function renderVisaView(){
   card1.appendChild(body);
   $v.appendChild(card1);
 
-  // urgent actions — checkable
+  // urgent actions — checkable + expandable
   const card2 = el('div', { class:'card' });
   card2.appendChild(el('div', { class:'card-label' }, 'Urgent Action Items'));
   p.urgentActions.forEach((a, i) => {
-    const key  = `urgent-${i}`;
-    const done = !!((state.checks[p.id] || {})[key]);
+    const key       = `urgent-${i}`;
+    const done      = !!((state.checks[p.id] || {})[key]);
+    const hasDetail = itemHasDetail(a);
+    const open      = hasDetail && isExpanded(p.id, key);
+
+    const cls = ['urgent-item'];
+    if(hasDetail) cls.push('has-detail');
+    if(open)      cls.push('is-open');
+
     const row = el('li', {
-      class:'urgent-item',
+      class: cls.join(' '),
       'data-priority':a.priority,
       'data-done': done ? '1' : '0',
-      tabindex:'0',
-      role:'checkbox',
-      'aria-checked': done ? 'true' : 'false',
-      onclick:() => { toggleCheck(p.id, key); renderVisaView(); },
-      onkeydown:(e) => {
-        if(e.key === ' ' || e.key === 'Enter'){
-          e.preventDefault();
-          toggleCheck(p.id, key);
-          renderVisaView();
-        }
-      }
+      role:'group'
     });
-    const check = el('span', { class:'check', style:`--pillar-accent:var(${p.accent})` }, checkSVG());
+
+    const check = el('button', {
+      class:'check',
+      type:'button',
+      style:`--pillar-accent:var(${p.accent})`,
+      'aria-label': done ? 'Mark as not done' : 'Mark as done',
+      'aria-pressed': done ? 'true' : 'false',
+      onclick:(e) => {
+        e.stopPropagation();
+        toggleCheck(p.id, key);
+        renderVisaView();
+      }
+    }, checkSVG());
     row.appendChild(check);
     row.appendChild(el('span', { class:'dot' }));
-    row.appendChild(el('span', { class:'text' }, a.text));
+    row.appendChild(el('span', { class:'text' }, itemText(a)));
+
+    if(hasDetail){
+      row.appendChild(el('button', {
+        class:'chevron',
+        type:'button',
+        'aria-label': open ? 'Collapse details' : 'Expand details',
+        'aria-expanded': open ? 'true' : 'false',
+        onclick:(e) => {
+          e.stopPropagation();
+          toggleExpanded(p.id, key);
+          renderVisaView();
+        }
+      }, chevronSVG()));
+
+      row.addEventListener('click', (e) => {
+        if(e.target.closest('.check') ||
+           e.target.closest('.chevron') ||
+           e.target.closest('.action-detail')) return;
+        toggleExpanded(p.id, key);
+        renderVisaView();
+      });
+
+      row.appendChild(renderItemDetail(a));
+    }
+
     card2.appendChild(row);
   });
   $v.appendChild(card2);
@@ -3768,9 +5035,12 @@ document.getElementById('signOut').addEventListener('click', () => {
 });
 document.getElementById('resetAll').addEventListener('click', () => {
   if(!confirm('Clear all checked items and reset the revenue sliders?')) return;
-  state.checks = {};
-  state.rev = {};
-  state.scrub = null;
+  state.checks   = {};
+  state.expanded = {};
+  state.rev      = {};
+  state.scrub    = null;
+  state.notes    = {};
+  state.tipsOpen = {};
   saveState();
   renderAll();
 });
