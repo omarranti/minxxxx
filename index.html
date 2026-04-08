@@ -51,7 +51,7 @@
   .pm-btn:focus-visible{
     outline:2px solid var(--phosphor);
     outline-offset:3px;
-    box-shadow:0 0 12px rgba(196,255,214,0.55);
+    box-shadow:0 0 12px rgba(255,214,227,0.55);
     border-radius:1px;
   }
   @media (prefers-reduced-motion: reduce){
@@ -66,29 +66,36 @@
   }
 
   :root{
-    /* tape palette — pulled from the recording */
-    --tape-black: #08080c;
-    --tape-deep:  #050307;
-    --tape-bezel: #0d0a10;
-    --crt-cream:  #f0e6e8;
-    --crt-glow:   #fff8f5;
-    --phosphor:   #c4ffd6;     /* old camcorder HUD green */
-    --phosphor-d: #5cdc80;
-    --rec-red:    #ff2a3a;
-    --rec-glow:   #ff5566;
+    /* tape palette — HANDYCAM for a warrior princess.
+       Feminized from the original cold-mint HUD to a blush phosphor.
+       Tape-blacks warmed to aubergine so the vignette glows pink, not green. */
+    --tape-black: #0d060f;      /* warm aubergine-black */
+    --tape-deep:  #0a040c;      /* deeper aubergine */
+    --tape-bezel: #150a18;      /* violet-plum bezel */
+    --crt-cream:  #f6e6e8;      /* slightly warmer CRT paper */
+    --crt-glow:   #fff5f3;      /* candle glow */
+    /* BLUSH PHOSPHOR — the main HUD color.
+       Same role as old mint but in warm rose-pearl. All the HUD / tape-labels
+       / corner brackets / focus ring / VU bars / skip-link inherit this. */
+    --phosphor:   #ffd6e3;      /* blush-pearl (replaces mint HUD) */
+    --phosphor-d: #ff9abc;      /* saturated rose accent */
+    /* REC — warmed from cold fire-engine red to a rose-coral */
+    --rec-red:    #ff4d7a;
+    --rec-glow:   #ff8aa6;
     --lavender:   #c4a0d4;
     --pink:       #d4739a;
     --rose:       #e8a0b8;
-    --gold:       #c9a96e;
-    --muted:      #8a7a8e;
-    --dim:        #3a2e3e;
-    --hud-amber:  #ffb070;
-    /* PIXEL OS CHROME — pulled from PixelTalk */
-    --os-cream:   #f9efe4;
-    --os-paper:   #f7f3e9;
-    --os-tertiary:#c2b9b1;
-    --os-ink:     #18141a;
-    --os-shadow:  rgba(0,0,0,0.55);
+    --gold:       #e8c0a0;      /* rose-gold instead of brass */
+    --muted:      #a894ac;      /* warmer muted (was cool purple-gray) */
+    --dim:        #4a3a50;
+    /* HUD accent — peach-rose instead of military amber */
+    --hud-amber:  #ffc4a8;
+    /* PIXEL OS CHROME — peachier cream for the window frame */
+    --os-cream:   #fceee4;
+    --os-paper:   #faf0e8;
+    --os-tertiary:#c9b8b1;
+    --os-ink:     #1a1018;      /* plum-ink */
+    --os-shadow:  rgba(40,12,30,0.55);  /* wine-tinted shadow */
   }
 
   html{scroll-behavior:smooth;background:#000}
@@ -431,10 +438,12 @@
     display:inline-block;
     width:40px;height:40px;
     border:1.5px solid var(--os-ink);
-    background:var(--hud-amber);
+    background:var(--rose);
+    color:var(--os-ink);
     margin-bottom:1rem;
-    font-size:20px;
-    line-height:38px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:26px;
+    line-height:36px;
     box-shadow:2px 2px 0 var(--os-shadow);
   }
   .pixel-modal-body p{
@@ -549,32 +558,34 @@
      CRT VIEWFINDER STACK — fixed overlays
      ════════════════════════════════════════════════════ */
 
-  /* 1. SCANLINES */
+  /* 1. SCANLINES — softened from 0.18 → 0.11 (less harsh CRT). */
   .crt-scanlines{
     position:fixed;inset:0;z-index:9990;pointer-events:none;
     background:repeating-linear-gradient(
       to bottom,
       rgba(0,0,0,0) 0px,
       rgba(0,0,0,0) 2px,
-      rgba(0,0,0,0.18) 3px,
+      rgba(24,10,22,0.11) 3px,
       rgba(0,0,0,0) 4px
     );
     mix-blend-mode:multiply;
   }
 
-  /* 2. CRT VIGNETTE — heavy in corners, soft in center */
+  /* 2. CRT VIGNETTE — softer falloff, warm aubergine instead of pure black,
+        with a lavender-pink inner glow for ambient bloom. */
   .crt-vignette{
     position:fixed;inset:0;z-index:9991;pointer-events:none;
     background:
-      radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 80%, rgba(0,0,0,0.85) 100%),
-      radial-gradient(ellipse at 50% 50%, rgba(196,160,212,0.04) 0%, transparent 60%);
+      radial-gradient(ellipse at 50% 50%, transparent 42%, rgba(18,8,22,0.35) 82%, rgba(18,8,22,0.72) 100%),
+      radial-gradient(ellipse 900px 700px at 50% 45%, rgba(255,180,200,0.05) 0%, transparent 70%),
+      radial-gradient(ellipse at 50% 50%, rgba(196,160,212,0.05) 0%, transparent 60%);
   }
 
   /* 3. SUBTLE CHROMA / RGB BLEED at edges */
   .crt-chroma{
     position:fixed;inset:0;z-index:9992;pointer-events:none;
     background:
-      linear-gradient(90deg, rgba(255,42,58,0.04) 0%, transparent 4%, transparent 96%, rgba(0,255,200,0.04) 100%);
+      linear-gradient(90deg, rgba(255,77,122,0.05) 0%, transparent 4%, transparent 96%, rgba(255,180,200,0.05) 100%);
     mix-blend-mode:screen;
   }
 
@@ -594,7 +605,7 @@
     100%{transform:translate(0,0)}
   }
 
-  /* 5. VHS TRACKING — horizontal noise band scrolling slowly */
+  /* 5. VHS TRACKING — soft pink shimmer band (was cool white/lavender). */
   .crt-tracking{
     position:fixed;inset:0;z-index:9994;pointer-events:none;
     overflow:hidden;
@@ -606,11 +617,11 @@
     height:6px;
     background:linear-gradient(to bottom,
       transparent,
-      rgba(255,255,255,0.06),
-      rgba(196,160,212,0.08),
-      rgba(255,255,255,0.04),
+      rgba(255,214,227,0.055),
+      rgba(212,115,154,0.08),
+      rgba(255,214,227,0.04),
       transparent);
-    filter:blur(0.5px);
+    filter:blur(0.6px);
     animation:tracking 9s linear infinite;
   }
   @keyframes tracking{
@@ -669,7 +680,7 @@
     pointer-events:none;
     font-family:'VT323','IBM Plex Mono',monospace;
     color:var(--phosphor);
-    text-shadow:0 0 8px rgba(196,255,214,0.5), 0 0 2px rgba(196,255,214,0.9);
+    text-shadow:0 0 8px rgba(255,214,227,0.5), 0 0 2px rgba(255,214,227,0.9);
     font-size:14px;
     letter-spacing:0.05em;
   }
@@ -720,7 +731,7 @@
     border-radius:1px;
     position:relative;
     padding:1px;
-    box-shadow:0 0 6px rgba(196,255,214,0.3);
+    box-shadow:0 0 6px rgba(255,214,227,0.35);
   }
   .batt-icon::after{
     content:'';
@@ -741,7 +752,7 @@
     100% {width:62%}
   }
   .hud-tape{font-size:11px;letter-spacing:0.18em;opacity:0.85}
-  .hud-mode{font-size:11px;letter-spacing:0.2em;color:var(--hud-amber);text-shadow:0 0 6px rgba(255,176,112,0.6)}
+  .hud-mode{font-size:11px;letter-spacing:0.2em;color:var(--hud-amber);text-shadow:0 0 6px rgba(255,196,168,0.6)}
 
   /* BOTTOM-LEFT — PLAY status + VU */
   .hud-bl{
@@ -801,53 +812,72 @@
   .hud-br .small{opacity:0.6;font-size:10px}
 
   /* ════════════════════════════════════════════════════
-     VIEWFINDER CORNER BRACKETS
+     VIEWFINDER CORNER BRACKETS — delicate, not targeting
+     Soft 1px blush strokes, lower opacity, smaller footprint.
      ════════════════════════════════════════════════════ */
   .vf-corner{
     position:fixed;
-    width:60px;height:60px;
-    border:2px solid var(--phosphor);
+    width:46px;height:46px;
+    border:1px solid var(--phosphor);
     z-index:9994;
     pointer-events:none;
-    opacity:0.55;
-    box-shadow:0 0 12px rgba(196,255,214,0.25);
+    opacity:0.38;
+    box-shadow:0 0 10px rgba(255,214,227,0.22);
+    border-radius:2px; /* microscopic radius softens the right-angle */
   }
   .vf-corner.tl{top:calc(34px + 0.6rem);left:0.8rem;border-right:none;border-bottom:none}
   .vf-corner.tr{top:calc(34px + 0.6rem);right:0.8rem;border-left:none;border-bottom:none}
   .vf-corner.bl{bottom:calc(30px + 0.6rem);left:0.8rem;border-right:none;border-top:none}
   .vf-corner.br{bottom:calc(30px + 0.6rem);right:0.8rem;border-left:none;border-top:none}
 
-  /* center crosshair — autofocus mark */
+  /* center autofocus — a soft aperture BLOOM instead of a sniper reticle.
+     Four thin petals + a tiny pearl dot, fading in every 12s like a camera
+     re-acquiring focus. Much gentler than the original crosshair. */
   .vf-focus{
     position:fixed;
     top:50%;left:50%;
-    width:80px;height:80px;
+    width:96px;height:96px;
     transform:translate(-50%,-50%);
     z-index:9994;
     pointer-events:none;
     opacity:0;
     animation:focusBlink 12s ease-in-out infinite;
   }
-  .vf-focus::before,.vf-focus::after{
+  /* tiny pearl at dead-center */
+  .vf-focus::before{
     content:'';
     position:absolute;
+    top:50%;left:50%;
+    width:5px;height:5px;
+    border-radius:50%;
     background:var(--phosphor);
-    box-shadow:0 0 4px var(--phosphor);
+    box-shadow:0 0 8px rgba(255,214,227,0.65);
+    transform:translate(-50%,-50%);
   }
-  .vf-focus::before{top:50%;left:0;right:0;height:1px;transform:translateY(-50%)}
-  .vf-focus::after{left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%)}
+  /* soft outer bloom ring */
+  .vf-focus::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1px solid rgba(255,214,227,0.35);
+    box-shadow:0 0 18px rgba(255,214,227,0.12) inset;
+  }
+  /* four aperture petals — delicate ticks at N/E/S/W */
   .vf-focus i{
     position:absolute;
-    width:14px;height:14px;
-    border:1px solid var(--phosphor);
+    width:1px;height:10px;
+    background:var(--phosphor);
+    box-shadow:0 0 6px rgba(255,214,227,0.55);
+    opacity:0.8;
   }
-  .vf-focus i:nth-child(1){top:0;left:0;border-right:none;border-bottom:none}
-  .vf-focus i:nth-child(2){top:0;right:0;border-left:none;border-bottom:none}
-  .vf-focus i:nth-child(3){bottom:0;left:0;border-right:none;border-top:none}
-  .vf-focus i:nth-child(4){bottom:0;right:0;border-left:none;border-top:none}
+  .vf-focus i:nth-child(1){top:6px;left:50%;transform:translateX(-50%)}
+  .vf-focus i:nth-child(2){right:6px;top:50%;transform:translateY(-50%) rotate(90deg)}
+  .vf-focus i:nth-child(3){bottom:6px;left:50%;transform:translateX(-50%)}
+  .vf-focus i:nth-child(4){left:6px;top:50%;transform:translateY(-50%) rotate(90deg)}
   @keyframes focusBlink{
     0%,8%,100%{opacity:0}
-    1%,5%     {opacity:0.7}
+    1%,5%     {opacity:0.55}
   }
 
   /* ════════════════════════════════════════════════════
@@ -920,8 +950,8 @@
     opacity:0;
     animation:nameIn 1.4s 4.3s forwards;
     text-shadow:
-      -1.5px 0 rgba(255,42,58,0.55),
-      1.5px 0 rgba(0,255,200,0.45),
+      -1.5px 0 rgba(255,77,122,0.55),
+      1.5px 0 rgba(255,154,188,0.45),
       0 0 24px rgba(196,160,212,0.25);
   }
   @keyframes nameIn{
@@ -1039,8 +1069,8 @@
     color:var(--crt-glow);
     margin-bottom:1rem;
     text-shadow:
-      -1px 0 rgba(255,42,58,0.4),
-      1px 0 rgba(0,255,200,0.35);
+      -1px 0 rgba(255,77,122,0.40),
+      1px 0 rgba(255,154,188,0.35);
   }
 
   .section-desc{
@@ -1080,7 +1110,7 @@
     position:absolute;
     width:18px;height:18px;
     border:1px solid var(--phosphor);
-    box-shadow:0 0 4px rgba(196,255,214,0.3);
+    box-shadow:0 0 4px rgba(255,214,227,0.35);
   }
   .title-card-frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
   .title-card-frame::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
@@ -1156,7 +1186,7 @@
   .clip:hover::before{width:100%}
   .clip:hover .clip-title{color:var(--lavender);text-shadow:0 0 12px rgba(196,160,212,0.5)}
   .clip:hover .clip-arrow{color:var(--rec-glow);text-shadow:0 0 6px var(--rec-red);transform:translateX(4px)}
-  .clip:hover .clip-thumb{border-color:var(--phosphor);box-shadow:0 0 12px rgba(196,255,214,0.25)}
+  .clip:hover .clip-thumb{border-color:var(--phosphor);box-shadow:0 0 12px rgba(255,214,227,0.30)}
   .clip:hover .clip-rec{opacity:1}
 
   /* timecode IN/OUT column */
@@ -1165,7 +1195,7 @@
     font-size:11px;
     letter-spacing:0.08em;
     color:var(--phosphor-d);
-    text-shadow:0 0 4px rgba(92,220,128,0.6);
+    text-shadow:0 0 4px rgba(255,154,188,0.6);
     line-height:1.4;
     min-width:62px;
     z-index:1;
@@ -1235,7 +1265,7 @@
     font-family:'VT323',monospace;
     font-size:11px;
     color:var(--phosphor-d);
-    text-shadow:0 0 4px rgba(92,220,128,0.5);
+    text-shadow:0 0 4px rgba(255,154,188,0.5);
     text-align:right;
     line-height:1.4;
     z-index:1;
@@ -1268,7 +1298,7 @@
     width:22px;height:22px;
     border-color:var(--phosphor);
     border-style:solid;
-    box-shadow:0 0 6px rgba(196,255,214,0.3);
+    box-shadow:0 0 6px rgba(255,214,227,0.35);
   }
   .ms-frame::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
   .ms-frame::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
@@ -1395,7 +1425,7 @@
     max-width:380px;
     background:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.4'/%3E%3C/svg%3E");
     opacity:0.18;
-    border:1px solid rgba(196,255,214,0.15);
+    border:1px solid rgba(255,214,227,0.20);
     position:relative;
   }
   .end-static::after{
@@ -1546,7 +1576,7 @@
       <button class="close-x" data-action="dismiss-modal" aria-label="cancel">×</button>
     </div>
     <div class="pixel-modal-body">
-      <div class="icon">!</div>
+      <div class="icon" aria-hidden="true">♥</div>
       <p>EJECT TAPE_01.HI8 ?</p>
       <p class="small">unsaved memories may be lost. recording will stop. tape will be powered off.</p>
     </div>
