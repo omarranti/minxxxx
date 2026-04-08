@@ -43,6 +43,8 @@
     --sage-light:     #EFF3EC;
     --slate:          #5C6B7A;
     --slate-light:    #EDF0F3;
+    --rose:           #B6486A;
+    --rose-light:     #F6E6EC;
 
     /* Semantic */
     --danger:      #DC2626;
@@ -1469,6 +1471,118 @@
   /* ════════════════════════════════════════
      LAUNCH VIEW — pricing & launch playbooks
      ════════════════════════════════════════ */
+  /* ── launch sequence map (dependency chain) ── */
+  .launch-seq{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:14px;
+    margin:6px 0 22px;
+    padding:18px 16px;
+    background:var(--cream);
+    border:1px solid var(--border-light);
+    border-radius:8px;
+    position:relative;
+  }
+  .launch-seq-col{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .launch-seq-col-head{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    padding-bottom:6px;
+    margin-bottom:2px;
+    border-bottom:1px dashed var(--border);
+    text-align:center;
+  }
+  .launch-node{
+    background:var(--white);
+    border:1.5px solid var(--border);
+    border-left:3px solid var(--text-muted);
+    border-radius:6px;
+    padding:10px 12px;
+    cursor:pointer;
+    transition:all 0.18s ease;
+    text-align:left;
+    width:100%;
+    font-family:inherit;
+    position:relative;
+  }
+  .launch-node:hover{
+    transform:translateY(-1px);
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+    border-color:var(--text-muted);
+  }
+  .launch-node.active{
+    border-color:var(--launch-accent, var(--terracotta));
+    border-left-color:var(--launch-accent, var(--terracotta));
+    background:var(--launch-accent-light, var(--terracotta-light));
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  }
+  .launch-node.active .ln-name{color:var(--text)}
+  .launch-node .ln-num{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    color:var(--text-muted);
+    display:block;
+    margin-bottom:2px;
+  }
+  .launch-node .ln-name{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:0.92rem;
+    font-weight:600;
+    color:var(--text);
+    line-height:1.25;
+    display:block;
+  }
+  .launch-node .ln-target{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.58rem;
+    color:var(--text-med);
+    margin-top:4px;
+    display:block;
+  }
+  .launch-node .ln-status-dot{
+    position:absolute;
+    top:8px;right:8px;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--text-muted);
+  }
+  .launch-node .ln-status-dot.live    { background:var(--success) }
+  .launch-node .ln-status-dot.active  { background:var(--gold)    }
+  .launch-node .ln-status-dot.queued  { background:var(--text-light) }
+  .launch-seq-legend{
+    margin-top:14px;
+    padding:10px 14px;
+    background:var(--white);
+    border:1px solid var(--border-light);
+    border-radius:6px;
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.78rem;
+    color:var(--text-med);
+    line-height:1.55;
+    font-style:italic;
+  }
+  .launch-seq-legend strong{
+    font-family:'DM Sans',sans-serif;
+    font-style:normal;
+    font-size:0.58rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    display:block;
+    margin-bottom:4px;
+  }
+
   .launch-tabs{
     display:flex;flex-wrap:wrap;
     gap:6px;
@@ -2251,6 +2365,466 @@
   }
   .nb-status:focus-visible{outline:2px solid var(--launch-accent,var(--gold));outline-offset:1px}
 
+  /* ══════════════════════════════════════
+     DISCOVER VIEW — brand discovery questionnaire
+     ══════════════════════════════════════ */
+  .nav-btn.discover{
+    background:linear-gradient(180deg, var(--rose-light) 0%, var(--white) 100%);
+    border-color:var(--rose);
+    position:relative;
+  }
+  .nav-btn.discover .num{color:var(--rose)}
+  .nav-btn.discover .label{color:var(--rose);font-weight:700}
+  .nav-btn.discover::after{
+    content:"START HERE";
+    position:absolute;
+    top:-6px;right:-6px;
+    background:var(--rose);
+    color:var(--white);
+    font-family:'DM Sans',sans-serif;
+    font-size:0.45rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    padding:3px 6px;
+    border-radius:3px;
+    line-height:1;
+    box-shadow:0 1px 3px rgba(0,0,0,0.15);
+  }
+  .nav-btn.discover.locked-in::after{
+    content:"LOCKED IN";
+    background:var(--success);
+  }
+  .nav-btn.discover.active{
+    background:var(--rose);
+    border-color:var(--rose);
+  }
+  .nav-btn.discover.active .num,
+  .nav-btn.discover.active .label{color:var(--white)}
+
+  #view-discover{
+    --discover-accent: var(--rose);
+    --discover-accent-light: var(--rose-light);
+  }
+  #view-discover .view-header h2{color:var(--text)}
+  #view-discover .view-header .rule{background:var(--rose)}
+
+  .discover-intro{
+    background:var(--rose-light);
+    border:1px solid var(--rose);
+    border-left:4px solid var(--rose);
+    border-radius:8px;
+    padding:22px 26px;
+    margin-bottom:24px;
+  }
+  .discover-intro h3{
+    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--text);
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .discover-intro p{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.95rem;
+    color:var(--text-med);
+    line-height:1.6;
+    margin:0 0 8px;
+  }
+  .discover-intro p:last-child{margin-bottom:0}
+
+  .discover-section{
+    margin-bottom:32px;
+  }
+  .discover-section .ds-head{
+    display:flex;align-items:baseline;gap:12px;
+    margin-bottom:6px;
+    padding-bottom:10px;
+    border-bottom:1.5px solid var(--rose);
+  }
+  .discover-section .ds-num{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.6rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    color:var(--rose);
+    background:var(--rose-light);
+    padding:4px 8px;
+    border-radius:3px;
+  }
+  .discover-section h3{
+    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-size:1.35rem;
+    font-weight:600;
+    color:var(--text);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .discover-section .ds-sub{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.85rem;
+    font-style:italic;
+    color:var(--text-med);
+    margin:8px 0 18px;
+    line-height:1.55;
+  }
+
+  /* ──── brand name candidates board ──── */
+  .name-board{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:14px;
+  }
+  .name-card{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-left:3px solid var(--text-muted);
+    border-radius:8px;
+    padding:16px 18px;
+    transition:all 0.2s;
+  }
+  .name-card.has-name{border-left-color:var(--rose)}
+  .name-card.locked{
+    border-left-color:var(--success);
+    background:linear-gradient(180deg, #F4FBF6 0%, var(--white) 100%);
+  }
+  .name-card .nc-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .name-card .nc-name{
+    flex:1;
+    border:none;
+    background:transparent;
+    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-size:1.55rem;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--text);
+    padding:2px 0;
+    border-bottom:1.5px dashed var(--border);
+    outline:none;
+  }
+  .name-card .nc-name:focus{border-bottom-color:var(--rose)}
+  .name-card .nc-name::placeholder{color:var(--text-muted);font-style:italic;font-weight:400}
+  .name-card .nc-lock{
+    flex-shrink:0;
+    width:30px;height:30px;
+    border-radius:50%;
+    border:1.5px solid var(--text-muted);
+    background:var(--white);
+    color:var(--text-muted);
+    font-size:0.9rem;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    transition:all 0.18s;
+  }
+  .name-card .nc-lock:hover{border-color:var(--success);color:var(--success)}
+  .name-card.locked .nc-lock{
+    background:var(--success);
+    border-color:var(--success);
+    color:var(--white);
+  }
+  .name-card .nc-meaning{
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.78rem;
+    color:var(--text-med);
+    font-style:italic;
+    padding:4px 0;
+    resize:vertical;
+    min-height:32px;
+    line-height:1.5;
+    outline:none;
+    margin-bottom:10px;
+  }
+  .name-card .nc-meaning::placeholder{color:var(--text-muted)}
+  .name-card .nc-checks{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:10px;
+  }
+  .nc-check{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:4px 9px;
+    background:var(--cream);
+    border:1px solid var(--border);
+    border-radius:999px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.58rem;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    cursor:pointer;
+    transition:all 0.15s;
+  }
+  .nc-check:hover{background:var(--white);border-color:var(--text-light)}
+  .nc-check.yes{background:#E8F5EC;border-color:var(--success);color:var(--success)}
+  .nc-check.no{background:#FCE8E8;border-color:var(--danger);color:var(--danger)}
+  .nc-check::before{
+    content:"●";
+    font-size:0.5rem;
+  }
+  .nc-check.yes::before{content:"✓"}
+  .nc-check.no::before{content:"✕"}
+  .name-card .nc-score{
+    display:flex;align-items:center;gap:10px;
+  }
+  .nc-score-label{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--rose);
+  }
+  .nc-score-input{
+    flex:1;
+    -webkit-appearance:none;appearance:none;
+    height:4px;
+    background:var(--border);
+    border-radius:2px;
+    outline:none;
+  }
+  .nc-score-input::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--rose);
+    cursor:pointer;
+    border:2px solid var(--white);
+    box-shadow:0 1px 3px rgba(0,0,0,0.2);
+  }
+  .nc-score-input::-moz-range-thumb{
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--rose);
+    cursor:pointer;
+    border:2px solid var(--white);
+  }
+  .nc-score-val{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    font-weight:700;
+    color:var(--rose);
+    min-width:24px;
+    text-align:right;
+  }
+
+  /* ──── identity questionnaire ──── */
+  .qna-list{
+    display:grid;
+    gap:14px;
+  }
+  .qna-item{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-left:3px solid var(--rose-light);
+    border-radius:6px;
+    padding:14px 18px;
+    transition:all 0.2s;
+  }
+  .qna-item:focus-within{
+    border-left-color:var(--rose);
+    background:var(--rose-light);
+  }
+  .qna-item.answered{border-left-color:var(--rose)}
+  .qna-q{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:1.05rem;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+    line-height:1.4;
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .qna-q .qnum{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.6rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    color:var(--rose);
+    flex-shrink:0;
+  }
+  .qna-input{
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.88rem;
+    color:var(--text);
+    padding:6px 0;
+    resize:vertical;
+    min-height:54px;
+    line-height:1.55;
+    outline:none;
+  }
+  .qna-input::placeholder{color:var(--text-muted);font-style:italic}
+
+  /* ──── revenue stream prioritizer ──── */
+  .stream-rank{
+    display:grid;
+    gap:12px;
+  }
+  .stream-row{
+    display:grid;
+    grid-template-columns:1.5fr repeat(4, 1fr) auto;
+    gap:10px;
+    align-items:center;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:12px 16px;
+    transition:all 0.2s;
+  }
+  .stream-row.high{
+    border-left:3px solid var(--success);
+    background:linear-gradient(90deg, #F4FBF6 0%, var(--white) 50%);
+  }
+  .stream-row.med{border-left:3px solid var(--gold)}
+  .stream-row.low{border-left:3px solid var(--text-muted)}
+  .stream-name{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:1rem;
+    font-weight:600;
+    color:var(--text);
+  }
+  .stream-name .ssub{
+    display:block;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .stream-cell{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+  }
+  .stream-cell label{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.5rem;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .stream-cell input[type="range"]{
+    width:100%;
+    -webkit-appearance:none;appearance:none;
+    height:3px;
+    background:var(--border);
+    border-radius:2px;
+    outline:none;
+  }
+  .stream-cell input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;
+    width:13px;height:13px;
+    border-radius:50%;
+    background:var(--rose);
+    cursor:pointer;
+    border:1.5px solid var(--white);
+    box-shadow:0 1px 2px rgba(0,0,0,0.2);
+  }
+  .stream-cell input[type="range"]::-moz-range-thumb{
+    width:13px;height:13px;
+    border-radius:50%;
+    background:var(--rose);
+    cursor:pointer;
+    border:1.5px solid var(--white);
+  }
+  .stream-cell .v{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.62rem;
+    font-weight:700;
+    color:var(--text);
+  }
+  .stream-score{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:1.4rem;
+    font-weight:700;
+    color:var(--rose);
+    min-width:42px;
+    text-align:right;
+  }
+  .stream-score .lbl{
+    display:block;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.5rem;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+
+  /* ──── 30-day commitment ──── */
+  .commit-card{
+    background:linear-gradient(180deg, var(--rose-light) 0%, var(--white) 100%);
+    border:1.5px solid var(--rose);
+    border-radius:10px;
+    padding:24px 28px;
+  }
+  .commit-card .commit-prompt{
+    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-size:1.25rem;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:14px;
+    line-height:1.4;
+  }
+  .commit-card textarea{
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--text);
+    padding:8px 0;
+    border-bottom:2px dashed var(--rose);
+    resize:vertical;
+    min-height:70px;
+    line-height:1.4;
+    outline:none;
+    margin-bottom:14px;
+  }
+  .commit-card textarea::placeholder{
+    color:var(--text-muted);
+    font-style:italic;
+    font-weight:400;
+  }
+  .commit-meta{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .commit-meta label{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.6rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--rose);
+  }
+  .commit-meta input[type="date"]{
+    border:1px solid var(--rose);
+    background:var(--white);
+    padding:6px 10px;
+    border-radius:4px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.75rem;
+    color:var(--text);
+  }
+  .commit-meta .days-left{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.7rem;
+    font-weight:700;
+    color:var(--rose);
+    background:var(--rose-light);
+    padding:5px 10px;
+    border-radius:999px;
+  }
+
   /* ──── responsive ──── */
   @media (max-width: 720px){
     .dash-header{padding:24px 16px 20px}
@@ -2271,12 +2845,24 @@
     .launch-tab{flex:1 1 calc(50% - 6px)}
     .launch-detail{padding:18px 16px}
     .launch-principles ol{grid-template-columns:1fr}
+    .launch-seq{grid-template-columns:1fr 1fr;padding:14px 12px}
+    .launch-node .ln-name{font-size:0.85rem}
     .nb-grid{grid-template-columns:1fr}
     .newsletter-board{padding:16px 14px}
     .first-steps summary{padding:10px 14px}
     .first-steps .fs-body{padding:4px 14px 14px}
     .mk-psych-grid,.mk-ideas-grid,.mk-guard-list,.mk-kpi-list{grid-template-columns:1fr}
     .mk-seq-item{grid-template-columns:72px 1fr;gap:12px}
+    .name-board{grid-template-columns:1fr}
+    .stream-row{
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .stream-row .stream-name{grid-column:1 / -1}
+    .stream-row .stream-score{grid-column:1 / -1;text-align:left}
+    .commit-card{padding:18px 16px}
+    .commit-card textarea{font-size:1.15rem}
+    .discover-intro{padding:18px 16px}
   }
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{
@@ -2325,8 +2911,8 @@
      ══════════════════════════════════════ -->
 <div class="dash" id="dash" hidden>
   <header class="dash-header" role="banner">
-    <div class="dash-title">Minxx</div>
-    <div class="dash-subtitle">Career Dashboard · Brand Strategy Blueprint</div>
+    <div class="dash-title">Phoebe</div>
+    <div class="dash-subtitle">Career Dashboard · Brand discovery in progress</div>
     <div class="dash-rule"></div>
     <div class="dash-prepared">Prepared for Phoebe · Creative Direction by Omar Ranti · April 2026</div>
   </header>
@@ -2334,6 +2920,7 @@
   <nav class="dash-nav" id="dashNav" aria-label="Primary"></nav>
 
   <main class="dash-main" id="main" role="main">
+    <div class="view" id="view-discover" data-pillar="discover"></div>
     <div class="view" id="view-writing" data-pillar="writing"></div>
     <div class="view" id="view-camcorder" data-pillar="camcorder"></div>
     <div class="view" id="view-modeling" data-pillar="modeling"></div>
@@ -2343,8 +2930,8 @@
   </main>
 
   <footer class="dash-footer" role="contentinfo">
-    <div class="name">Minxx</div>
-    <div class="meta">Confidential · Brand Strategy & Business Blueprint · April 2026</div>
+    <div class="name">Phoebe Juanita</div>
+    <div class="meta">Confidential · Brand discovery + business blueprint · April 2026</div>
     <div class="actions">
       <button id="resetAll" title="Clear all checked items and slider positions">Reset progress</button>
       <button id="signOut">Sign out</button>
@@ -3747,23 +4334,35 @@ const TIMELINE = [
 //   rev:      {id: volume},
 //   scrub:    monthIdx,
 //   notes:    {'substack-w1': {topic, notes, status}, ...},
-//   tipsOpen: {'ebook-pre-0': true, ...} }
+//   tipsOpen: {'ebook-pre-0': true, ...},
+//   brand: {
+//     names:    {0: {name, meaning, com, me, ig, pron, score}, ...},
+//     locked:   <idx of locked-in name | null>,
+//     qs:       {q1: 'answer', q2: 'answer', ...},
+//     streams:  {brand: {ex, sp, vi, ca}, ebook: {...}, ...},
+//     commit:   'one sentence',
+//     deadline: 'YYYY-MM-DD'
+//   } }
 function loadState(){
   try{
     const raw = localStorage.getItem(STATE_KEY);
     if(raw){
       const s = JSON.parse(raw);
       // backfill missing keys for older saves
-      if(!s.checks)       s.checks   = {};
-      if(!s.expanded)     s.expanded = {};
-      if(!s.rev)          s.rev      = {};
-      if(!s.notes)        s.notes    = {};
-      if(!s.tipsOpen)     s.tipsOpen = {};
-      if(!('scrub' in s)) s.scrub    = null;
+      if(!s.checks)        s.checks   = {};
+      if(!s.expanded)      s.expanded = {};
+      if(!s.rev)           s.rev      = {};
+      if(!s.notes)         s.notes    = {};
+      if(!s.tipsOpen)      s.tipsOpen = {};
+      if(!('scrub' in s))  s.scrub    = null;
+      if(!s.brand)         s.brand    = { names:{}, locked:null, qs:{}, streams:{}, commit:'', deadline:'' };
+      if(!s.brand.names)   s.brand.names   = {};
+      if(!s.brand.qs)      s.brand.qs      = {};
+      if(!s.brand.streams) s.brand.streams = {};
       return s;
     }
   }catch(_){ /* ignore */ }
-  return { checks:{}, expanded:{}, rev:{}, scrub:null, notes:{}, tipsOpen:{} };
+  return { checks:{}, expanded:{}, rev:{}, scrub:null, notes:{}, tipsOpen:{}, brand:{ names:{}, locked:null, qs:{}, streams:{}, commit:'', deadline:'' } };
 }
 function saveState(){
   try{ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }catch(_){}
@@ -4030,10 +4629,17 @@ function enterDashboard(){
 // ══════════════════════════════════════
 // DASHBOARD RENDER
 // ══════════════════════════════════════
-let activeView = 'writing';
+// First-time visitors land on Discover; returning users land on whatever they left.
+// We treat "first-time" as: no questionnaire answers AND no locked name.
+let activeView = (() => {
+  const noAnswers = !state.brand || Object.keys(state.brand.qs || {}).length === 0;
+  const noLock    = !state.brand || state.brand.locked == null;
+  return (noAnswers && noLock) ? 'discover' : 'writing';
+})();
 
 function renderAll(){
   renderNav();
+  renderDiscoverView();
   renderWritingView();
   renderCamcorderView();
   renderModelingView();
@@ -4047,6 +4653,22 @@ function renderAll(){
 function renderNav(){
   const $nav = document.getElementById('dashNav');
   $nav.innerHTML = '';
+
+  // discover tab — special "start here" treatment
+  const isLocked = state.brand && state.brand.locked != null;
+  const discoverBtn = el('button', {
+    class:'nav-btn discover' + (isLocked ? ' locked-in' : ''),
+    'data-view':'discover',
+    style:'--pillar-accent:var(--rose);--pillar-accent-light:var(--rose-light)',
+    onclick:() => switchView('discover'),
+    role:'tab',
+    'aria-selected':'false'
+  },
+    el('span', { class:'num' }, '◆'),
+    el('span', { class:'label' }, 'Discover')
+  );
+  $nav.appendChild(discoverBtn);
+
   PILLARS.forEach(p => {
     const btn = el('button', {
       class:'nav-btn',
@@ -4133,6 +4755,429 @@ function viewHeader(p){
 // WRITING VIEW — phases + revenue calculator
 // ══════════════════════════════════════
 let writingActivePhase = 0;
+
+// ══════════════════════════════════════
+// FEATURE 6 — BRAND DISCOVERY (start here)
+// ══════════════════════════════════════
+// Identity prompts in Warrior Princess voice — 12 questions, lowercase, raw.
+const DISCOVER_QUESTIONS = [
+  { id:'q1',  q:"when ppl describe u in 3 words, what do u WANT them to say — and what do they actually say rn?", hint:"the gap between these = ur brand work" },
+  { id:'q2',  q:"what's the one thing u've survived that became ur whole personality?", hint:"the wound is the work. don't sanitize it." },
+  { id:'q3',  q:"what artist, writer or character do u feel most spiritually downloaded by?", hint:"name 1-3. be specific. these are ur lineage." },
+  { id:'q4',  q:"in 2 years, what r u doing every day that u're NOT doing rn?", hint:"a normal Tuesday, not a fantasy." },
+  { id:'q5',  q:"what's the work u'd still make if no one ever paid u for it?", hint:"that's the unkillable thing. price the rest around it." },
+  { id:'q6',  q:"who is the one person ur work is secretly for? name them if u can.", hint:"every brand has 1 reader. find hers." },
+  { id:'q7',  q:"what topics do u catch urself ranting abt at 2am?", hint:"that's ur substack. the rant IS the content." },
+  { id:'q8',  q:"what aesthetic / era / vibe r u stealing from? be honest.", hint:"camcorder + warrior princess + ??? — the stack is the look." },
+  { id:'q9',  q:"what would feel like SELLING OUT to u? the line u won't cross.", hint:"name it now so u can build a business that doesn't ask u to." },
+  { id:'q10', q:"if 'minxx' isn't the final name, what FEELING does the right name have to give off?", hint:"3 adjectives. then we hunt for the word." },
+  { id:'q11', q:"what's the headline u want written about u in 5 years?", hint:"write the press u haven't earned yet." },
+  { id:'q12', q:"how much $ does ur actual dream life cost per month? (real number)", hint:"price the streams to hit it. not vibes — math." }
+];
+
+// Pre-loaded brand name candidates (8 slots, first 3 seeded with current options)
+const NAME_SEEDS = [
+  { name:'minxx',   meaning:'tattoo alias · already mine · short, ownable, weird in a good way' },
+  { name:'phoebe',  meaning:'birth name · the most honest version · already a person not a brand' },
+  { name:'juanita', meaning:'middle name · matriarchal lineage · spanish weight' },
+  { name:'',        meaning:'' },
+  { name:'',        meaning:'' },
+  { name:'',        meaning:'' },
+  { name:'',        meaning:'' },
+  { name:'',        meaning:'' }
+];
+
+// Stream scoring axes — what matters for an indie creator visa-track
+const STREAM_AXES = [
+  { key:'ex', label:'EXCITE',  full:'how excited am i to actually do this every day',         w:0.35 },
+  { key:'sp', label:'SPEED',   full:'how fast can this start producing $ from where i am rn', w:0.25 },
+  { key:'vi', label:'VISA',    full:'how much does this strengthen the o-1b evidence file',   w:0.20 },
+  { key:'ca', label:'CASH',    full:'how big can the upside realistically get in 12 months',  w:0.20 }
+];
+
+function renderDiscoverView(){
+  const $v = document.getElementById('view-discover');
+  $v.innerHTML = '';
+  $v.style.setProperty('--pillar-accent',       'var(--rose)');
+  $v.style.setProperty('--pillar-accent-light', 'var(--rose-light)');
+
+  // header (no PILLAR object — bespoke)
+  $v.appendChild(el('div', { class:'view-header', style:'--pillar-accent:var(--rose)' },
+    el('h2', null, 'Brand Discovery'),
+    el('div', { class:'tagline' }, 'before u launch anything · find the name, the voice, the priority'),
+    el('div', { class:'rule' }),
+    el('p', { class:'blurb' }, "minxx is one option — not the locked-in answer. this view exists so u stop spinning on the brand question and decide it on paper, then move. four sections: (1) name candidates u can compare side-by-side, (2) identity questions in ur voice, (3) revenue streams ranked on what matters, (4) a 30-day commitment u sign with urself.")
+  ));
+
+  // intro card
+  const intro = el('div', { class:'discover-intro' },
+    el('h3', null, 'how to use this page'),
+    el('p',  null, "spend 90 focused minutes here. don't try to be perfect — try to be honest. lock a name when one card hits a 9 or 10 score AND u can defend why. answer every question even if the answer is 'idk yet'. drag the sliders on the streams until ur top 3 feel right in ur gut."),
+    el('p',  null, "everything saves automatically. u can come back. but the longer u stay in discovery, the more launches u delay.")
+  );
+  $v.appendChild(intro);
+
+  $v.appendChild(renderNameBoard());
+  $v.appendChild(renderQuestionnaire());
+  $v.appendChild(renderStreamPrioritizer());
+  $v.appendChild(renderCommitCard());
+}
+
+// ── section 01: brand name candidates ───────────────────────
+function renderNameBoard(){
+  const wrap = el('div', { class:'discover-section' });
+  wrap.appendChild(el('div', { class:'ds-head' },
+    el('div', { class:'ds-num' }, '01'),
+    el('h3', null, 'Brand name candidates')
+  ));
+  wrap.appendChild(el('div', { class:'ds-sub' },
+    "compare options side-by-side. score each on gut feel + handle availability. lock the one that hits 9+ AND clears the four checks. only one can be locked at a time."
+  ));
+
+  const board = el('div', { class:'name-board' });
+
+  for(let i = 0; i < 8; i++){
+    if(state.brand.names[i] == null){
+      const seed = NAME_SEEDS[i] || { name:'', meaning:'' };
+      state.brand.names[i] = {
+        name:seed.name, meaning:seed.meaning,
+        com:'idk', me:'idk', ig:'idk', pron:'idk',
+        score:seed.name ? 5 : 0
+      };
+    }
+    board.appendChild(renderNameCard(i));
+  }
+
+  saveState();
+  wrap.appendChild(board);
+  return wrap;
+}
+
+function renderNameCard(i){
+  const data    = state.brand.names[i];
+  const isLock  = state.brand.locked === i;
+  const hasName = !!(data.name || '').trim();
+
+  const card = el('div', {
+    class:'name-card' + (hasName ? ' has-name' : '') + (isLock ? ' locked' : '')
+  });
+
+  // top row: name input + lock button
+  const row = el('div', { class:'nc-row' });
+  const nameInput = el('input', {
+    type:'text',
+    class:'nc-name',
+    placeholder:'untitled name…',
+    value:data.name || '',
+    'aria-label':'name candidate ' + (i + 1),
+    oninput:(e) => {
+      state.brand.names[i].name = e.target.value;
+      saveState();
+      // light update without re-render so caret stays
+      card.classList.toggle('has-name', !!e.target.value.trim());
+    }
+  });
+  const lockBtn = el('button', {
+    class:'nc-lock',
+    type:'button',
+    title: isLock ? 'this name is locked in — click to unlock' : 'lock this name in as the brand',
+    'aria-label': isLock ? 'unlock name' : 'lock in this name',
+    onclick:() => {
+      state.brand.locked = isLock ? null : i;
+      saveState();
+      renderDiscoverView();
+      renderNav();
+      switchView('discover');
+    }
+  }, isLock ? '✓' : '○');
+  row.appendChild(nameInput);
+  row.appendChild(lockBtn);
+  card.appendChild(row);
+
+  // meaning textarea
+  card.appendChild(el('textarea', {
+    class:'nc-meaning',
+    placeholder:'what does it mean? where does it come from? why does it feel right?',
+    'aria-label':'meaning for name ' + (i + 1),
+    oninput:(e) => {
+      state.brand.names[i].meaning = e.target.value;
+      saveState();
+    }
+  }, data.meaning || ''));
+
+  // availability checks (4 pills, cycle yes → no → idk)
+  const checkDefs = [
+    { key:'com',  label:'.COM' },
+    { key:'me',   label:'.ME' },
+    { key:'ig',   label:'IG @' },
+    { key:'pron', label:'EASY TO SAY' }
+  ];
+  const checks = el('div', { class:'nc-checks' });
+  checkDefs.forEach(def => {
+    const cur = data[def.key] || 'idk';
+    const pill = el('button', {
+      class:'nc-check ' + cur,
+      type:'button',
+      title:'click to cycle: yes → no → idk',
+      onclick:() => {
+        const next = cur === 'idk' ? 'yes' : cur === 'yes' ? 'no' : 'idk';
+        state.brand.names[i][def.key] = next;
+        saveState();
+        renderDiscoverView();
+      }
+    }, def.label);
+    checks.appendChild(pill);
+  });
+  card.appendChild(checks);
+
+  // gut score slider
+  const scoreWrap = el('div', { class:'nc-score' },
+    el('div', { class:'nc-score-label' }, 'GUT'),
+    el('input', {
+      type:'range',
+      class:'nc-score-input',
+      min:'0', max:'10', step:'1',
+      value:String(data.score || 0),
+      'aria-label':'gut score for ' + (data.name || 'name ' + (i + 1)),
+      oninput:(e) => {
+        state.brand.names[i].score = +e.target.value;
+        saveState();
+        card.querySelector('.nc-score-val').textContent = e.target.value;
+      }
+    }),
+    el('div', { class:'nc-score-val' }, String(data.score || 0))
+  );
+  card.appendChild(scoreWrap);
+
+  return card;
+}
+
+// ── section 02: identity questionnaire ──────────────────────
+function renderQuestionnaire(){
+  const wrap = el('div', { class:'discover-section' });
+  wrap.appendChild(el('div', { class:'ds-head' },
+    el('div', { class:'ds-num' }, '02'),
+    el('h3', null, 'Identity questionnaire')
+  ));
+  wrap.appendChild(el('div', { class:'ds-sub' },
+    "12 questions in ur voice. answer fast — first thought is usually the truest. these answers shape every launch that comes after."
+  ));
+
+  // progress count
+  const answered = DISCOVER_QUESTIONS.filter(q => (state.brand.qs[q.id] || '').trim().length > 4).length;
+  const prog = el('div', {
+    class:'ds-sub',
+    style:'margin-top:-12px;font-style:normal;font-family:DM Sans,sans-serif;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--rose);font-weight:700'
+  }, `${answered} of ${DISCOVER_QUESTIONS.length} answered`);
+  wrap.appendChild(prog);
+
+  const list = el('div', { class:'qna-list' });
+  DISCOVER_QUESTIONS.forEach((q, idx) => {
+    const cur = state.brand.qs[q.id] || '';
+    const item = el('div', {
+      class:'qna-item' + (cur.trim().length > 4 ? ' answered' : '')
+    });
+    item.appendChild(el('div', { class:'qna-q' },
+      el('span', { class:'qnum' }, String(idx + 1).padStart(2, '0')),
+      el('span', null, q.q)
+    ));
+    if(q.hint){
+      item.appendChild(el('div', {
+        style:'font-family:Source Serif 4,Georgia,serif;font-size:0.72rem;font-style:italic;color:var(--text-muted);margin-bottom:6px;line-height:1.5'
+      }, '↳ ' + q.hint));
+    }
+    item.appendChild(el('textarea', {
+      class:'qna-input',
+      placeholder:'type ur answer in lowercase. no editing. first thought.',
+      'aria-label':'answer to ' + q.q,
+      oninput:(e) => {
+        state.brand.qs[q.id] = e.target.value;
+        saveState();
+        item.classList.toggle('answered', e.target.value.trim().length > 4);
+        const newCount = DISCOVER_QUESTIONS.filter(x => (state.brand.qs[x.id] || '').trim().length > 4).length;
+        prog.textContent = `${newCount} of ${DISCOVER_QUESTIONS.length} answered`;
+      }
+    }, cur));
+    list.appendChild(item);
+  });
+  wrap.appendChild(list);
+  return wrap;
+}
+
+// ── section 03: revenue stream prioritizer ──────────────────
+function renderStreamPrioritizer(){
+  const wrap = el('div', { class:'discover-section' });
+  wrap.appendChild(el('div', { class:'ds-head' },
+    el('div', { class:'ds-num' }, '03'),
+    el('h3', null, 'Revenue stream prioritizer')
+  ));
+  wrap.appendChild(el('div', { class:'ds-sub' },
+    "pulled live from ur 7 planned launches. score each on excitement, speed-to-cash, visa value, and cash upside. weighted score sorts them automatically. ur top 3 are where u spend ur next 90 days."
+  ));
+
+  // axis legend
+  const legend = el('div', {
+    style:'display:flex;flex-wrap:wrap;gap:14px;margin-bottom:14px;padding:10px 14px;background:var(--rose-light);border-radius:6px;font-family:DM Sans,sans-serif;font-size:0.62rem;letter-spacing:0.04em;color:var(--text-med)'
+  });
+  STREAM_AXES.forEach(a => {
+    legend.appendChild(el('div', null,
+      el('strong', { style:'color:var(--rose);font-weight:700' }, a.label),
+      el('span', null, ` · ${a.full} · weight ${Math.round(a.w * 100)}%`)
+    ));
+  });
+  wrap.appendChild(legend);
+
+  const launches = PILLARS[4].launches;
+
+  // init defaults from launch metadata if no score yet
+  const defaults = {
+    brand:    { ex:7, sp:9, vi:6, ca:3 },
+    ebook:    { ex:9, sp:6, vi:9, ca:7 },
+    substack: { ex:8, sp:5, vi:8, ca:6 },
+    direct:   { ex:6, sp:7, vi:5, ca:6 },
+    modeling: { ex:7, sp:4, vi:8, ca:8 },
+    filming:  { ex:8, sp:3, vi:6, ca:9 },
+    workshop: { ex:6, sp:2, vi:7, ca:8 }
+  };
+  launches.forEach(L => {
+    if(!state.brand.streams[L.id]){
+      state.brand.streams[L.id] = defaults[L.id] || { ex:5, sp:5, vi:5, ca:5 };
+    }
+  });
+  saveState();
+
+  function scoreOf(id){
+    const s = state.brand.streams[id];
+    return STREAM_AXES.reduce((acc, a) => acc + (s[a.key] || 0) * a.w, 0);
+  }
+  function bandOf(score){
+    if(score >= 7)   return 'high';
+    if(score >= 4.5) return 'med';
+    return 'low';
+  }
+
+  // sort by score desc (visual ordering matters here)
+  const sorted = [...launches].sort((a, b) => scoreOf(b.id) - scoreOf(a.id));
+
+  const rank = el('div', { class:'stream-rank' });
+  sorted.forEach((L, rankIdx) => {
+    const score = scoreOf(L.id);
+    const band  = bandOf(score);
+    const row = el('div', { class:'stream-row ' + band });
+
+    // name + sub
+    row.appendChild(el('div', { class:'stream-name' },
+      document.createTextNode(L.name),
+      el('span', { class:'ssub' },
+        `#${rankIdx + 1} · ${L.target} · depends on ${L.dependsOn || 'nothing'}`
+      )
+    ));
+
+    // 4 sliders
+    STREAM_AXES.forEach(a => {
+      const cur = state.brand.streams[L.id][a.key] || 0;
+      const cell = el('div', { class:'stream-cell' });
+      cell.appendChild(el('label', null, a.label));
+      cell.appendChild(el('input', {
+        type:'range',
+        min:'0', max:'10', step:'1',
+        value:String(cur),
+        'aria-label':`${a.full} for ${L.name}`,
+        oninput:(e) => {
+          state.brand.streams[L.id][a.key] = +e.target.value;
+          saveState();
+          renderDiscoverView();
+        }
+      }));
+      cell.appendChild(el('div', { class:'v' }, String(cur)));
+      row.appendChild(cell);
+    });
+
+    // weighted total
+    row.appendChild(el('div', { class:'stream-score' },
+      score.toFixed(1),
+      el('span', { class:'lbl' }, 'SCORE')
+    ));
+
+    rank.appendChild(row);
+  });
+
+  wrap.appendChild(rank);
+
+  // top 3 callout
+  const top3 = sorted.slice(0, 3).map(L => L.name).join(' → ');
+  wrap.appendChild(el('div', {
+    style:'margin-top:14px;padding:14px 18px;background:linear-gradient(90deg,#F4FBF6 0%,var(--white) 100%);border:1.5px solid var(--success);border-left:4px solid var(--success);border-radius:6px;font-family:Source Serif 4,Georgia,serif;font-size:0.88rem;color:var(--text)'
+  },
+    el('strong', { style:'font-family:DM Sans,sans-serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--success);display:block;margin-bottom:4px' }, 'ur next 90 days →'),
+    document.createTextNode(top3)
+  ));
+
+  return wrap;
+}
+
+// ── section 04: 30-day commitment ───────────────────────────
+function renderCommitCard(){
+  const wrap = el('div', { class:'discover-section' });
+  wrap.appendChild(el('div', { class:'ds-head' },
+    el('div', { class:'ds-num' }, '04'),
+    el('h3', null, '30-day commitment')
+  ));
+  wrap.appendChild(el('div', { class:'ds-sub' },
+    "one sentence. one date. sign it with urself. when the date hits, u review this view and ship the next thing."
+  ));
+
+  // default deadline = 30 days from now
+  if(!state.brand.deadline){
+    const d = new Date();
+    d.setDate(d.getDate() + 30);
+    state.brand.deadline = d.toISOString().slice(0, 10);
+    saveState();
+  }
+
+  const card = el('div', { class:'commit-card' });
+  card.appendChild(el('div', { class:'commit-prompt' },
+    "in the next 30 days i will ship ____."
+  ));
+  card.appendChild(el('textarea', {
+    placeholder:'one specific thing. not "build the brand". try "publish chapter 1 of the ebook to substack."',
+    value:state.brand.commit || '',
+    'aria-label':'30-day commitment',
+    oninput:(e) => {
+      state.brand.commit = e.target.value;
+      saveState();
+    }
+  }, state.brand.commit || ''));
+
+  // meta row: date + countdown
+  const meta = el('div', { class:'commit-meta' });
+  meta.appendChild(el('label', null, 'BY'));
+  meta.appendChild(el('input', {
+    type:'date',
+    value:state.brand.deadline,
+    'aria-label':'commitment deadline',
+    onchange:(e) => {
+      state.brand.deadline = e.target.value;
+      saveState();
+      renderDiscoverView();
+    }
+  }));
+
+  // days-left countdown
+  const due = new Date(state.brand.deadline + 'T23:59:59');
+  const now = new Date();
+  const days = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
+  const daysLabel =
+    days < 0  ? `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} overdue` :
+    days === 0 ? 'due today' :
+    days === 1 ? '1 day left' :
+    `${days} days left`;
+  meta.appendChild(el('div', { class:'days-left' }, daysLabel));
+  card.appendChild(meta);
+
+  wrap.appendChild(card);
+  return wrap;
+}
 
 function renderWritingView(){
   const p = PILLARS[0];
@@ -4887,6 +5932,69 @@ function renderNewsletterBoard(p){
   return wrap;
 }
 
+// Build a 4-column dependency-chain map of all launches
+// columns are computed automatically by walking dependsOn
+function renderLaunchSequenceMap(p){
+  const launches = p.launches;
+
+  // compute depth (column index) for each launch via dependsOn walk
+  function depthOf(L, seen = new Set()){
+    if(!L.dependsOn) return 0;
+    if(seen.has(L.id)) return 0; // cycle guard
+    seen.add(L.id);
+    const parent = launches.find(x => x.id === L.dependsOn);
+    if(!parent) return 0;
+    return 1 + depthOf(parent, seen);
+  }
+  const cols = [[], [], [], []]; // up to 4 columns is enough for current chain
+  launches.forEach(L => {
+    const d = Math.min(3, depthOf(L));
+    cols[d].push(L);
+  });
+
+  const colHeads = ['Foundation', 'Flagship', 'Compounds', 'Authority'];
+
+  const card = el('div', { class:'card' });
+  card.appendChild(el('div', { class:'card-label' }, 'Launch sequence map · click any node to open it'));
+
+  const grid = el('div', { class:'launch-seq' });
+  cols.forEach((col, i) => {
+    const colEl = el('div', { class:'launch-seq-col' });
+    colEl.appendChild(el('div', { class:'launch-seq-col-head' }, colHeads[i] || `Tier ${i + 1}`));
+    col.forEach(L => {
+      const idx = launches.findIndex(x => x.id === L.id);
+      const isActive = idx === launchActiveIdx;
+      const node = el('button', {
+        class:'launch-node' + (isActive ? ' active' : ''),
+        type:'button',
+        style:`--launch-accent:var(${L.accent});--launch-accent-light:var(${L.accentLight})`,
+        title:`${L.name} · ${L.target}${L.dependsOn ? ' · depends on ' + L.dependsOn : ' · base layer'}`,
+        onclick:() => {
+          launchActiveIdx = idx;
+          renderLaunchView();
+          const detailEl = document.getElementById('launch-detail');
+          if(detailEl) detailEl.scrollIntoView({ behavior:'smooth', block:'start' });
+        }
+      },
+        el('span', { class:'ln-num' }, L.num),
+        el('span', { class:'ln-name' }, L.name),
+        el('span', { class:'ln-target' }, L.target),
+        el('span', { class:'ln-status-dot ' + L.status, 'aria-label':'status: ' + L.status })
+      );
+      colEl.appendChild(node);
+    });
+    grid.appendChild(colEl);
+  });
+  card.appendChild(grid);
+
+  card.appendChild(el('div', { class:'launch-seq-legend' },
+    el('strong', null, 'how to read this map'),
+    document.createTextNode("each column is a dependency tier. brand has to ship before ebook, ebook before substack/direct, modeling before filming, substack before workshop. ship left-to-right and u never get blocked by a missing piece. green dot = live, gold = active, grey = queued.")
+  ));
+
+  return card;
+}
+
 function renderLaunchView(){
   const p = PILLARS[4];
   const $v = document.getElementById('view-launch');
@@ -4894,6 +6002,9 @@ function renderLaunchView(){
   $v.style.setProperty('--pillar-accent',       `var(${p.accent})`);
   $v.style.setProperty('--pillar-accent-light', `var(${p.accentLight})`);
   $v.appendChild(viewHeader(p));
+
+  // dependency-chain map (clickable)
+  $v.appendChild(renderLaunchSequenceMap(p));
 
   // launch tabs
   const card = el('div', { class:'card' });
