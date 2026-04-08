@@ -1466,6 +1466,578 @@
     line-height:1.6;
   }
 
+  /* ════════════════════════════════════════
+     LAUNCH VIEW — pricing & launch playbooks
+     ════════════════════════════════════════ */
+  .launch-tabs{
+    display:flex;flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:24px;
+    padding:6px;
+    background:var(--cream);
+    border-radius:8px;
+    border:1px solid var(--border-light);
+  }
+  .launch-tab{
+    flex:1 1 calc(25% - 6px);
+    min-width:140px;
+    padding:12px 14px;
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:6px;
+    text-align:left;
+    transition:all 0.2s ease;
+    position:relative;
+  }
+  .launch-tab:hover{background:var(--white);border-color:var(--border-light)}
+  .launch-tab.active{
+    background:var(--white);
+    border-color:var(--border);
+    box-shadow:0 1px 3px rgba(26,26,26,0.04);
+  }
+  .launch-tab .num{
+    font-family:'DM Sans',sans-serif;
+    font-weight:600;
+    font-size:0.55rem;
+    letter-spacing:0.16em;
+    color:var(--text-muted);
+    display:block;
+    margin-bottom:4px;
+  }
+  .launch-tab.active .num{color:var(--launch-accent)}
+  .launch-tab .name{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-weight:600;
+    font-size:0.82rem;
+    color:var(--text);
+    line-height:1.25;
+    display:block;
+  }
+  .launch-tab .tag{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.6rem;
+    color:var(--text-light);
+    letter-spacing:0.04em;
+    display:block;
+    margin-top:3px;
+  }
+  .launch-tab .status-dot{
+    position:absolute;top:10px;right:10px;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--text-muted);
+  }
+  .launch-tab .status-dot.live{background:var(--success);box-shadow:0 0 0 3px rgba(47,158,68,0.15)}
+  .launch-tab .status-dot.active{background:var(--gold);box-shadow:0 0 0 3px rgba(184,150,62,0.15)}
+  .launch-tab .status-dot.queued{background:var(--text-muted)}
+  .launch-tab .status-dot.scaled{background:var(--terracotta);box-shadow:0 0 0 3px rgba(194,113,79,0.15)}
+
+  .launch-detail{padding:24px 28px}
+  .launch-detail .ldtop{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .launch-detail h3{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:clamp(1.4rem,3vw,1.8rem);
+    color:var(--text);
+    line-height:1.15;
+    margin:0;
+  }
+  .launch-detail .ld-tag{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.65rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--launch-accent);
+    margin-top:6px;
+  }
+  .ld-status-pill{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:6px 12px;
+    background:var(--launch-accent-light);
+    color:var(--launch-accent);
+    border-radius:999px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.62rem;
+    font-weight:700;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .ld-status-pill::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;
+    background:var(--launch-accent);
+  }
+  .launch-detail .ld-summary{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.95rem;
+    color:var(--text-med);
+    line-height:1.6;
+    margin-bottom:20px;
+    max-width:64ch;
+  }
+  .launch-detail .ld-meta-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+    gap:14px;
+    margin-bottom:24px;
+    padding:16px;
+    background:var(--warm50);
+    border:1px solid var(--border-light);
+    border-radius:6px;
+  }
+  .ld-meta-item .lbl{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    margin-bottom:5px;
+  }
+  .ld-meta-item .val{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-weight:500;
+    font-size:0.85rem;
+    color:var(--text);
+    line-height:1.4;
+  }
+  .ld-meta-item .val.price{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:500;
+    font-size:0.78rem;
+    color:var(--launch-accent);
+    line-height:1.5;
+  }
+
+  .launch-cols{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    margin-bottom:22px;
+  }
+  .launch-col{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:16px 16px 12px;
+  }
+  .launch-col .col-head{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.58rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--launch-accent);
+    margin-bottom:12px;
+    padding-bottom:8px;
+    border-bottom:1.5px solid var(--launch-accent-light);
+  }
+  .launch-col ul{list-style:none;padding:0;margin:0}
+  .launch-col .li{
+    display:flex;align-items:flex-start;gap:9px;
+    padding:7px 0;
+    cursor:pointer;
+    border-radius:4px;
+    transition:background 0.15s;
+  }
+  .launch-col .li:hover{background:var(--cream)}
+  .launch-col .li:focus-visible{outline:2px solid var(--launch-accent);outline-offset:2px}
+  .launch-col .li .check{
+    flex-shrink:0;
+    width:14px;height:14px;
+    border:1.5px solid var(--text-muted);
+    border-radius:3px;
+    margin-top:3px;
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.18s;
+  }
+  .launch-col .li .check svg{opacity:0;transform:scale(0.6);transition:all 0.18s}
+  .launch-col .li[data-done="1"] .check{
+    background:var(--launch-accent);
+    border-color:var(--launch-accent);
+  }
+  .launch-col .li[data-done="1"] .check svg{opacity:1;transform:scale(1)}
+  .launch-col .li .text{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.83rem;
+    color:var(--text-med);
+    line-height:1.45;
+    flex:1;
+  }
+  .launch-col .li[data-done="1"] .text{
+    color:var(--text-muted);
+    text-decoration:line-through;
+    text-decoration-color:var(--launch-accent);
+    text-decoration-thickness:1px;
+  }
+
+  .launch-channels{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    margin-bottom:18px;
+  }
+  .channel-block{
+    background:var(--cream);
+    border:1px solid var(--border-light);
+    border-radius:6px;
+    padding:14px 16px;
+  }
+  .channel-block .ctype{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--launch-accent);
+    margin-bottom:8px;
+  }
+  .channel-block .clist{
+    display:flex;flex-wrap:wrap;gap:5px;
+  }
+  .channel-block .chip{
+    display:inline-block;
+    padding:4px 9px;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:999px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.66rem;
+    color:var(--text-med);
+  }
+  .channel-block .empty{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.72rem;
+    font-style:italic;
+    color:var(--text-muted);
+  }
+
+  .launch-metrics{
+    background:var(--launch-accent-light);
+    border:1px solid var(--launch-accent);
+    border-radius:6px;
+    padding:14px 18px;
+  }
+  .launch-metrics .lbl{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--launch-accent);
+    margin-bottom:8px;
+  }
+  .launch-metrics ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px 16px}
+  .launch-metrics li{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.82rem;
+    color:var(--text);
+    position:relative;
+    padding-left:14px;
+  }
+  .launch-metrics li::before{
+    content:"▸";
+    position:absolute;left:0;top:0;
+    color:var(--launch-accent);
+  }
+
+  .launch-principles{
+    margin-top:24px;
+  }
+  .launch-principles ol{
+    list-style:none;
+    padding:0;margin:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 24px;
+    counter-reset:p;
+  }
+  .launch-principles li{
+    counter-increment:p;
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.86rem;
+    color:var(--text-med);
+    line-height:1.5;
+    padding-left:32px;
+    position:relative;
+  }
+  .launch-principles li::before{
+    content:counter(p, decimal-leading-zero);
+    position:absolute;
+    left:0;top:0;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.62rem;
+    font-weight:700;
+    letter-spacing:0.04em;
+    color:var(--terracotta);
+    background:var(--terracotta-light);
+    padding:3px 6px;
+    border-radius:3px;
+    line-height:1;
+  }
+
+  /* ──── info buttons + tip panels on launch items ──── */
+  .launch-col .li{flex-wrap:wrap}
+  .li-info-btn{
+    flex-shrink:0;
+    width:16px;height:16px;
+    border-radius:50%;
+    border:1.2px solid var(--launch-accent);
+    background:transparent;
+    color:var(--launch-accent);
+    font-family:'DM Sans',sans-serif;
+    font-size:0.58rem;
+    font-weight:700;
+    line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    margin-top:3px;
+    padding:0;
+    transition:all 0.15s;
+  }
+  .li-info-btn:hover,
+  .li-info-btn[aria-expanded="true"]{
+    background:var(--launch-accent);
+    color:var(--white);
+  }
+  .li-info-btn:focus-visible{
+    outline:2px solid var(--launch-accent);
+    outline-offset:2px;
+  }
+  .li-tip{
+    flex-basis:100%;
+    margin:4px 0 6px 23px;
+    padding:9px 13px;
+    background:var(--launch-accent-light);
+    border-left:2px solid var(--launch-accent);
+    border-radius:0 4px 4px 0;
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.78rem;
+    font-style:italic;
+    color:var(--text);
+    line-height:1.5;
+  }
+  .li-tip strong{
+    font-style:normal;
+    font-weight:700;
+    color:var(--launch-accent);
+  }
+
+  /* ──── first steps: how to get started ──── */
+  .first-steps{
+    margin:18px 0;
+    background:var(--cream);
+    border:1px solid var(--border-light);
+    border-left:3px solid var(--launch-accent);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .first-steps[open]{
+    background:var(--launch-accent-light);
+  }
+  .first-steps summary{
+    padding:12px 18px;
+    cursor:pointer;
+    list-style:none;
+    display:flex;align-items:center;gap:10px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.7rem;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--launch-accent);
+  }
+  .first-steps summary::-webkit-details-marker{display:none}
+  .first-steps summary::before{
+    content:"▸";
+    display:inline-block;
+    transition:transform 0.2s;
+    font-size:0.72rem;
+  }
+  .first-steps[open] summary::before{transform:rotate(90deg)}
+  .first-steps summary:focus-visible{
+    outline:2px solid var(--launch-accent);
+    outline-offset:-2px;
+  }
+  .first-steps .fs-body{
+    padding:4px 18px 18px;
+  }
+  .first-steps .fs-lead{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.85rem;
+    font-style:italic;
+    color:var(--text-med);
+    margin:0 0 14px;
+    line-height:1.55;
+  }
+  .first-steps ol{
+    list-style:none;
+    padding:0;margin:0;
+    counter-reset:fs;
+  }
+  .first-steps ol li{
+    counter-increment:fs;
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.83rem;
+    color:var(--text);
+    line-height:1.55;
+    padding:6px 0 6px 38px;
+    position:relative;
+    border-bottom:1px dashed var(--border-light);
+  }
+  .first-steps ol li:last-child{border-bottom:none}
+  .first-steps ol li::before{
+    content:counter(fs, decimal-leading-zero);
+    position:absolute;
+    left:0;top:8px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.58rem;
+    font-weight:700;
+    letter-spacing:0.04em;
+    color:var(--launch-accent);
+    background:var(--white);
+    border:1px solid var(--launch-accent);
+    padding:3px 6px;
+    border-radius:3px;
+    line-height:1;
+  }
+
+  /* ──── interactive newsletter planning board (substack) ──── */
+  .newsletter-board{
+    margin:24px 0 18px;
+    background:var(--cream);
+    border:1px solid var(--border-light);
+    border-radius:8px;
+    padding:20px 22px;
+  }
+  .newsletter-board .nb-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:14px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .newsletter-board h4{
+    margin:0;
+    font-family:'Cormorant Garamond','Playfair Display',serif;
+    font-size:1.25rem;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--text);
+  }
+  .newsletter-board .nb-legend{
+    display:flex;gap:10px;flex-wrap:wrap;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.56rem;
+    font-weight:600;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .newsletter-board .nb-legend span{
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .newsletter-board .nb-legend span::before{
+    content:"";
+    width:9px;height:9px;border-radius:50%;
+  }
+  .nb-legend .nb-lp::before{background:var(--text-muted)}
+  .nb-legend .nb-ld::before{background:var(--gold)}
+  .nb-legend .nb-ls::before{background:var(--terracotta)}
+  .nb-legend .nb-lsh::before{background:var(--success)}
+  .newsletter-board .nb-sub{
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.85rem;
+    font-style:italic;
+    color:var(--text-med);
+    margin:0 0 16px;
+    line-height:1.55;
+  }
+  .nb-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .nb-week{
+    background:var(--white);
+    border:1px solid var(--border-light);
+    border-left:3px solid var(--text-muted);
+    border-radius:6px;
+    padding:12px 14px;
+    transition:all 0.2s;
+  }
+  .nb-week.drafting{border-left-color:var(--gold);background:var(--gold-light)}
+  .nb-week.scheduled{border-left-color:var(--terracotta);background:var(--terracotta-light)}
+  .nb-week.shipped{border-left-color:var(--success);opacity:0.78}
+  .nb-week .nb-wk-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:8px;margin-bottom:8px;
+  }
+  .nb-week .nb-wk-num{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.55rem;
+    font-weight:700;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+  }
+  .nb-week .nb-wk-theme{
+    font-family:'DM Sans',sans-serif;
+    font-size:0.6rem;
+    color:var(--text-muted);
+    font-style:italic;
+    text-align:right;
+    flex:1;
+  }
+  .nb-topic{
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:1.02rem;
+    font-weight:600;
+    color:var(--text);
+    padding:4px 0;
+    border-bottom:1px dashed var(--border);
+    margin-bottom:8px;
+    outline:none;
+  }
+  .nb-topic:focus{border-bottom-color:var(--launch-accent,var(--gold))}
+  .nb-topic::placeholder{color:var(--text-muted);font-weight:400;font-style:italic}
+  .nb-notes{
+    width:100%;
+    border:none;
+    background:transparent;
+    font-family:'Source Serif 4',Georgia,serif;
+    font-size:0.78rem;
+    color:var(--text-med);
+    padding:4px 0;
+    resize:vertical;
+    min-height:44px;
+    line-height:1.5;
+    outline:none;
+  }
+  .nb-notes::placeholder{color:var(--text-muted);font-style:italic}
+  .nb-status{
+    width:100%;
+    margin-top:8px;
+    padding:5px 8px;
+    border:1px solid var(--border);
+    border-radius:4px;
+    background:var(--white);
+    font-family:'DM Sans',sans-serif;
+    font-size:0.62rem;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-med);
+    cursor:pointer;
+  }
+  .nb-status:focus-visible{outline:2px solid var(--launch-accent,var(--gold));outline-offset:1px}
+
   /* ──── responsive ──── */
   @media (max-width: 720px){
     .dash-header{padding:24px 16px 20px}
@@ -1482,6 +2054,14 @@
     .nav-btn .ring{display:none}
     .rev-total .value{font-size:1.6rem}
     .visa-countdown .days{font-size:1.5rem}
+    .launch-cols,.launch-channels{grid-template-columns:1fr}
+    .launch-tab{flex:1 1 calc(50% - 6px)}
+    .launch-detail{padding:18px 16px}
+    .launch-principles ol{grid-template-columns:1fr}
+    .nb-grid{grid-template-columns:1fr}
+    .newsletter-board{padding:16px 14px}
+    .first-steps summary{padding:10px 14px}
+    .first-steps .fs-body{padding:4px 14px 14px}
   }
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{
@@ -1543,6 +2123,7 @@
     <div class="view" id="view-camcorder" data-pillar="camcorder"></div>
     <div class="view" id="view-modeling" data-pillar="modeling"></div>
     <div class="view" id="view-visa" data-pillar="visa"></div>
+    <div class="view" id="view-launch" data-pillar="launch"></div>
     <div class="view" id="view-timeline"></div>
   </main>
 
@@ -2410,7 +2991,466 @@ const PILLARS = [
         ]
       }
     ]
+  },
+  {
+    id:'launch', num:'05', label:'Launch',
+    accent:'--terracotta', accentLight:'--terracotta-light',
+    tagline:'Every product is a launch is a milestone',
+    blurb:"Each launch builds the next: brand → ebook → substack → direct → modeling → filming → workshop. One flagship moment per month. Pre-launch is where audience grows; launch day is where you show up; post-launch is where you compound. Document everything — every launch is visa evidence.",
+    launches:[
+      {
+        id:'brand', num:'01', name:'Brand Foundation', tag:'minxx.me · the base layer',
+        status:'live', dependsOn:null, target:'April 2026',
+        accent:'--terracotta', accentLight:'--terracotta-light',
+        summary:'The base layer everything depends on. Site, handle, visual system, email capture. Without this, nothing else has anywhere to land.',
+        pricing:'Free — foundation for all paid streams',
+        metrics:['1,000 IG followers in 60 days', '100 email subscribers', 'minxx.me indexed in search'],
+        channels:{ owned:['Site (minxx.me)','Email list'], rented:['Instagram bio','TikTok bio','Substack handle'], borrowed:['Word of mouth from inner circle'] },
+        firstStepsLead:"before anything else, the brand is where it all starts. u can't sell a book, a newsletter, or a session if ppl can't find u. spend one focused week here and never have to redo it.",
+        firstSteps:[
+          'Buy minxx.me on Namecheap or Cloudflare (~£10/yr). Pay for 2 years so you never forget.',
+          'Lock the same handle (@minxx or @minxxdotme) on IG, TikTok, YouTube, Substack, Threads, Twitter/X — even if you won\'t post yet.',
+          'Pick 3 colors + 2 fonts from the camcorder aesthetic and write them in a minxx-brand.md file so every future asset matches.',
+          'Write a 1-page manifesto in the Warrior Princess voice — read it out loud to check the voice is yours.',
+          'Drop a basic static site into a GitHub repo. Home → About → Contact → email signup. Nothing fancy.',
+          'Point minxx.me DNS at GitHub Pages or Vercel. Confirm HTTPS works.',
+          'Sign up for ConvertKit or Buttondown free tier, create one form, embed on the site.',
+          'Post the manifesto as the first IG/TikTok reel. This is the flag in the ground.',
+          'Screenshot everything and file it in /visa-evidence/brand-launch/.'
+        ],
+        pre:[
+          'Lock minxx.me domain + DNS',
+          'Build the static site (this dashboard\'s sibling lives there)',
+          'Write About + Manifesto pages in Warrior Princess voice',
+          'Set up email capture (free tier)',
+          'Lock social handles across IG / TikTok / YT / Substack / Threads'
+        ],
+        day:[
+          'Drop bio link sitewide',
+          'Post the brand statement reel on IG + TikTok',
+          'DM 30 closest friends with the URL',
+          'Pin the announcement post for 7 days'
+        ],
+        post:[
+          'Daily camcorder reel for 14 days',
+          'Watch which posts spike — note for ebook launch',
+          'Capture every email into a backup CSV',
+          'Add brand assets to visa evidence folder'
+        ],
+        tips:{
+          'pre-0':"Buy minxx.me before anything else. Namecheap or Cloudflare, ~£10/year. Renew it for 2 years so you don't lose it.",
+          'pre-1':"Static HTML/CSS in a GitHub repo → free hosting via GitHub Pages or Vercel. No build tool needed. Claude can help with code.",
+          'pre-2':"About = who u are rn. Manifesto = what u stand for. Both in lowercase voice — don't sanitize it.",
+          'pre-3':"ConvertKit free tier up to 1,000 subs. One form embedded in the site footer. Set up a welcome email immediately.",
+          'pre-4':"Same handle everywhere. @minxx if you can get it, otherwise @minxxdotme. Book all of them in one sitting so no one else grabs them.",
+          'day-0':"Your bio link = your homepage. Update it across every platform the moment the site is live.",
+          'day-1':"One reel, shot on the camcorder, 30 sec max. Read the manifesto. Post simultaneously on IG + TikTok.",
+          'day-2':"Personal DMs land harder than group announcements. Take 20 minutes, send the link to 30 ppl individually.",
+          'day-3':"Pinned posts get ~3x more views over 7 days than non-pinned. Free algorithm boost.",
+          'post-0':"A reel a day for 14 days trains the algo + gives u a backlog of data on what lands. Think of it as research not performance.",
+          'post-1':"The posts that spike = the themes ur audience actually wants. Lean into them for the ebook launch.",
+          'post-2':"Export ConvertKit subs to CSV every week. If the platform dies, u still have ur list.",
+          'post-3':"Every brand artifact (logo, manifesto, site screenshot) is visa evidence. File it immediately — u won't remember later."
+        }
+      },
+      {
+        id:'ebook', num:'02', name:'Healing 4 The Warrior Princess', tag:'first ebook · flagship',
+        status:'active', dependsOn:'brand', target:'June 2026',
+        accent:'--terracotta', accentLight:'--terracotta-light',
+        summary:'The flagship launch. First book, raw lowercase voice, A5 ornate-border ebook. Sets the tone for everything that follows. Royalties = passive income (visa-safe).',
+        pricing:'£4.99 KDP digital · £6 PDF direct · £12.99 KDP paperback · £25 signed direct (limit 100)',
+        metrics:['500 units sold in first 30 days', '50 verified Amazon reviews by month 2', '100 signed editions sold direct'],
+        channels:{ owned:['Email list (200+)','Site /book landing page','Substack teaser archive'], rented:['IG carousels','TikTok read-alouds','YouTube Shorts'], borrowed:['5 podcast guest pitches','3 friend creator tags','Goodreads group seeding'] },
+        firstStepsLead:"this is the flagship. it proves u as an author, creates royalty income (visa-safe), and seeds every stream after it. don\u2019t wait for perfect — ship good, iterate in public.",
+        firstSteps:[
+          'Decide the book is DONE at a fixed word count (~18-25k for a slim warrior-princess ebook). Draw a line.',
+          'Finish final draft in a single Google Doc. No formatting fuss — just words.',
+          'Send to 5 honest beta readers with 3 specific questions each. Give them 7 days.',
+          'While they read, design the cover using the ornate baroque A5 spec in healing-ebook/DESIGN_SPEC.md.',
+          'Sign up for KDP (kdp.amazon.com). Upload draft just to walk the flow — you\'ll replace later.',
+          'Build /book landing page with email capture ("get launch-day early access").',
+          'Record 3 teaser reels reading short excerpts in camcorder style. Sit on them until launch week.',
+          'Push email list past 200 subs minimum before announcing a launch date.',
+          'Final edits → final cover → upload KDP digital + paperback → order 5 author proofs.',
+          'Set a hard launch date (Tuesday, 9am UK). Announce it 14 days out with a countdown.'
+        ],
+        pre:[
+          'Finalize manuscript — completion over perfection',
+          'Design cover (ornate baroque, A5)',
+          'Set up KDP digital + paperback',
+          'Build /book landing page on minxx.me',
+          'Grow email list to 200+ before launch',
+          'Line up 5 honest beta readers',
+          'Record 3 teaser reels reading excerpts',
+          'Pre-schedule launch-week posts'
+        ],
+        day:[
+          'Push KDP digital + paperback live',
+          'Drop direct PDF on minxx.me',
+          'Send launch email to full list',
+          'Post IG carousel + TikTok read-aloud + announcement reel',
+          'Reply to every comment in the voice'
+        ],
+        post:[
+          'Personal thank-you to first 50 buyers',
+          'Pitch 5 podcasts within 7 days of launch',
+          'Drop signed paperback wave at day +14',
+          'Push Goodreads + Amazon review collection',
+          'File launch metrics into visa evidence folder'
+        ],
+        tips:{
+          'pre-0':"Perfectionism kills books. Pick a word count ceiling and stop. U can edit chapter 2 forever — or u can ship.",
+          'pre-1':"Cover sells the book more than the text. Match the ornate A5 spec. Canva or Figma. Export print-ready PDF at 300dpi.",
+          'pre-2':"KDP = Kindle Direct Publishing. Free to use, pays 70% royalty on ebook if u price £2.99-£9.99. Paperback print-on-demand, no inventory risk.",
+          'pre-3':"/book page = hero image, 3 bullets, buy button, email capture. Copy the landing pattern from your favorite indie author.",
+          'pre-4':"If u launch to 50 ppl, u sell ~5 books. If u launch to 500, u sell ~50. Grow the list BEFORE the book is done.",
+          'pre-5':"Pick 5 friends who will be honest, not nice. Give them 3 questions: what did u skim? where did u cry? would u buy it?",
+          'pre-6':"3 teaser reels = enough for a launch week drip. Short (15-30s), in the camcorder look, reading the most quotable lines.",
+          'pre-7':"Write all launch-week social posts the week before. Launch day is for responding, not creating.",
+          'day-0':"Hit publish in KDP dashboard. Amazon takes 12-24h to propagate. Plan launch hour around that lag.",
+          'day-1':"Direct PDF = highest margin (100% to u, no Amazon cut). Sell via Gumroad or Lemon Squeezy for £6, linked from /book.",
+          'day-2':"One email to the whole list. Subject line = the most powerful line from the book. Keep it under 120 words.",
+          'day-3':"Same day across IG + TikTok + YT. Same assets, different formats. Maximize surface area in the first 4 hours.",
+          'day-4':"Every comment = a 1:1 relationship. Reply in lowercase, in the voice, no corporate polish.",
+          'post-0':"Personal thank-u to first 50 buyers = best word-of-mouth loop u can buy. 50 messages × 5 min = 4 hours well spent.",
+          'post-1':"Cold-pitch 5 podcasts in ur niche within 7 days. Use Listen Notes to find them. Subject: short pitch + 3 topics.",
+          'post-2':"Wave 2 = signed paperback drop at day +14. Gives u a second launch moment off the same asset.",
+          'post-3':"Amazon reviews matter for ranking. Ask every buyer. Goodreads reviews = credibility. Ask readers who finished.",
+          'post-4':"Screenshot KDP dashboard, sales chart, every press mention. File in /visa-evidence/ebook-launch/ as u go."
+        }
+      },
+      {
+        id:'substack', num:'03', name:'Substack Paid Tier', tag:'monthly zine',
+        status:'queued', dependsOn:'ebook', target:'August 2026',
+        accent:'--gold', accentLight:'--gold-light',
+        summary:'Monetize the Warrior Princess voice as ongoing newsletter. Book buyers convert first — they already paid for the words. Recurring revenue + audience compound.',
+        pricing:'Free / £6 per month / £55 per year (24% off) / £150 founding member',
+        metrics:['500 free subs in 60 days','50 paid by month 3','200 paid by month 6'],
+        channels:{ owned:['Substack itself','Email list','Site footer CTA'], rented:['IG','TikTok','Twitter/X'], borrowed:['Cross-promo with 3 sister Substacks','Recommendation network'] },
+        firstStepsLead:"this is recurring revenue. book buyers convert first bc they already paid for the words once. the 10-week board below is ur drafting space — plan 10 weeks ahead, never launch with a cold pipeline.",
+        firstSteps:[
+          'Create Substack at minxx.substack.com. Free to start. Pick the handle even if u won\'t post for months.',
+          'Match the Substack theme to minxx.me — same colors, same fonts, same header image.',
+          'Write 4 free posts in a row. Schedule them weekly. This is ur public archive people will find.',
+          'Plan the 10-week runway using the interactive board below — topic + notes + status per week.',
+          'Decide 2 of the 10 weeks are paid-only. Draft those first so the paywall has weight.',
+          'Set paid pricing in Substack: £6/mo, £55/yr, £150 founding. Don\'t undersell.',
+          'Write a welcome email that fires on every new sub. Set expectations + link to best free post.',
+          'Add Substack CTA to ebook back matter, site footer, and IG bio link tree.',
+          'When free list hits 200, email everyone announcing paid launches in 14 days.',
+          'Launch paid tier Tuesday 9am UK. Offer founders a bonus (zine PDF + voice note).'
+        ],
+        pre:[
+          'Set up Substack with brand fonts + colors',
+          'Write 4 free posts to seed the archive',
+          'Design paywall + welcome sequence',
+          'Plan first 3 paid-only zines',
+          'Add Substack CTAs to ebook back matter'
+        ],
+        day:[
+          'Announce paid tier with founding-member offer',
+          'Email book buyers a free month',
+          'Pin announcement on every channel',
+          'Drop launch reel'
+        ],
+        post:[
+          'Lock weekly free cadence for 90 days',
+          'Ship monthly long zine for paid only',
+          'Cite Substack growth in O-1B evidence (public interest)',
+          'Survey paid subs at month 3'
+        ],
+        tips:{
+          'pre-0':"Substack = free, native email + paid subs + discover feed. Use their default settings, customize logo + 2 colors.",
+          'pre-1':"4 free posts before u turn on paid = a portfolio new readers can binge. Otherwise they land on nothing.",
+          'pre-2':"Welcome sequence = 1 email sent instantly, 1 sent day 3, 1 sent day 7. Set and forget, fires forever.",
+          'pre-3':"Paid-only zines are longer, more personal. Start with 3 drafted before u launch paid — never write under paywall deadline.",
+          'pre-4':"The back of ur ebook = free real estate. Add 'read more at minxx.substack.com' as the last page.",
+          'day-0':"Founding-member price = premium anchor. '£150 gets u everything + a voice note from me.' Psychology of scarcity works.",
+          'day-1':"Book buyers are warmest leads. Email them first, free month gift, no hard sell. They convert at ~15%.",
+          'day-2':"Pinned posts on IG/TikTok = free ad for 7+ days. Update weekly during launch.",
+          'day-3':"Launch reel = 30 sec camcorder, u reading the opening line of ur first paid zine. Tease not explain.",
+          'post-0':"Weekly cadence for 90 days = 12 posts = enough to know if Substack is ur home. Cadence > length.",
+          'post-1':"Monthly long zine = ur flagship paid deliverable. Publish same day each month so subs expect it.",
+          'post-2':"Substack paid-sub growth curve is visa evidence for O-1B ('sustained paid following'). Screenshot monthly.",
+          'post-3':"3-month survey = 3 questions: what should i write more of? what should i stop? what would u pay double for?"
+        }
+      },
+      {
+        id:'direct', num:'04', name:'Signed Direct Store', tag:'limited editions',
+        status:'queued', dependsOn:'ebook', target:'September 2026',
+        accent:'--gold', accentLight:'--gold-light',
+        summary:'Premium direct-from-author edition. Higher margin (~£15 vs £4 KDP), deeper relationship, scarcity-driven. Best fans pay you directly, not Amazon.',
+        pricing:'£25 signed paperback (vs £12.99 KDP) — premium for autograph + custom packaging',
+        metrics:['Sell out 100 signed in first 14 days','Capture 200-name waitlist for batch 2','Avg basket > £30 with bundles'],
+        channels:{ owned:['Site shop','Email list'], rented:['IG stories','TikTok unboxings'], borrowed:['Tagged unboxing reposts'] },
+        firstStepsLead:"scarcity + signature = 2x the margin of Amazon. this is for ur real fans who want to own something ur hands touched. limit 100, no exceptions.",
+        firstSteps:[
+          'Log into KDP → order 100 author copies at author cost (~£3 each = £300 upfront).',
+          'Design a bookplate / interior stamp with ur signature or ornate monogram. Order 100 prints.',
+          'Source packaging: kraft mailer, wax seal (optional), handwritten thank-u card template.',
+          'Sign up for Lemon Squeezy or Shopify. Lemon Squeezy = lower fees + handles VAT automatically.',
+          'Create product: "Signed Limited Edition — 100 copies". Set £25 price. Add "X of 100 remaining" counter.',
+          'Build /shop page on minxx.me linking to checkout.',
+          'Photograph every step of the unboxing experience in camcorder aesthetic. U\'ll need 10+ assets.',
+          'Warm the list: email teasers 7 days out, 3 days out, launch day.',
+          'Launch with email list 24h early access. Public goes live next day.',
+          'Batch-sign on launch weekend. Ship in waves within 7 days. Repost every unboxing tag.'
+        ],
+        pre:[
+          'Order 100 author copies from KDP',
+          'Design hand-stamped packaging + bookplate',
+          'Buy custom signature pen + wax seal',
+          'Set up Shopify or Lemon Squeezy checkout',
+          'Build /shop page',
+          'Photograph the unboxing experience'
+        ],
+        day:[
+          'Email list 24h early-access window',
+          'IG story countdown',
+          '"Limited 100 signed" framing',
+          'Live unboxing reel on launch day'
+        ],
+        post:[
+          'Ship every order within 7 days',
+          'Repost every unboxing tag',
+          'Open waitlist for batch 2',
+          'Track margins weekly'
+        ],
+        tips:{
+          'pre-0':"KDP author copies = print cost only (~£3 per paperback). £300 upfront for 100 units. £25 retail = £22 margin each.",
+          'pre-1':"Bookplate = a signed insert, cheaper than signing every book. Or u can sign the title page directly — more intimate.",
+          'pre-2':"Wax seal + kraft mailer = ~£1 extra per unit but transforms the unboxing into a shareable moment. Worth it.",
+          'pre-3':"Lemon Squeezy = 5% + 50¢, handles VAT/sales tax globally. Shopify = £19/mo + 2%, more control but more setup.",
+          'pre-4':"/shop page = 1 hero image, 3 bullets ('100 signed, 100 unique, 100 only'), buy button. Don't overdesign.",
+          'pre-5':"Shoot the unboxing BEFORE launch so u have assets for day-of and post-launch. 10+ photos + 2 reels minimum.",
+          'day-0':"Email list 24h early = loyalty reward + urgency. Subject: 'the 100 signed copies go live in 24h — u get first pick.'",
+          'day-1':"IG story countdown sticker = free urgency tool. Post every 2 hours day-of.",
+          'day-2':"Scarcity framing matters. '100 signed. when they're gone they're gone.' No restocks ever.",
+          'day-3':"Live unboxing reel day-of = shows the actual product in ur hands. Raw, camcorder, narrated in voice.",
+          'post-0':"Ship within 7 days or ur NPS tanks. Batch 20 at a time, one evening per week.",
+          'post-1':"Every unboxing repost = free social proof that compounds for future batches.",
+          'post-2':"Batch 2 waitlist = capture demand u couldn\'t fulfill. 200 names = ur next £5k.",
+          'post-3':"Track cost-per-unit + shipping + Lemon Squeezy fees weekly in a spreadsheet. Know ur real margin."
+        }
+      },
+      {
+        id:'modeling', num:'05', name:'Portfolio Reveal', tag:'modeling launch',
+        status:'queued', dependsOn:'brand', target:'October 2026',
+        accent:'--sage', accentLight:'--sage-light',
+        summary:'Reveal the curated modeling portfolio + cold-pitch agencies same day. Coordinated drop, not a slow trickle. Audience leverage > raw look.',
+        pricing:'Editorial £350/day · Commercial £1,500/day · UGC £600/project · Brand ambassador £3,000/campaign · Runway £600/show',
+        metrics:['10 agency replies within 14 days','1 representation offer in 90 days','First paid booking post-authorization'],
+        channels:{ owned:['Site /portfolio','Email list','Digital comp card'], rented:['IG carousels','TikTok BTS'], borrowed:['Cold pitch 10 LA agencies','Photographer tags'] },
+        firstStepsLead:"ur audience is ur leverage. u don\u2019t need an agency to pick u if u show up with a following. reveal portfolio + pitch agencies same day. treat it like a book launch.",
+        firstSteps:[
+          'Pick 5 looks u want in the portfolio: editorial, commercial, beauty, lifestyle, experimental.',
+          'Line up 5 TFP (Time For Print) shoots — find photographers on IG via #tfpshoot + ur city.',
+          'Shoot all 5 within 8 weeks. Use camcorder for BTS content (double-duty assets).',
+          'Cull hard: 30 final images across the 5 shoots. Quality > quantity.',
+          'Build a digital comp card in Canva: front = hero headshot + name + measurements; back = 4 shots + contact.',
+          'Build /portfolio on minxx.me: grid layout, 5 categories, one hero per category.',
+          'Write a 3-line cold pitch template: intro, stats (followers + measurements), link to portfolio.',
+          'Make a list of 10 LA agencies (IMG, Wilhelmina, The Society, LA Models, Next, Vision, Photogenics, Freedom, Two Mgmt, Heroes).',
+          'Launch day: portfolio page live, IG carousel drop, 10 pitches sent, email list reveal. All in one hour.',
+          'Follow up agencies at day 7. Screenshot every reply for visa evidence.'
+        ],
+        pre:[
+          'Complete 5 TFP shoots across 5 distinct looks',
+          'Edit 30 strongest into the portfolio',
+          'Design digital comp card (front + back)',
+          'Build /portfolio page on minxx.me',
+          'Write agency cold-pitch template',
+          'Get headshot retouched professionally'
+        ],
+        day:[
+          'Portfolio page goes live',
+          'IG carousel "first portfolio" drop',
+          'Send comp cards to 10 agencies same day',
+          'Email list reveal'
+        ],
+        post:[
+          'Follow up agencies in 7 days',
+          'Screenshot every reply (visa evidence)',
+          'Refresh portfolio quarterly',
+          'Tag photographers consistently'
+        ],
+        tips:{
+          'pre-0':"5 shoots = 5 different 'moods'. Not 5 different outfits in the same style. Variety proves range to agencies.",
+          'pre-1':"30 > 50 > 100. Agencies judge on ur worst photo not ur best. Cut anything u\'re even slightly unsure about.",
+          'pre-2':"Comp card = ur business card in modeling. PDF, front + back, stats + contact. Template: search 'canva model comp card'.",
+          'pre-3':"/portfolio = grid. No story, no scroll, no clever design. Let the images speak. 5 categories max.",
+          'pre-4':"Cold pitch template = 80 words. Hi {agency}, I\'m Phoebe from London. {1 line about audience}. Portfolio: {link}. Would love a conversation. Thanks, Phoebe.",
+          'pre-5':"Pro headshot retouch = invest £50-100 on a proper retoucher. It\'s the shot agencies look at first.",
+          'day-0':"Portfolio goes live = the asset everything else links to. Triple-check it works on mobile before launching.",
+          'day-1':"First carousel = 10 slides, 1 intro + 9 shots. Caption in lowercase warrior voice, not pro bio tone.",
+          'day-2':"10 pitches sent in 1 hour same day. Make it feel like a launch not a drip. Use BCC or send individually, not a mass email.",
+          'day-3':"Email ur list: 'i've been holding these for a year — here they are.' Audience first, agencies second.",
+          'post-0':"7-day follow up = polite nudge. 'Just bumping in case this got buried. No pressure.' 30% of replies come from follow-ups.",
+          'post-1':"Screenshot EVERY agency reply — yes + no + maybe. Visa evidence of industry interest.",
+          'post-2':"Quarterly refresh = new top 5 shots, cut old ones. Agencies re-check. Keeps u fresh.",
+          'post-3':"Tag photographers in every post they shot. They repost u → their audience discovers u. Compounds over time."
+        }
+      },
+      {
+        id:'filming', num:'06', name:'Camcorder Filming Service', tag:'service offer',
+        status:'queued', dependsOn:'modeling', target:'January 2027',
+        accent:'--sage', accentLight:'--sage-light',
+        summary:'Productize the camcorder aesthetic as a service. Events, parties, lifestyle shoots. Highest-margin pillar but requires physical presence + work authorization.',
+        pricing:'£600 half-day · £1,000 full-day · £2,500 weekend (LA radius initially)',
+        metrics:['1 booking month 1','3 bookings/month by month 3','6 case-study reels in portfolio'],
+        channels:{ owned:['Site /filming page','Email list','Booking form'], rented:['IG pinned reel','TikTok'], borrowed:['Referrals from past clients'] },
+        firstStepsLead:"ur camcorder aesthetic is already ur signature. ppl will pay for it bc they can\u2019t fake it. this is ur highest-margin pillar but needs work authorization first — don\u2019t launch until the visa is cleared.",
+        firstSteps:[
+          'Audit ur existing camcorder footage. Pick 6 clips that show range (event, portrait, party, lifestyle, interview, abstract).',
+          'Edit into a 60-90 sec sizzle reel. Same music + grade throughout.',
+          'Build /filming page: sizzle reel embed → 3 tier rate card → booking form → FAQ.',
+          'Write the rate card as a 1-page PDF (matching brand typography). £600 half / £1000 full / £2500 weekend.',
+          'Set up Stripe checkout or Calendly + Stripe for deposits (50% upfront standard).',
+          'Draft a 1-page service contract (scope, deliverables, timeline, payment, rights). Use HelloSign free tier.',
+          'Confirm work authorization is in place. CRITICAL — do not launch before this.',
+          'Define travel radius: LA + 50mi initially. Add travel fee for further.',
+          'Announce: pinned reel on IG, email to list, DM 10 LA friends who throw events.',
+          'Convert first 3 bookings into 3 case-study reels. That\'s ur ongoing portfolio.'
+        ],
+        pre:[
+          'Create /filming service page',
+          'Build PDF rate card',
+          'Edit 6 sample reels into a portfolio',
+          'Set up booking form + Stripe',
+          'Write FAQ + service contract template',
+          'Define travel radius'
+        ],
+        day:[
+          'Drop "now booking" pinned reel',
+          'Email list announcement',
+          'IG carousel of past work',
+          'DM 10 LA friends who throw events'
+        ],
+        post:[
+          'Convert each booking into 1 case-study reel',
+          'Ask for written testimonial',
+          'Refer overflow to a trusted second shooter',
+          'Quarterly rate review'
+        ],
+        tips:{
+          'pre-0':"/filming page = sizzle reel first, then rate card, then booking form, then FAQ. Order matters — lead with the work.",
+          'pre-1':"PDF rate card = email-friendly, feels professional. Same fonts as site. 3 tiers, no 'custom' — force clarity.",
+          'pre-2':"6 sample reels = 6 distinct shoots. 3 events + 3 portraits is a good mix. Show range.",
+          'pre-3':"Stripe + Calendly = simplest booking flow for services. 50% deposit at booking, 50% on delivery.",
+          'pre-4':"Contract protects u: scope creep, reschedules, usage rights, late payment. HelloSign = free e-sign for up to 3/mo.",
+          'pre-5':"Travel radius = where u\'ll work at standard rate. LA base + 50mi free, +£200/50mi extra. Keeps margin clean.",
+          'day-0':"Pinned reel = the sizzle reel + 'now booking' overlay. Stays at the top of ur IG profile for weeks.",
+          'day-1':"Email list announcement = soft ask. 'I'm opening bookings — reply if u have someone in mind.' Friction-free.",
+          'day-2':"Carousel of past work = 10 slides from ur 6 samples. Different framing than the reel so ppl see both.",
+          'day-3':"10 LA friends who throw events = warmest market. 'Hey I'm booking now, keep me in mind for {event}.' Direct, personal.",
+          'post-0':"Every paid shoot = 1 case-study reel. Compound content loop: shoot → reel → portfolio → next booking.",
+          'post-1':"Written testimonial ask at delivery: '1 sentence for my site?' 80% say yes. Screenshots work too.",
+          'post-2':"Can\'t take a job? Refer to a trusted second shooter. Take 10% finder fee or bank the goodwill.",
+          'post-3':"Quarterly rate review = raise prices as portfolio compounds. £600 → £750 → £1000 half-day over 12 months."
+        }
+      },
+      {
+        id:'workshop', num:'07', name:'Writing Workshop', tag:'digital product',
+        status:'queued', dependsOn:'substack', target:'April 2027',
+        accent:'--slate', accentLight:'--slate-light',
+        summary:'Teach the Warrior Princess voice as a paid course. Authority play. Requires ebook + Substack established first. Highest margin of any stream.',
+        pricing:'£197 self-paced · £497 cohort (with feedback) · £997 1:1 mentorship',
+        metrics:['30 founders sold pre-launch','100 students in launch month','NPS > 50 from cohort 1'],
+        channels:{ owned:['Site /workshop','Email list','Substack'], rented:['IG','TikTok'], borrowed:['Podcast guest spots','Substack cross-promo'] },
+        firstStepsLead:"teach what u already did. ebook + substack prove the voice → workshop teaches it → book #2 comes out of cohort energy. highest margin of any stream because it\u2019s digital + authority.",
+        firstSteps:[
+          'Outline curriculum: 4-6 modules, 1 week each. Module 1: find ur voice. Module 6: publish ur first piece.',
+          'Record videos in CRT/camcorder style. 15 min per lesson max. Loom for simplicity or Descript for polish.',
+          'Write the sales page: problem → promise → modules → testimonials → price → FAQ → final CTA.',
+          'Set tier structure: £197 self-paced (video only), £497 cohort (feedback + live calls), £997 1:1 (u review every piece).',
+          'Run a free 10-person beta cohort first. Give everything away in exchange for testimonials.',
+          'Build checkout on Lemon Squeezy or Stripe Payment Links (no need for Teachable yet).',
+          'Set up email automation: drip welcome + weekly lesson nudge + community invite.',
+          'Create a private Discord/Circle for cohort students. Keeps them accountable.',
+          'Launch: founders rate £147 to email list for 48h, public launch 1 week later at £197.',
+          'Run cohort 1 live. Collect testimonials at week 4. Iterate for cohort 2.'
+        ],
+        pre:[
+          'Outline curriculum (4-6 modules)',
+          'Record videos in CRT/camcorder style',
+          'Build sales page',
+          'Set price + tier structure',
+          'Line up 5 testimonials from beta cohort',
+          'Set up checkout + email automation'
+        ],
+        day:[
+          'Founders rate to email list (48h window)',
+          'Public launch 1 week later',
+          'Pinned IG + TikTok announcement',
+          'Substack paid post unlock'
+        ],
+        post:[
+          'Run cohort 1 with weekly office hours',
+          'Collect testimonials at week 4',
+          'Relaunch quarterly',
+          'Spin off into book #2 if it lands'
+        ],
+        tips:{
+          'pre-0':"4-6 modules is the sweet spot. Fewer = too thin. More = overwhelming. 1 module per week of cohort.",
+          'pre-1':"Record in camcorder aesthetic so the workshop matches the brand. Loom = 1-click, Descript = polish + transcripts.",
+          'pre-2':"Sales page formula: hook → problem → promise → curriculum → testimonials → price → FAQ → CTA. Copy from a course u\'ve bought.",
+          'pre-3':"3 tiers: self-paced / cohort / 1:1. Anchors high, lets ppl self-select. Most buy the middle tier.",
+          'pre-4':"Beta cohort = free in exchange for a testimonial. They become ur case studies. Worth more than money.",
+          'pre-5':"Lemon Squeezy handles VAT, refunds, affiliate tracking. Teachable/Thinkific = later, when u have 100+ students.",
+          'day-0':"Founders rate = 25% off for 48h to email list only. Creates urgency + rewards loyalty.",
+          'day-1':"Public launch 1 week later at full price. Ppl who missed founders rate will still buy.",
+          'day-2':"Pinned IG + TikTok = ur own audience first. Same sizzle reel + swipe-up to sales page.",
+          'day-3':"Substack paid post unlock = free sample of the workshop to subs. Converts 10-15% to buyers.",
+          'post-0':"Weekly office hours = 1 live call per week of cohort. 60 min. Record for ppl who missed.",
+          'post-1':"Week 4 testimonial ask = 2 questions: 'what's changed? would u recommend?' Use quotes on next sales page.",
+          'post-2':"Quarterly relaunches = ur recurring income engine. Same page, new cohort, maybe small price bump each time.",
+          'post-3':"Book #2 = born from the cohort. Their questions become chapters. Workshop pays for itself and the next book."
+        }
+      }
+    ]
   }
+];
+
+// ── 10-week substack planning board — editable themes ──
+const SUBSTACK_WEEKS = [
+  { num:1,  theme:'Welcome / manifesto',   tier:'free' },
+  { num:2,  theme:'Origin story',          tier:'free' },
+  { num:3,  theme:'What I\'m reading',     tier:'free' },
+  { num:4,  theme:'Behind the camcorder',  tier:'free' },
+  { num:5,  theme:'Body essay',            tier:'paid' },
+  { num:6,  theme:'Friendship dispatch',   tier:'free' },
+  { num:7,  theme:'Pop culture take',      tier:'free' },
+  { num:8,  theme:'Open notebook',         tier:'paid' },
+  { num:9,  theme:'Reader Q&A',            tier:'free' },
+  { num:10, theme:'Pause + zine drop',     tier:'paid' }
+];
+
+// Cross-stream pricing principles
+const PRICING_PRINCIPLES = [
+  'Price like an established creator, not a begging artist — visa watches this.',
+  '£ as base currency, USD shown on US-facing pages.',
+  'Three tiers where possible: free / standard / premium. Anchoring matters.',
+  'Premium tier 2–3× standard. Round numbers (£25, £997) for premium, charm (£4.99, £6.99) for entry.',
+  'Bundle as launches mature — book + Substack annual + signed = warrior bundle.',
+  'UK Ltd invoices for international compliance until O-1B clears.',
+  'No discounts in first 6 months — protect price perception while audience is forming.',
+  'Launch-week pricing > regular pricing. Urgency drives conversion.',
+  'Price increases announced 30 days in advance, grandfathered for existing customers.',
+  'Every paid stream feeds the visa narrative — published works, paid following, sustained income.'
+];
+
+// Indie-creator launch principles (no team)
+const LAUNCH_PRINCIPLES = [
+  'ORB rule: every rented post drives back to owned (email or site).',
+  'One launch per month. Never overlap two flagship moments.',
+  'Launch Tuesday 9am UK / 1am LA — best email open rate, fresh into the algo.',
+  'Pre-launch period is where the audience grows. Don\'t launch with a cold list.',
+  'Each launch builds the next: ebook proves voice → Substack monetizes voice → workshop teaches voice.',
+  'Document EVERYTHING for visa: every launch is evidence.',
+  'Friends are your beta. Get honest feedback before public reveal.',
+  'Recycle assets: 1 reel → tweet thread → Substack post → podcast pitch.',
+  'Treat every launch-day comment like a 1:1 — respond in the voice.',
+  'Save every screenshot, link, mention into a visa evidence folder.'
 ];
 
 const TIMELINE = [
@@ -2424,24 +3464,28 @@ const TIMELINE = [
 // STATE (persisted)
 // ══════════════════════════════════════
 // Shape:
-// { checks: {pillarId: {itemKey: true}},
+// { checks:   {pillarId: {itemKey: true}},
 //   expanded: {pillarId: {itemKey: true}},
-//   rev: {id: volume},
-//   scrub: monthIdx }
+//   rev:      {id: volume},
+//   scrub:    monthIdx,
+//   notes:    {'substack-w1': {topic, notes, status}, ...},
+//   tipsOpen: {'ebook-pre-0': true, ...} }
 function loadState(){
   try{
     const raw = localStorage.getItem(STATE_KEY);
     if(raw){
       const s = JSON.parse(raw);
       // backfill missing keys for older saves
-      if(!s.checks)   s.checks = {};
-      if(!s.expanded) s.expanded = {};
-      if(!s.rev)      s.rev = {};
-      if(!('scrub' in s)) s.scrub = null;
+      if(!s.checks)       s.checks   = {};
+      if(!s.expanded)     s.expanded = {};
+      if(!s.rev)          s.rev      = {};
+      if(!s.notes)        s.notes    = {};
+      if(!s.tipsOpen)     s.tipsOpen = {};
+      if(!('scrub' in s)) s.scrub    = null;
       return s;
     }
   }catch(_){ /* ignore */ }
-  return { checks:{}, expanded:{}, rev:{}, scrub:null };
+  return { checks:{}, expanded:{}, rev:{}, scrub:null, notes:{}, tipsOpen:{} };
 }
 function saveState(){
   try{ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }catch(_){}
@@ -2492,6 +3536,7 @@ function countPillarItems(p){
     if(p.marketing.launchWeek)  n += p.marketing.launchWeek.length;
     if(p.marketing.creative)    n += p.marketing.creative.length;
   }
+  if(p.launches)      p.launches.forEach(L => { n += L.pre.length + L.day.length + L.post.length; });
   return n;
 }
 function countPillarChecked(p){
@@ -2715,6 +3760,7 @@ function renderAll(){
   renderCamcorderView();
   renderModelingView();
   renderVisaView();
+  renderLaunchView();
   renderTimelineView();
   switchView(activeView);
   updateProgressRings();
@@ -3472,6 +4518,313 @@ function renderVisaView(){
 }
 
 // ══════════════════════════════════════
+// LAUNCH VIEW — pricing & launch playbooks
+// ══════════════════════════════════════
+let launchActiveIdx = 0;
+
+// ── interactive 10-week newsletter board (substack launch) ──
+function renderNewsletterBoard(p){
+  const wrap = el('div', { class:'newsletter-board' });
+
+  const head = el('div', { class:'nb-head' },
+    el('h4', null, '10-Week Newsletter Planning Board'),
+    el('div', { class:'nb-legend' },
+      el('span', { class:'nb-lp' }, 'planned'),
+      el('span', { class:'nb-ld' }, 'drafting'),
+      el('span', { class:'nb-ls' }, 'scheduled'),
+      el('span', { class:'nb-lsh' }, 'shipped')
+    )
+  );
+  wrap.appendChild(head);
+  wrap.appendChild(el('p', { class:'nb-sub' },
+    "Click any week to start filling in ideas. Topic, notes, and status persist automatically. Think of this as your runway — never launch with a cold pipeline."
+  ));
+
+  const grid = el('div', { class:'nb-grid' });
+
+  SUBSTACK_WEEKS.forEach(w => {
+    const key    = `substack-w${w.num}`;
+    const note   = state.notes[key] || {};
+    const status = note.status || 'planned';
+
+    const cell = el('div', { class:'nb-week ' + status });
+
+    cell.appendChild(el('div', { class:'nb-wk-head' },
+      el('div', { class:'nb-wk-num' }, `week ${String(w.num).padStart(2,'0')}`),
+      el('div', { class:'nb-wk-theme' }, `${w.theme} · ${w.tier}`)
+    ));
+
+    // topic input
+    const topic = el('input', {
+      type:'text',
+      class:'nb-topic',
+      placeholder:'topic or hook…',
+      'aria-label': `week ${w.num} topic`,
+      value: note.topic || ''
+    });
+    topic.addEventListener('input', (e) => {
+      state.notes[key] = { ...(state.notes[key] || {}), topic: e.target.value };
+      saveState();
+    });
+    cell.appendChild(topic);
+
+    // notes textarea
+    const notes = el('textarea', {
+      class:'nb-notes',
+      rows:'2',
+      placeholder:'ideas, opening line, vibe, references…',
+      'aria-label': `week ${w.num} notes`
+    });
+    notes.value = note.notes || '';
+    notes.addEventListener('input', (e) => {
+      state.notes[key] = { ...(state.notes[key] || {}), notes: e.target.value };
+      saveState();
+    });
+    cell.appendChild(notes);
+
+    // status select
+    const sel = el('select', {
+      class:'nb-status',
+      'aria-label': `week ${w.num} status`
+    });
+    ['planned','drafting','scheduled','shipped'].forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s;
+      if(s === status) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', (e) => {
+      state.notes[key] = { ...(state.notes[key] || {}), status: e.target.value };
+      saveState();
+      // re-render so the border color updates
+      renderLaunchView();
+    });
+    cell.appendChild(sel);
+
+    grid.appendChild(cell);
+  });
+
+  wrap.appendChild(grid);
+  return wrap;
+}
+
+function renderLaunchView(){
+  const p = PILLARS[4];
+  const $v = document.getElementById('view-launch');
+  $v.innerHTML = '';
+  $v.style.setProperty('--pillar-accent',       `var(${p.accent})`);
+  $v.style.setProperty('--pillar-accent-light', `var(${p.accentLight})`);
+  $v.appendChild(viewHeader(p));
+
+  // launch tabs
+  const card = el('div', { class:'card' });
+  card.appendChild(el('div', { class:'card-label' }, 'Launch Playbooks · select a launch'));
+
+  const tabs = el('div', { class:'launch-tabs', role:'tablist', 'aria-label':'Launches' });
+  p.launches.forEach((L, i) => {
+    const isActive = i === launchActiveIdx;
+    const tab = el('button', {
+      class:'launch-tab' + (isActive ? ' active' : ''),
+      role:'tab',
+      'aria-selected': isActive ? 'true' : 'false',
+      'aria-controls':'launch-detail',
+      style:`--launch-accent:var(${L.accent});--launch-accent-light:var(${L.accentLight})`,
+      onclick:() => { launchActiveIdx = i; renderLaunchView(); }
+    },
+      el('span', { class:'num' }, L.num),
+      el('span', { class:'name' }, L.name),
+      el('span', { class:'tag' }, L.tag),
+      el('span', { class:'status-dot ' + L.status, 'aria-label':'status: ' + L.status })
+    );
+    tabs.appendChild(tab);
+  });
+  card.appendChild(tabs);
+
+  // detail panel for the active launch
+  const L = p.launches[launchActiveIdx];
+  const detail = el('div', {
+    class:'launch-detail',
+    id:'launch-detail',
+    role:'tabpanel',
+    style:`--launch-accent:var(${L.accent});--launch-accent-light:var(${L.accentLight})`
+  });
+
+  // top: title + status pill
+  const top = el('div', { class:'ldtop' },
+    el('div', null,
+      el('h3', null, L.name),
+      el('div', { class:'ld-tag' }, L.tag)
+    ),
+    el('div', { class:'ld-status-pill' }, L.status)
+  );
+  detail.appendChild(top);
+
+  // summary
+  detail.appendChild(el('p', { class:'ld-summary' }, L.summary));
+
+  // meta grid: target / depends on / pricing
+  const dep = L.dependsOn
+    ? (p.launches.find(x => x.id === L.dependsOn) || {}).name || L.dependsOn
+    : 'None — base layer';
+  const meta = el('div', { class:'ld-meta-grid' },
+    el('div', { class:'ld-meta-item' },
+      el('div', { class:'lbl' }, 'Target launch window'),
+      el('div', { class:'val' }, L.target)
+    ),
+    el('div', { class:'ld-meta-item' },
+      el('div', { class:'lbl' }, 'Depends on'),
+      el('div', { class:'val' }, dep)
+    ),
+    el('div', { class:'ld-meta-item' },
+      el('div', { class:'lbl' }, 'Pricing'),
+      el('div', { class:'val price' }, L.pricing)
+    )
+  );
+  detail.appendChild(meta);
+
+  // how to get started — step-by-step field guide (collapsible <details>)
+  if(L.firstSteps && L.firstSteps.length){
+    const fs = el('details', { class:'first-steps', open:true });
+    fs.appendChild(el('summary', null, 'How to get started — step-by-step field guide'));
+    const body = el('div', { class:'fs-body' });
+    if(L.firstStepsLead) body.appendChild(el('p', { class:'fs-lead' }, L.firstStepsLead));
+    const fsOl = el('ol', null);
+    L.firstSteps.forEach(step => fsOl.appendChild(el('li', null, step)));
+    body.appendChild(fsOl);
+    fs.appendChild(body);
+    detail.appendChild(fs);
+  }
+
+  // interactive newsletter board — substack only
+  if(L.id === 'substack'){
+    detail.appendChild(renderNewsletterBoard(p));
+  }
+
+  // 3-column checklist: pre / day / post
+  const cols = el('div', { class:'launch-cols' });
+  const colDefs = [
+    { key:'pre',  title:'Pre-launch',  items:L.pre },
+    { key:'day',  title:'Launch day',  items:L.day },
+    { key:'post', title:'Post-launch', items:L.post }
+  ];
+  colDefs.forEach(def => {
+    const col = el('div', { class:'launch-col' });
+    col.appendChild(el('div', { class:'col-head' }, def.title));
+    const ul = el('ul', null);
+    def.items.forEach((text, i) => {
+      const key     = `launch-${L.id}-${def.key}-${i}`;
+      const tipKey  = `${L.id}-${def.key}-${i}`;
+      const done    = !!((state.checks[p.id] || {})[key]);
+      const tipText = (L.tips || {})[`${def.key}-${i}`];
+      const tipOpen = !!state.tipsOpen[tipKey];
+
+      const li = el('li', {
+        class:'li',
+        'data-done': done ? '1' : '0',
+        tabindex:'0',
+        role:'checkbox',
+        'aria-checked': done ? 'true' : 'false',
+        onclick:() => { toggleCheck(p.id, key); renderLaunchView(); },
+        onkeydown:(e) => {
+          if(e.key === ' ' || e.key === 'Enter'){
+            e.preventDefault();
+            toggleCheck(p.id, key);
+            renderLaunchView();
+          }
+        }
+      },
+        el('span', { class:'check' }, checkSVG()),
+        el('span', { class:'text' }, text)
+      );
+
+      // info button (only if there's a tip) — stops click propagation
+      if(tipText){
+        const btn = el('button', {
+          class:'li-info-btn',
+          type:'button',
+          'aria-expanded': tipOpen ? 'true' : 'false',
+          'aria-label':'show explanation',
+          title:'what does this mean?',
+          onclick:(e) => {
+            e.stopPropagation();
+            state.tipsOpen[tipKey] = !state.tipsOpen[tipKey];
+            if(!state.tipsOpen[tipKey]) delete state.tipsOpen[tipKey];
+            saveState();
+            renderLaunchView();
+          },
+          onkeydown:(e) => {
+            if(e.key === ' ' || e.key === 'Enter'){
+              e.stopPropagation();
+            }
+          }
+        }, '?');
+        li.appendChild(btn);
+
+        if(tipOpen){
+          li.appendChild(el('div', { class:'li-tip', role:'note' }, tipText));
+        }
+      }
+
+      ul.appendChild(li);
+    });
+    col.appendChild(ul);
+    cols.appendChild(col);
+  });
+  detail.appendChild(cols);
+
+  // channels (ORB)
+  const channels = el('div', { class:'launch-channels' });
+  const chDefs = [
+    { key:'owned',    title:'Owned channels' },
+    { key:'rented',   title:'Rented channels' },
+    { key:'borrowed', title:'Borrowed channels' }
+  ];
+  chDefs.forEach(c => {
+    const list = L.channels[c.key] || [];
+    const block = el('div', { class:'channel-block' },
+      el('div', { class:'ctype' }, c.title)
+    );
+    if(list.length === 0){
+      block.appendChild(el('div', { class:'empty' }, '— none yet —'));
+    } else {
+      const cl = el('div', { class:'clist' });
+      list.forEach(name => cl.appendChild(el('span', { class:'chip' }, name)));
+      block.appendChild(cl);
+    }
+    channels.appendChild(block);
+  });
+  detail.appendChild(channels);
+
+  // metrics
+  const mWrap = el('div', { class:'launch-metrics' });
+  mWrap.appendChild(el('div', { class:'lbl' }, 'Success metrics'));
+  const ml = el('ul', null);
+  L.metrics.forEach(m => ml.appendChild(el('li', null, m)));
+  mWrap.appendChild(ml);
+  detail.appendChild(mWrap);
+
+  card.appendChild(detail);
+  $v.appendChild(card);
+
+  // pricing principles card
+  const pricingCard = el('div', { class:'card launch-principles' });
+  pricingCard.appendChild(el('div', { class:'card-label' }, 'Cross-stream pricing principles'));
+  const ol1 = el('ol', null);
+  PRICING_PRINCIPLES.forEach(t => ol1.appendChild(el('li', null, t)));
+  pricingCard.appendChild(ol1);
+  $v.appendChild(pricingCard);
+
+  // launch principles card
+  const lpCard = el('div', { class:'card launch-principles' });
+  lpCard.appendChild(el('div', { class:'card-label' }, 'Indie creator launch principles'));
+  const ol2 = el('ol', null);
+  LAUNCH_PRINCIPLES.forEach(t => ol2.appendChild(el('li', null, t)));
+  lpCard.appendChild(ol2);
+  $v.appendChild(lpCard);
+}
+
+// ══════════════════════════════════════
 // FEATURE 3 — INTERACTIVE TIMELINE
 // ══════════════════════════════════════
 function renderTimelineView(){
@@ -3682,10 +5035,12 @@ document.getElementById('signOut').addEventListener('click', () => {
 });
 document.getElementById('resetAll').addEventListener('click', () => {
   if(!confirm('Clear all checked items and reset the revenue sliders?')) return;
-  state.checks = {};
+  state.checks   = {};
   state.expanded = {};
-  state.rev = {};
-  state.scrub = null;
+  state.rev      = {};
+  state.scrub    = null;
+  state.notes    = {};
+  state.tipsOpen = {};
   saveState();
   renderAll();
 });
