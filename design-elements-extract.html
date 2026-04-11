@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Elements — Trip Planner Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════════════════════════════
+   PALETTE A — EDITORIAL (warm, clean, ivory)
+   Use for: itinerary cards, day views, accommodation lists, notes
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  /* Neutrals */
+  --e-white:        #FFFFFF;
+  --e-bg:           #FAFAF7;
+  --e-cream:        #F5F2ED;
+  --e-warm50:       #FDF8F3;
+  --e-text:         #1A1A1A;
+  --e-text-med:     #3D3D3D;
+  --e-text-light:   #6B6B6B;
+  --e-text-muted:   #9A9590;
+  --e-border:       #E8E4DF;
+  --e-border-light: #F0EDE8;
+
+  /* Accent family — terracotta (primary) */
+  --e-terra:        #C2714F;
+  --e-terra-light:  #F3E8E1;
+
+  /* Accent family — gold (secondary) */
+  --e-gold:         #B8963E;
+  --e-gold-light:   #FAF5EB;
+
+  /* Accent family — sage (tertiary) */
+  --e-sage:         #7A8B6F;
+  --e-sage-light:   #EFF3EC;
+
+  /* Accent family — slate (quaternary) */
+  --e-slate:        #5C6B7A;
+  --e-slate-light:  #EDF0F3;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PALETTE B — CRT / PHOSPHOR (dark, warm-aubergine, blush HUD)
+   Use for: headers, date chips, status bars, fun overlays
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --crt-black:   #0d060f;   /* warm aubergine-black */
+  --crt-deep:    #0a040c;
+  --crt-bezel:   #150a18;   /* violet-plum */
+  --crt-cream:   #f6e6e8;   /* CRT paper */
+  --crt-glow:    #fff5f3;   /* candle glow */
+  --phosphor:    #ffd6e3;   /* blush-pearl HUD */
+  --phosphor-d:  #ff9abc;   /* saturated rose accent */
+  --rec-red:     #ff4d7a;
+  --rec-glow:    #ff8aa6;
+  --crt-lavender:#c4a0d4;
+  --crt-pink:    #d4739a;
+  --crt-rose:    #e8a0b8;
+  --crt-gold:    #e8c0a0;   /* rose-gold */
+  --crt-muted:   #a894ac;
+  --crt-dim:     #4a3a50;
+  --hud-amber:   #ffc4a8;
+  --os-cream:    #fceee4;
+  --os-paper:    #faf0e8;
+  --os-ink:      #1a1018;
+  --os-shadow:   rgba(40,12,30,0.55);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TYPOGRAPHY SCALE
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --font-display:  'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-serif:    'Source Serif 4', Georgia, serif;
+  --font-sans:     'DM Sans', system-ui, sans-serif;
+  --font-mono:     'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-pixel:    'VT323', monospace;
+  --font-pixel-sm: 'Press Start 2P', monospace;
+
+  --text-xs:   0.68rem;
+  --text-sm:   0.78rem;
+  --text-base: 0.88rem;
+  --text-md:   1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.375rem;
+  --text-2xl:  1.75rem;
+  --text-3xl:  2.25rem;
+  --text-4xl:  3rem;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESET
+   ══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-sans);
+  background: var(--e-bg);
+  color: var(--e-text);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DEMO PAGE LAYOUT
+   ══════════════════════════════════════════════════════════════ */
+.demo-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+.demo-section-header {
+  font-family: var(--font-pixel-sm);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--e-text-muted);
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--e-border);
+  margin-bottom: 24px;
+}
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 1 — EDITORIAL CARD
+   Clean white card with warm border. Use for: day plans,
+   accommodation blocks, restaurant picks, itinerary items.
+   ══════════════════════════════════════════════════════════════ */
+.card {
+  background: var(--e-white);
+  border: 1px solid var(--e-border);
+  border-radius: 6px;
+  padding: 24px 28px;
+}
+.card-sm {
+  background: var(--e-white);
+  border: 1px solid var(--e-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+.card-tinted {
+  border-radius: 6px;
+  padding: 20px 24px;
+  border: 1px solid var(--e-border);
+}
+
+/* card accent bar (top edge) */
+.card-accent-bar {
+  border-top: 3px solid var(--e-terra);
+}
+.card-accent-bar.gold  { border-top-color: var(--e-gold); }
+.card-accent-bar.sage  { border-top-color: var(--e-sage); }
+.card-accent-bar.slate { border-top-color: var(--e-slate); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 2 — SECTION LABEL
+   Small all-caps label above content blocks.
+   ══════════════════════════════════════════════════════════════ */
+.section-label {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--e-terra);
+  margin-bottom: 10px;
+}
+.section-label.gold  { color: var(--e-gold); }
+.section-label.sage  { color: var(--e-sage); }
+.section-label.slate { color: var(--e-slate); }
+.section-label.muted { color: var(--e-text-muted); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 3 — DISPLAY HEADLINE
+   Big editorial title. Use for trip name, destination headers.
+   ══════════════════════════════════════════════════════════════ */
+.headline-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-4xl);
+  color: var(--e-text);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.headline-display em {
+  font-style: italic;
+  color: var(--e-terra);
+}
+.headline-serif {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--text-2xl);
+  color: var(--e-text);
+  line-height: 1.2;
+}
+.headline-serif em { font-style: italic; color: var(--e-terra); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 4 — TABBED NAV
+   Accent-underline nav. Use for: day selector, section switcher.
+   ══════════════════════════════════════════════════════════════ */
+.tab-nav {
+  display: flex;
+  background: var(--e-cream);
+  border: 1px solid var(--e-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.tab-btn {
+  flex: 1;
+  padding: 16px 10px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  border-bottom: 2.5px solid transparent;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.tab-btn:hover { background: var(--e-white); }
+.tab-btn.active {
+  background: var(--e-white);
+  border-bottom-color: var(--e-terra);
+}
+.tab-btn.active.gold  { border-bottom-color: var(--e-gold); }
+.tab-btn.active.sage  { border-bottom-color: var(--e-sage); }
+.tab-btn.active.slate { border-bottom-color: var(--e-slate); }
+.tab-btn__num {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--e-text-muted);
+}
+.tab-btn.active .tab-btn__num { color: var(--e-terra); }
+.tab-btn__label {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(0.62rem, 1.2vw, 0.78rem);
+  color: var(--e-text-light);
+}
+.tab-btn.active .tab-btn__label { color: var(--e-text); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 5 — LIST ITEM (editorial dot style)
+   Use for: packing lists, to-dos, activity picks.
+   ══════════════════════════════════════════════════════════════ */
+.list-item {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--e-border-light);
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  color: var(--e-text-med);
+  line-height: 1.55;
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+.list-item:last-child { border-bottom: none; }
+.list-item__dot {
+  color: var(--e-terra);
+  font-size: 0.5rem;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.list-item__dot.gold  { color: var(--e-gold); }
+.list-item__dot.sage  { color: var(--e-sage); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 6 — NUMBERED STEP
+   Accent circle + text. Use for: day schedule, route steps.
+   ══════════════════════════════════════════════════════════════ */
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--e-border-light);
+}
+.step-row:last-child { border-bottom: none; }
+.step-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--e-terra-light);
+  border: 2px solid var(--e-terra);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: var(--e-terra);
+}
+.step-circle.gold  { background: var(--e-gold-light);  border-color: var(--e-gold);  color: var(--e-gold); }
+.step-circle.sage  { background: var(--e-sage-light);  border-color: var(--e-sage);  color: var(--e-sage); }
+.step-circle.slate { background: var(--e-slate-light); border-color: var(--e-slate); color: var(--e-slate); }
+.step-circle.inactive {
+  background: var(--e-bg);
+  border-color: var(--e-border);
+  color: var(--e-text-muted);
+}
+.step-body { flex: 1; }
+.step-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--e-text);
+}
+.step-sub {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--e-text-muted);
+  margin-top: 2px;
+}
+.step-tag {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--e-terra);
+  text-align: right;
+}
+.step-tag.gold  { color: var(--e-gold); }
+.step-tag.sage  { color: var(--e-sage); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 7 — DATA TABLE
+   Use for: budget breakdown, flight options, comparison tables.
+   ══════════════════════════════════════════════════════════════ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table th {
+  text-align: left;
+  padding: 12px 14px 10px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--e-text-muted);
+  border-bottom: 2px solid var(--e-border);
+}
+.data-table td {
+  padding: 14px;
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  color: var(--e-text);
+  border-bottom: 1px solid var(--e-border-light);
+}
+.data-table td.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--e-text-light);
+}
+.data-table td.accent { font-weight: 700; color: var(--e-terra); }
+.data-table td.accent.gold  { color: var(--e-gold); }
+.data-table td.accent.sage  { color: var(--e-sage); }
+.data-table td.right { text-align: right; }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 8 — HIGHLIGHT CALLOUT
+   Tinted summary box. Use for: budget total, key note, warning.
+   ══════════════════════════════════════════════════════════════ */
+.callout {
+  padding: 16px 20px;
+  border-radius: 6px;
+  background: var(--e-terra-light);
+  border: 1px solid var(--e-border);
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  color: var(--e-text-med);
+  line-height: 1.7;
+}
+.callout.gold  { background: var(--e-gold-light); }
+.callout.sage  { background: var(--e-sage-light); }
+.callout.slate { background: var(--e-slate-light); }
+.callout strong { color: var(--e-terra); }
+.callout.gold strong  { color: var(--e-gold); }
+.callout.sage strong  { color: var(--e-sage); }
+.callout.slate strong { color: var(--e-slate); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 9 — GRID CARD (2-col)
+   Use for: restaurant grid, activity picker, hotel options.
+   ══════════════════════════════════════════════════════════════ */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+.grid-card {
+  padding: 20px;
+  border: 1px solid var(--e-border);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  background: var(--e-bg);
+  transition: all 0.2s;
+}
+.grid-card:hover {
+  background: var(--e-white);
+  border-color: var(--e-terra);
+}
+.grid-card.selected {
+  background: var(--e-terra-light);
+  border-color: var(--e-terra);
+}
+.grid-card.gold.selected  { background: var(--e-gold-light);  border-color: var(--e-gold); }
+.grid-card.sage.selected  { background: var(--e-sage-light);  border-color: var(--e-sage); }
+.grid-card__title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--e-text);
+  margin-bottom: 8px;
+}
+.grid-card__body {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--e-text-light);
+  line-height: 1.6;
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 10 — BADGE / STATUS CHIP (editorial)
+   Use for: "Booked", "Pending", "Optional", day labels.
+   ══════════════════════════════════════════════════════════════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.badge-terra  { background: var(--e-terra-light);  color: var(--e-terra); }
+.badge-gold   { background: var(--e-gold-light);   color: var(--e-gold); }
+.badge-sage   { background: var(--e-sage-light);   color: var(--e-sage); }
+.badge-slate  { background: var(--e-slate-light);  color: var(--e-slate); }
+.badge-muted  { background: var(--e-cream);        color: var(--e-text-muted); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 11 — CRT DATE CHIP (pixel aesthetic)
+   Use for: trip header date, "DAY 01" counters, status bar.
+   ══════════════════════════════════════════════════════════════ */
+.crt-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border: 1.5px solid var(--os-ink);
+  background: var(--os-cream);
+  font-family: var(--font-pixel-sm);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  box-shadow: 1.5px 1.5px 0 var(--os-shadow);
+  color: var(--os-ink);
+}
+.crt-chip.phosphor {
+  background: var(--crt-black);
+  color: var(--phosphor);
+  border-color: var(--phosphor);
+  box-shadow: 0 0 6px rgba(255,214,227,0.3), 1.5px 1.5px 0 rgba(255,154,188,0.2);
+}
+.crt-chip.rec {
+  background: var(--rec-red);
+  color: var(--crt-cream);
+  border-color: var(--crt-cream);
+}
+.crt-chip.amber { background: var(--hud-amber); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 12 — CRT PIXEL OS BAR
+   Use for: sticky header, trip title bar, section top chrome.
+   ══════════════════════════════════════════════════════════════ */
+.os-bar {
+  background: var(--os-cream);
+  color: var(--os-ink);
+  border-bottom: 1.5px solid var(--os-ink);
+  box-shadow: 0 3px 0 var(--os-shadow);
+  font-family: var(--font-pixel-sm);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  gap: 8px;
+}
+.os-bar__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 10px;
+  border-right: 1.5px solid var(--os-ink);
+}
+.os-bar__glyph {
+  width: 14px; height: 14px;
+  background: linear-gradient(135deg, var(--crt-lavender) 50%, var(--crt-pink) 50%);
+  border: 1.5px solid var(--os-ink);
+  box-shadow: 1.5px 1.5px 0 var(--os-shadow);
+}
+.os-bar__spacer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 16px;
+  justify-content: center;
+  margin: 0 8px;
+  opacity: 0.7;
+}
+.os-bar__spacer i {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--os-ink);
+}
+.os-btn {
+  width: 24px; height: 24px;
+  border: 1.5px solid var(--os-ink);
+  background: var(--os-cream);
+  box-shadow: 1.5px 1.5px 0 var(--os-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-pixel-sm);
+  font-size: 10px;
+  color: var(--os-ink);
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.05s, background 0.05s;
+}
+.os-btn:hover { background: var(--crt-lavender); }
+.os-btn:active { transform: translate(1.5px, 1.5px); box-shadow: none; }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 13 — CRT PHOSPHOR HEADER BLOCK
+   Use for: trip title screen, full-bleed hero with glow text.
+   ══════════════════════════════════════════════════════════════ */
+.phosphor-hero {
+  background: var(--crt-black);
+  padding: 48px 40px;
+  border-radius: 8px;
+  border: 2px solid var(--crt-bezel);
+  position: relative;
+  overflow: hidden;
+}
+/* scanline overlay */
+.phosphor-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.12) 2px,
+    rgba(0,0,0,0.12) 4px
+  );
+  pointer-events: none;
+}
+/* vignette */
+.phosphor-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(10,4,12,0.6) 100%);
+  pointer-events: none;
+}
+.phosphor-hero__label {
+  font-family: var(--font-pixel-sm);
+  font-size: 9px;
+  color: var(--phosphor-d);
+  letter-spacing: 0.2em;
+  margin-bottom: 16px;
+}
+.phosphor-hero__title {
+  font-family: var(--font-pixel);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  color: var(--phosphor);
+  line-height: 1.1;
+  text-shadow:
+    0 0 8px rgba(255,214,227,0.7),
+    0 0 24px rgba(255,154,188,0.4);
+}
+.phosphor-hero__sub {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--crt-muted);
+  margin-top: 16px;
+  letter-spacing: 0.06em;
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 14 — TIMELINE TRACK
+   Horizontal phase bar. Use for: trip countdown, day phases,
+   morning / afternoon / evening split.
+   ══════════════════════════════════════════════════════════════ */
+.timeline-track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.timeline-phase {
+  padding: 20px 18px;
+  border-right: 1px solid var(--e-border);
+  background: var(--e-white);
+}
+.timeline-phase:last-child { border-right: none; }
+.timeline-phase__name {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--e-text);
+  margin-bottom: 4px;
+}
+.timeline-phase__time {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: var(--e-text-muted);
+  margin-bottom: 12px;
+}
+.timeline-phase__items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.timeline-phase__items li {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--e-text-light);
+  padding-left: 12px;
+  position: relative;
+}
+.timeline-phase__items li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--e-terra);
+}
+.timeline-phase:nth-child(2) .timeline-phase__items li::before { background: var(--e-gold); }
+.timeline-phase:nth-child(3) .timeline-phase__items li::before { background: var(--e-sage); }
+.timeline-phase:nth-child(4) .timeline-phase__items li::before { background: var(--e-slate); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   ELEMENT 15 — MIXED HEADER (editorial title + CRT chips)
+   The "break" aesthetic — editorial text with pixel chrome.
+   ══════════════════════════════════════════════════════════════ */
+.mixed-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mixed-header__chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.mixed-header__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--e-text);
+  line-height: 1.1;
+}
+.mixed-header__title em {
+  font-style: italic;
+  color: var(--e-terra);
+}
+.mixed-header__body {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--e-text-light);
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   DEMO ANIMATIONS
+   ══════════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.4s ease; }
+
+</style>
+</head>
+<body>
+
+<div class="demo-page">
+
+  <!-- ══ SECTION: MIXED HEADER (THE BREAK) ══ -->
+  <section>
+    <div class="demo-section-header">Element 15 — Mixed Header (editorial × pixel)</div>
+    <div class="mixed-header">
+      <div class="mixed-header__chips">
+        <span class="crt-chip rec">● REC</span>
+        <span class="crt-chip phosphor">TAPE_01.HI8</span>
+        <span class="crt-chip">2026-06-14</span>
+        <span class="crt-chip amber">10 DAYS</span>
+      </div>
+      <div class="mixed-header__title">Our Trip to <em>Somewhere Beautiful</em></div>
+      <div class="mixed-header__body">An itinerary for two. Everything you need, nothing you don't — laid out the way we think, not the way apps want us to.</div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: PHOSPHOR HERO ══ -->
+  <section>
+    <div class="demo-section-header">Element 13 — CRT Phosphor Hero</div>
+    <div class="phosphor-hero">
+      <div class="phosphor-hero__label">TRIP_PLAN.EXE  //  PRIVATE TAPE  //  EYES ONLY</div>
+      <div class="phosphor-hero__title">ROME & AMALFI<br>JUNE 2026</div>
+      <div class="phosphor-hero__sub">> omar + phoebe  //  10 nights  //  loading memories...</div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: OS BAR ══ -->
+  <section>
+    <div class="demo-section-header">Element 12 — Pixel OS Bar</div>
+    <div class="os-bar">
+      <div class="os-bar__logo">
+        <div class="os-bar__glyph"></div>
+        <span>TRIP_OS</span>
+      </div>
+      <span>ITINERARY.EXE</span>
+      <div class="os-bar__spacer"><i></i><i></i><i></i></div>
+      <span class="crt-chip" style="height:20px; font-size:7px;">DAY 01</span>
+      <span class="crt-chip rec" style="height:20px; font-size:7px;">● LIVE</span>
+      <div class="os-btn">−</div>
+      <div class="os-btn">□</div>
+      <div class="os-btn" style="background:var(--rec-red); color:var(--os-cream);">×</div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: CARDS ══ -->
+  <section>
+    <div class="demo-section-header">Elements 1 + 2 — Editorial Cards + Section Labels</div>
+    <div class="demo-row">
+
+      <div class="card card-accent-bar" style="flex:1; min-width:260px;">
+        <div class="section-label">Day 1 — Arrival</div>
+        <div class="headline-serif">Rome, Italy</div>
+        <p style="font-family:var(--font-serif); font-size:0.88rem; color:var(--e-text-light); margin-top:8px; line-height:1.6;">Landing at FCO 14:20. Transfer to Trastevere. First night — no plans, just walk.</p>
+        <div style="margin-top:16px; display:flex; gap:8px;">
+          <span class="badge badge-sage">Booked</span>
+          <span class="badge badge-terra">Flight</span>
+          <span class="badge badge-muted">Hotel</span>
+        </div>
+      </div>
+
+      <div class="card card-accent-bar gold" style="flex:1; min-width:260px;">
+        <div class="section-label gold">Budget Overview</div>
+        <div class="headline-serif" style="color:var(--e-gold);">£3,200 total</div>
+        <p style="font-family:var(--font-serif); font-size:0.88rem; color:var(--e-text-light); margin-top:8px; line-height:1.6;">Flights, hotels, food, experiences. Split evenly. Contingency already factored in.</p>
+        <div style="margin-top:16px;">
+          <span class="badge badge-gold">Per Person: £1,600</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ SECTION: TABBED NAV ══ -->
+  <section>
+    <div class="demo-section-header">Element 4 — Tabbed Nav (day selector)</div>
+    <div class="tab-nav">
+      <button class="tab-btn active">
+        <span class="tab-btn__num">01</span>
+        <span class="tab-btn__label">Rome</span>
+      </button>
+      <button class="tab-btn active gold" style="border-bottom-color: var(--e-gold);">
+        <span class="tab-btn__num" style="color:var(--e-gold);">02</span>
+        <span class="tab-btn__label" style="color:var(--e-text);">Amalfi</span>
+      </button>
+      <button class="tab-btn">
+        <span class="tab-btn__num">03</span>
+        <span class="tab-btn__label">Naples</span>
+      </button>
+      <button class="tab-btn">
+        <span class="tab-btn__num">04</span>
+        <span class="tab-btn__label">Capri</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: TIMELINE TRACK ══ -->
+  <section>
+    <div class="demo-section-header">Element 14 — Timeline Track (day phases)</div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <div class="timeline-track">
+        <div class="timeline-phase">
+          <div class="timeline-phase__name">Morning</div>
+          <div class="timeline-phase__time">8:00 – 12:00</div>
+          <ul class="timeline-phase__items">
+            <li>Breakfast at rooftop</li>
+            <li>Colosseum (booked)</li>
+            <li>Forum walk</li>
+          </ul>
+        </div>
+        <div class="timeline-phase">
+          <div class="timeline-phase__name">Afternoon</div>
+          <div class="timeline-phase__time">12:00 – 17:00</div>
+          <ul class="timeline-phase__items">
+            <li>Lunch in Trastevere</li>
+            <li>Pantheon + Piazza</li>
+            <li>Gelato mandatory</li>
+          </ul>
+        </div>
+        <div class="timeline-phase">
+          <div class="timeline-phase__name">Evening</div>
+          <div class="timeline-phase__time">17:00 – 20:00</div>
+          <ul class="timeline-phase__items">
+            <li>Campo de' Fiori</li>
+            <li>Aperitivo hour</li>
+            <li>Walk the Tiber</li>
+          </ul>
+        </div>
+        <div class="timeline-phase">
+          <div class="timeline-phase__name">Night</div>
+          <div class="timeline-phase__time">20:00 onwards</div>
+          <ul class="timeline-phase__items">
+            <li>Dinner reservation</li>
+            <li>Piazza Navona</li>
+            <li>No agenda</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: STEP LIST ══ -->
+  <section>
+    <div class="demo-section-header">Element 6 — Numbered Steps (schedule / route)</div>
+    <div class="card">
+      <div class="section-label">Today's Route</div>
+      <div class="step-row">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <div class="step-title">Colosseum</div>
+          <div class="step-sub">9:00 AM · Entry pre-booked · 2 hrs</div>
+        </div>
+        <div class="step-tag">Booked</div>
+      </div>
+      <div class="step-row">
+        <div class="step-circle gold">2</div>
+        <div class="step-body">
+          <div class="step-title">Trattoria da Enzo al 29</div>
+          <div class="step-sub">1:00 PM · Trastevere · Reservation made</div>
+        </div>
+        <div class="step-tag gold">Lunch</div>
+      </div>
+      <div class="step-row">
+        <div class="step-circle sage">3</div>
+        <div class="step-body">
+          <div class="step-title">Pantheon</div>
+          <div class="step-sub">3:30 PM · Free entry this year</div>
+        </div>
+        <div class="step-tag sage">Walk-in</div>
+      </div>
+      <div class="step-row">
+        <div class="step-circle inactive">4</div>
+        <div class="step-body">
+          <div class="step-title">Dinner TBD</div>
+          <div class="step-sub">8:00 PM · Still deciding</div>
+        </div>
+        <div class="step-tag" style="color:var(--e-text-muted);">TBD</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: GRID CARDS ══ -->
+  <section>
+    <div class="demo-section-header">Element 9 — Grid Cards (restaurants / activities)</div>
+    <div class="grid-2">
+      <button class="grid-card selected">
+        <div class="grid-card__title">Roscioli</div>
+        <div class="grid-card__body">Via dei Giubbonari 21. Deli + restaurant. Best cacio e pepe in Rome, full stop.</div>
+      </button>
+      <button class="grid-card">
+        <div class="grid-card__title">Da Enzo al 29</div>
+        <div class="grid-card__body">Trastevere. Old-school Roman trattoria. Cash only. Book at least 2 days ahead.</div>
+      </button>
+      <button class="grid-card gold selected">
+        <div class="grid-card__title">Gelateria del Teatro</div>
+        <div class="grid-card__body">Via dei Coronari. Pistachio and fig. Open until late.</div>
+      </button>
+      <button class="grid-card">
+        <div class="grid-card__title">Supplì Roma</div>
+        <div class="grid-card__body">Campo de' Fiori area. Street food. Supplì is a Roman arancino — get the classic.</div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: DATA TABLE ══ -->
+  <section>
+    <div class="demo-section-header">Element 7 — Data Table (budget / flight comparison)</div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <div style="padding:24px 28px 0;">
+        <div class="section-label">Budget Breakdown</div>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Estimated</th>
+            <th>Booked</th>
+            <th style="text-align:right;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;">Flights (return)</td>
+            <td class="mono">£480</td>
+            <td class="mono">£460</td>
+            <td class="accent right" style="text-align:right;">Confirmed</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Hotels (10 nights)</td>
+            <td class="mono">£1,200</td>
+            <td class="mono">£1,180</td>
+            <td class="accent right" style="text-align:right;">Confirmed</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Food & Drink</td>
+            <td class="mono">£600</td>
+            <td class="mono">—</td>
+            <td style="text-align:right; color:var(--e-text-muted); font-size:0.78rem;">Estimate</td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Activities</td>
+            <td class="mono">£320</td>
+            <td class="mono">£120</td>
+            <td class="accent gold right" style="text-align:right;">Partial</td>
+          </tr>
+          <tr>
+            <td style="font-weight:700; font-size:0.95rem;">Total</td>
+            <td class="mono" style="font-weight:700;">£2,600</td>
+            <td class="mono">—</td>
+            <td class="accent sage right" style="text-align:right;">On track</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:20px 28px;">
+        <div class="callout gold">
+          <strong>Note:</strong> Budget per person is £1,300. Contingency of £200/person kept aside. Book restaurants at least 3–5 days in advance.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: LIST ITEMS ══ -->
+  <section>
+    <div class="demo-section-header">Element 5 — Editorial List (packing / checklist)</div>
+    <div class="demo-row">
+      <div class="card" style="flex:1; min-width:260px;">
+        <div class="section-label">Packing — Omar</div>
+        <div class="list-item"><span class="list-item__dot">●</span>Camcorder + 4× Hi8 tapes</div>
+        <div class="list-item"><span class="list-item__dot">●</span>Linen shirt (the good one)</div>
+        <div class="list-item"><span class="list-item__dot">●</span>Noise-cancelling headphones</div>
+        <div class="list-item"><span class="list-item__dot">●</span>Printed itinerary backup</div>
+        <div class="list-item"><span class="list-item__dot">●</span>Emergency snacks</div>
+      </div>
+      <div class="card" style="flex:1; min-width:260px;">
+        <div class="section-label sage">Packing — Phoebe</div>
+        <div class="list-item"><span class="list-item__dot sage">●</span>Notebook + two pens (always)</div>
+        <div class="list-item"><span class="list-item__dot sage">●</span>The book she's been meaning to finish</div>
+        <div class="list-item"><span class="list-item__dot sage">●</span>Sundress for the Amalfi days</div>
+        <div class="list-item"><span class="list-item__dot sage">●</span>Her good sunglasses this time</div>
+        <div class="list-item"><span class="list-item__dot sage">●</span>SPF 50 (non-negotiable)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: CALLOUT ══ -->
+  <section>
+    <div class="demo-section-header">Element 8 — Callout / Highlight Box</div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div class="callout"><strong>Colosseum tip:</strong> Book the Underground + Arena Floor tier — worth the extra £8 each. You'll avoid the main crowd entirely and get access to the hypogeum.</div>
+      <div class="callout gold"><strong>Amalfi ferry:</strong> Morning boats are least crowded. Last ferry back from Positano to Amalfi is 18:40 — do not miss it or it's a €60 taxi.</div>
+      <div class="callout sage"><strong>Currency:</strong> Italy is card-friendly everywhere except old-school trattorias and markets. Carry €100 cash at all times.</div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: COLOUR PALETTE REFERENCE ══ -->
+  <section>
+    <div class="demo-section-header">Colour Reference</div>
+    <div class="card">
+      <div class="section-label muted">Editorial Palette</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#C2714F;border:1px solid var(--e-border);"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--e-text-muted);">terra</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#B8963E;border:1px solid var(--e-border);"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--e-text-muted);">gold</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#7A8B6F;border:1px solid var(--e-border);"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--e-text-muted);">sage</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#5C6B7A;border:1px solid var(--e-border);"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--e-text-muted);">slate</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#FAFAF7;border:1px solid var(--e-border);"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--e-text-muted);">bg</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#F5F2ED;border:1px solid var(--e-border);"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--e-text-muted);">cream</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#1A1A1A;border:1px solid var(--e-border);"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:var(--e-text-muted);">text</span>
+        </div>
+      </div>
+      <div class="section-label muted">CRT / Phosphor Palette</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; background:#0d060f; padding:16px; border-radius:4px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#ffd6e3;"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:#a894ac;">phosphor</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#ff9abc;"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:#a894ac;">ph-dim</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#ff4d7a;"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:#a894ac;">rec-red</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#c4a0d4;"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:#a894ac;">lavender</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#ffc4a8;"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:#a894ac;">amber</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:48px;height:48px;border-radius:4px;background:#fceee4;border:1px solid #3a2e3e;"></div>
+          <span style="font-family:var(--font-mono);font-size:0.6rem;color:#a894ac;">os-cream</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SECTION: TYPOGRAPHY ══ -->
+  <section>
+    <div class="demo-section-header">Typography Stack</div>
+    <div class="card" style="display:flex; flex-direction:column; gap:20px;">
+      <div>
+        <div style="font-family:var(--font-pixel-sm); font-size:8px; color:var(--e-text-muted); letter-spacing:.1em; margin-bottom:6px;">PRESS START 2P — pixel chrome, labels, OS bars</div>
+        <div style="font-family:'Press Start 2P', monospace; font-size:11px;">DAY 01  //  TAPE_01.HI8</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-pixel-sm); font-size:8px; color:var(--e-text-muted); letter-spacing:.1em; margin-bottom:6px;">VT323 — large CRT display text, hero titles</div>
+        <div style="font-family:'VT323', monospace; font-size:42px; color:var(--e-terra); line-height:1;">ROME + AMALFI 2026</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-pixel-sm); font-size:8px; color:var(--e-text-muted); letter-spacing:.1em; margin-bottom:6px;">PLAYFAIR DISPLAY — editorial headlines</div>
+        <div style="font-family:'Playfair Display', serif; font-size:2.5rem; font-weight:700; line-height:1.1;">Our <em>favourite</em> places</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-pixel-sm); font-size:8px; color:var(--e-text-muted); letter-spacing:.1em; margin-bottom:6px;">CORMORANT GARAMOND — atmospheric body, quotes</div>
+        <div style="font-family:'Cormorant Garamond', serif; font-size:1.35rem; color:var(--e-text-med); font-style:italic;">"The best travel plans are the ones you half-ignore once you land."</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-pixel-sm); font-size:8px; color:var(--e-text-muted); letter-spacing:.1em; margin-bottom:6px;">SOURCE SERIF 4 — lists, table body, itinerary text</div>
+        <div style="font-family:'Source Serif 4', serif; font-size:0.95rem; color:var(--e-text-med); line-height:1.65;">Arrive at FCO Terminal 3. Take the Leonardo Express to Roma Termini (30 min, €14). Walk or taxi to Trastevere. Check in, drop bags, then go get pasta.</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-pixel-sm); font-size:8px; color:var(--e-text-muted); letter-spacing:.1em; margin-bottom:6px;">DM SANS — UI text, labels, nav, meta</div>
+        <div style="font-family:'DM Sans', sans-serif; font-size:0.88rem; color:var(--e-text-light);">Duration: 10 nights · Departure: LGW · Return: FCO → LGW · Stops: 0</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-pixel-sm); font-size:8px; color:var(--e-text-muted); letter-spacing:.1em; margin-bottom:6px;">IBM PLEX MONO — prices, codes, times, data</div>
+        <div style="font-family:'IBM Plex Mono', monospace; font-size:0.85rem; color:var(--e-text-light);">BA2595 · 06:40 → 10:25 · £228pp · Conf: XGRT4P</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
